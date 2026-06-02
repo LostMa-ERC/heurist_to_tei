@@ -1,0 +1,7 @@
+# environnement 
+.venv/
+
+# Heurist-API files
+*.log
+*.db
+*_schema/*
