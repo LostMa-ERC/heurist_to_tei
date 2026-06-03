@@ -4,4 +4,4 @@
 # Heurist-API files
 *.log
 *.db
-*_schema/*
+*_schema/*.DS_Store
