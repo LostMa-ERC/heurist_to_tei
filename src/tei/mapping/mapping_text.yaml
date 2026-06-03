@@ -1,0 +1,23 @@
+# Mapping DuckDB vers TEI
+# Source : ODD test_lostma_text
+# Chemin racine : TEI/teiHeader
+
+
+titleStmt:
+  tei_path: TEI/teiHeader/fileDesc/titleStmt
+  children:
+    - tei_element: title
+      # valeur littérale ou champ libre — non spécifié dans l'ODD
+
+    - tei_element: principal
+      children:
+        - tei_element: persName
+          children:
+            - tei_element: forename
+            - tei_element: surname
+
+    - tei_element: respStmt
+      children:
+        - tei_element: resp
+        - tei_element: persName
+
