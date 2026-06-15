@@ -5,3 +5,4 @@
 *.log
 *.db
 *_schema/*.DS_Store
+.DS_Store
