@@ -1,23 +1,324 @@
-# Mapping DuckDB vers TEI
-# Source : ODD test_lostma_text
-# Chemin racine : TEI/teiHeader
+# mapping_text.yaml
+# Mapping des champs Heurist -> éléments TEI pour les fichiers text
+# Dérivé de l'ODD test_lostma_text
+# Namespace TEI : http://www.tei-c.org/ns/1.0
 
+namespaces:
+  tei: "http://www.tei-c.org/ns/1.0"
 
+# ============================================================
+# RACINE TEI
+# ============================================================
+root:
+  element: TEI
+  attributes:
+    xml:id:
+      source: TextTable_H-ID         # identifiant Heurist du text
+      transform: "hid_{value}"       # préfixe "hid_" pour garantir un ID XML valide
+
+# ============================================================
+# teiHeader
+# Enfants autorisés : fileDesc, encodingDesc, profileDesc (séquence stricte)
+# ============================================================
+
+# ============================================================
+# teiHeader / fileDesc / titleStmt
+# ============================================================
 titleStmt:
-  tei_path: TEI/teiHeader/fileDesc/titleStmt
-  children:
-    - tei_element: title
-      # valeur littérale ou champ libre — non spécifié dans l'ODD
 
-    - tei_element: principal
+  title:
+    xpath: teiHeader/fileDesc/titleStmt/title
+    attributes:
+      type: "preferred"
+    source: TextTable_preferred_name    # remarque ODD : "Equivalent to the DB's TextTable_preferred_name"
+
+  author:
+    xpath: teiHeader/fileDesc/titleStmt/author
+    source: TextTable_is_written_by_Name  # remarque ODD : "receives data from DB's TextTable_is_written_by Name"
+    children:
+      note:
+        source: TextTable_author_freetext   # remarque ODD : "child-element note receives DB's TextTable_author_freetext"
+        condition: "TextTable_author_freetext is not null"
+
+
+  principal:
+    xpath: teiHeader/fileDesc/titleStmt/principal/persName
+    children:
+      forename:
+        value: "Jean-Baptiste"
+      surname:
+        value: "Camps"
+
+  respStmt:
+    xpath: teiHeader/fileDesc/titleStmt/respStmt
+    instances:
+      - children:
+          resp:
+            value: "Editor of the French corpus"
+          persName:
+            attributes:
+              xml:id: "JBC"
+            children:
+              forename:
+                value: "Jean-Baptiste"
+              surname:
+                value: "Camps"
+      - children:
+          resp:
+            value: "Data architect"
+          persName:
+            attributes:
+              xml:id: "VR"
+            children:
+              forename:
+                value: "Virgile"
+              surname:
+                value: "Reignier"
+      - children:
+          resp:
+            value: "Data architect"
+          persName:
+            attributes:
+              xml:id: "KC"
+            children:
+              forename:
+                value: "Kelly"
+              surname:
+                value: "Christensen"
+      - children:
+          resp:
+            value: "Data architect"
+          persName:
+            attributes:
+              xml:id: "MM"
+            children:
+              forename:
+                value: "Maud"
+              surname:
+                value: "Mélinand"
+      - children:
+          resp:
+            value: "Research engineer"
+          persName:
+            attributes:
+              xml:id: "TM"
+            children:
+              forename:
+                value: "Théo"
+              surname:
+                value: "Moins"
+      - children:
+          resp:
+            value: "Research engineer"
+          persName:
+            attributes:
+              xml:id: "BH"
+            children:
+              forename:
+                value: "Brenna"
+              surname:
+                value: "Hensley"
+      - children:
+          resp:
+            value: "Research engineer"
+          persName:
+            attributes:
+              xml:id: "UG"
+            children:
+              forename:
+                value: "Ulysse"
+              surname:
+                value: "Godreau"
+
+# ============================================================
+# teiHeader / fileDesc / sourceDesc / listWit
+# ============================================================
+sourceDesc:
+  listWit:
+    xpath: teiHeader/fileDesc/sourceDesc/listWit
+    witness:
+      repeat_on: witnesses             # itère sur les witnesses liés au text (jointure text_H-ID / witness_H-ID)
+      attributes:
+        xml:id:
+          source: Witness_H-ID
+          transform: "hid_{value}"     # format hid_123 requis par l'ODD
+      content: null                    # textnode optionnel — non mappé en DB
+
+# ============================================================
+# teiHeader / encodingDesc / classDecl / taxonomy
+# Les taxonomies sont des blocs fixes déclarés une fois,
+# les valeurs fermées sont issues des remarks de category/@xml:id
+# ============================================================
+encodingDesc:
+  classDecl:
+    taxonomy:
+      instances:
+
+        - attributes:
+            xml:id: "genre"
+          category:
+            repeat_on: Genre_preferred_name   # valeurs : arthurian-romance, arthurroman, carolingian-romance,
+                                               # karelepiek, chanson-de-geste, chronique, mise-en-prose,
+                                               # roman, other, unknown
+            attributes:
+              xml:id: Genre_preferred_name_slug   # version normalisée (sans espaces ni diacritiques)
+            children:
+              desc:
+                source: Genre_preferred_name
+
+        - attributes:
+            xml:id: "literary-form"
+          category:
+            # valeurs fixes : vers, prose, mixte, form-unknown
+            values:
+              - vers
+              - prose
+              - mixte
+              - form-unknown
+
+        - attributes:
+            xml:id: "versification"
+          category:
+            # valeurs fixes : alexandrine, decasyllabe, hexasyllabe, octosyllabe, iambic, petit-vers
+            values:
+              - alexandrine
+              - decasyllabe
+              - hexasyllabe
+              - octosyllabe
+              - iambic
+              - petit-vers
+
+        - attributes:
+            xml:id: "rhyme"
+          category:
+            # valeurs fixes : aliteration, full-rhyme, assonance, unknown
+            values:
+              - aliteration
+              - full-rhyme
+              - assonance
+              - unknown
+
+        - attributes:
+            xml:id: "stanza"
+          category:
+            # valeurs : null (absent), monoryhme, laisse
+            values:
+              - monoryhme
+              - laisse
+
+# ============================================================
+# teiHeader / profileDesc
+# ============================================================
+profileDesc:
+
+  langUsage:
+    language:
+      xpath: teiHeader/profileDesc/langUsage/language
+      attributes:
+        ident: TextTable_language_code    # remarque ODD : "DB's attribute Text_language"
       children:
-        - tei_element: persName
-          children:
-            - tei_element: forename
-            - tei_element: surname
+        lang:
+          instances:
+            - attributes:
+                n: "regional"
+              source: TextTable_regional_writing_style   # remarque : "@n=regional"
+            - attributes:
+                n: "scripta"
+              source: TextTable_scripta_freetext          # remarque : "@n=scripta"
 
-    - tei_element: respStmt
+  creation:
+    xpath: teiHeader/profileDesc/creation
+    children:
+      date:
+        attributes:
+          from: TextTable_date_of_creation_start   # remarque : "TextTable_date_of_creation in @from"
+          to: TextTable_date_of_creation_end        # remarque : "TextTable_date_of_creation in @to"
+          cert:
+            source: TextTable_date_of_creation_certainty
+            # valeurs fermées ODD : low (1%-33%) | medium (33%-66%) | high (66%-99%)
+            map:
+              unlikely: "low"
+              probable: "medium"
+              very_likely: "high"
+          source: TextTable_date_of_creation_source  # remarque : "TextTable_date_of_creation_source in @source"
+        content: TextTable_date_freetext              # remarque : "TextTable_date_freetext in the textnode"
+      placeName:
+        source: Place_place_of_creation              # remarque : "absent from the release but exists in Heurist model"
+        condition: "Place_place_of_creation is not null"
+
+  textClass:
+    xpath: teiHeader/profileDesc/textClass
+    children:
+      catRef:
+        # remarque ODD : "allows to encode TextTable_literary_form, TextTable_verse_type,
+        #                  TextTable_rhyme_type, TextTable_stanza_type"
+        instances:
+          - attributes:
+              scheme: "#literary-form"
+              target:
+                source: TextTable_literary_form     # vers | prose | mixte | form-unknown
+                transform: "#{value}"
+          - attributes:
+              scheme: "#versification"
+              target:
+                source: TextTable_verse_type        # alexandrine | decasyllabe | …
+                transform: "#{value}"
+              condition: "TextTable_verse_type is not null"
+          - attributes:
+              scheme: "#rhyme"
+              target:
+                source: TextTable_rhyme_type        # aliteration | full-rhyme | assonance | unknown
+                transform: "#{value}"
+              condition: "TextTable_rhyme_type is not null"
+          - attributes:
+              scheme: "#stanza"
+              target:
+                source: TextTable_stanza_type       # monoryhme | laisse
+                transform: "#{value}"
+              condition: "TextTable_stanza_type is not null"
+          - attributes:
+              scheme: "#genre"
+              target:
+                source: Genre_preferred_name_slug
+                transform: "#{value}"
+              condition: "Genre_preferred_name is not null"
+
+  textDesc:
+    xpath: teiHeader/profileDesc/textDesc
+    children:
+      derivation:
+        # remarque ODD : "textnode = TextTable_nature_of_derivations ;
+        #                  @corresp = TextTable_is_derived_from H-ID (format hid_123)"
+        content: TextTable_nature_of_derivations
+        condition: "TextTable_is_derived_from is not null"
+        attributes:
+          corresp:
+            source: TextTable_is_derived_from_H-ID
+            transform: "hid_{value}"
+
+  particDesc:
+    xpath: teiHeader/profileDesc/particDesc/listPerson
+    person:
+      # remarque ODD : "@role spécifie que la personne est l'auteur du texte"
+      attributes:
+        role: "author"
       children:
-        - tei_element: resp
-        - tei_element: persName
+        p:
+          source: TextTable_is_written_by_Name   # même source que titleStmt/author
 
+# ============================================================
+# body / graph
+# Non mappé depuis Heurist dans cette phase —
+# structure réservée à une modélisation future (relations entre textes ?)
+# ============================================================
+body:
+  graph:
+    note: "Structure non mappée en DB à ce stade. @xml:id et @type requis mais valeurs à définir."
+
+# ============================================================
+# Champs non mappés (à traiter ultérieurement)
+# ============================================================
+# - principal/persName : métadonnées Heurist non encore extraites
+# - respStmt/persName  : idem
+# - body/graph, node, arc, label : structure non encore reliée à la DB
+# - placeName/@source : non disponible dans la release actuelle

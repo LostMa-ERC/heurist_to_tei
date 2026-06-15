@@ -1,333 +1,307 @@
-# Mapping DuckDB vers TEI
-# Source : ODD test_lostma_witness
-# Chemin racine : TEI/teiHeader
+# Mapping des champs Heurist -> éléments TEI pour les fichiers witness
+# Dérivé de l'ODD witness
+# Namespace TEI : http://www.tei-c.org/ns/1.0
 
+namespaces:
+  tei: "http://www.tei-c.org/ns/1.0"
 
+# ============================================================
+# RACINE TEI
+# ============================================================
+root:
+  element: TEI
+  attributes:
+    xml:id:
+      source: Witness_H-ID          # identifiant Heurist du witness -> @xml:id de <TEI>
+      transform: "hid_{value}"      # préfixe "hid_" pour garantir un ID XML valide
+
+# ============================================================
+# teiHeader / fileDesc / titleStmt
+# ============================================================
 titleStmt:
-  tei_path: TEI/teiHeader/fileDesc/titleStmt
-  children:
-    - tei_element: title
-      # valeur littérale ou champ libre — non spécifié dans l'ODD
 
-    - tei_element: principal
+  title:
+    xpath: teiHeader/fileDesc/titleStmt/title
+    attributes:
+      type: "preferred"
+    source: ???           # trouver l'équivalent du titre du witness dans Heurist
+
+    principal:
+    xpath: teiHeader/fileDesc/titleStmt/principal/persName
+    children:
+      forename:
+        value: "Jean-Baptiste"
+      surname:
+        value: "Camps"
+
+  respStmt:
+    xpath: teiHeader/fileDesc/titleStmt/respStmt
+    instances:
+      - children:
+          resp:
+            value: "Editor of the French corpus"
+          persName:
+            attributes:
+              xml:id: "JBC"
+            children:
+              forename:
+                value: "Jean-Baptiste"
+              surname:
+                value: "Camps"
+      - children:
+          resp:
+            value: "Data architect"
+          persName:
+            attributes:
+              xml:id: "VR"
+            children:
+              forename:
+                value: "Virgile"
+              surname:
+                value: "Reignier"
+      - children:
+          resp:
+            value: "Data architect"
+          persName:
+            attributes:
+              xml:id: "KC"
+            children:
+              forename:
+                value: "Kelly"
+              surname:
+                value: "Christensen"
+      - children:
+          resp:
+            value: "Data architect"
+          persName:
+            attributes:
+              xml:id: "MM"
+            children:
+              forename:
+                value: "Maud"
+              surname:
+                value: "Mélinand"
+      - children:
+          resp:
+            value: "Research engineer"
+          persName:
+            attributes:
+              xml:id: "TM"
+            children:
+              forename:
+                value: "Théo"
+              surname:
+                value: "Moins"
+      - children:
+          resp:
+            value: "Research engineer"
+          persName:
+            attributes:
+              xml:id: "BH"
+            children:
+              forename:
+                value: "Brenna"
+              surname:
+                value: "Hensley"
+      - children:
+          resp:
+            value: "Research engineer"
+          persName:
+            attributes:
+              xml:id: "UG"
+            children:
+              forename:
+                value: "Ulysse"
+              surname:
+                value: "Godreau"
+
+# ============================================================
+# teiHeader / fileDesc / sourceDesc / msDesc
+# ============================================================
+msDesc:
+  xpath: teiHeader/fileDesc/sourceDesc/msDesc
+  attributes:
+    type:
+      source: Witness_status_witness    # valeur fermée : citation | complete | defective | fragmentary | lost | unknown
+      default: "unknown"
+
+  # --- msIdentifier (niveau witness) ---
+  msIdentifier:
+    xpath: msDesc/msIdentifier
+    children:
+      settlement:
+        source: Repository_city_name
+        attributes:
+          heurist_id: Repository_city_H-ID
+      repository:
+        # deux occurrences : label_name et preferred_name
+        instances:
+          - attributes:
+              type: "label_name"
+            source: Repo_label_name
+            attributes_extra:
+              heurist_id: Repository_H-ID
+              viaf: Repository_VIAF
+          - attributes:
+              type: "preferred_name"
+            source: Repository_preferred_name
+      idno:
+        instances:
+          - attributes:
+              type: "heurist"
+            source: Witness_H-ID
+          - attributes:
+              type: "shelfmark"
+            source: DocumentTable_current_shelfmark
+      altIdentifier:
+        condition: "DocumentTable_old_shelfmark is not null"
+        attributes:
+          type: "old-shelfmark"
+        children:
+          idno:
+            source: DocumentTable_old_shelfmark
+
+  # --- msFrag (une instance par Part, répété selon Part_div_order) ---
+  msFrag:
+    xpath: msDesc/msFrag
+    repeat_on: parts                  # itère sur les lignes de la table parts liées au witness
+
+    msIdentifier:
       children:
-        - tei_element: persName
+        collection:
+          source: DocumentTable_collection_of_fragments   # yes | no | unknown
           children:
-            - tei_element: forename
-            - tei_element: surname
+            location:
+              attributes:
+                known: DocumentTable_location_known       # yes | no
+        idno:
+          instances:
+            - attributes:
+                type: "heurist"
+              source: Part_H-ID
+            - attributes:
+                type: "shelfmark"
+              source: DocumentTable_current_shelfmark
 
-    - tei_element: respStmt
-      children:
-        - tei_element: resp
-        - tei_element: persName
+    physDesc:
+      objectDesc:
+        supportDesc:
+          support:
+            children:
+              material:
+                source: Part_material                    # valeur textuelle libre
+        layoutDesc:
+          layout:
+            instances:
+              - attributes:
+                  type: "columns"
+                source: Part_number_of_columns
+              - attributes:
+                  type: "writtenLines"
+                source: Part_number_of_lines_in_writing_area
+            dimensions:
+              instances:
+                - attributes:
+                    type: "written"
+                  children:
+                    height:
+                      source: Part_writing_surface_area_height
+                      attributes:
+                        unit: "mm"
+                    width:
+                      source: Part_writing_surface_area_width
+                      attributes:
+                        unit: "mm"
+                - attributes:
+                    type: "leaves"
+                  children:
+                    height:
+                      source: Part_folio_size_height
+                      attributes:
+                        unit: "mm"
+                    width:
+                      source: Part_folio_size_width
+                      attributes:
+                        unit: "mm"
 
+      handDesc:
+        handNote:
+          instances:
+            - attributes:
+                script: Part_script_type
+              source: Part_script_type
+            - attributes:
+                script: Part_subscript_type
+              source: Part_subscript_type
 
-# profileDesc
+      decoDesc:
+        decoNote:
+          instances:
+            - attributes:
+                type: Part_has_decoration      # valeur fermée ODD
+            - attributes:
+                type: Part_amount_of_illustration
 
+    msContents:
+      msItemStruct:
+        locus:
+          attributes:
+            from: Part_page_ranges_from
+            to: Part_page_ranges_to
+        # author et title : non mappés ici (hérités du text associé)
 
+    additional:
+      surrogates:
+        bibl:
+          condition: "Digitization_H-ID is not null"
+          attributes:
+            type: "digitisation"
+          children:
+            idno:
+              source: Digitization_H-ID
+            ptr:
+              source: Digitization_URI
+
+# ============================================================
+# teiHeader / profileDesc
+# ============================================================
 profileDesc:
-  tei_path: TEI/teiHeader/profileDesc
-
-
-langUsage:
-  tei_path: TEI/teiHeader/profileDesc/langUsage
-  children:
-    - tei_element: language
-      source_table: Witness
-      source_field: witness_regional_writing_style    # ex. "Brabants, dum (Middle Dutch)"
-      on_null: skip_element                           # si NULL → pas de <language> généré
-
-      tei_attribute:
-        ident:
-          source_field: witness_regional_writing_style
-          transform:
-            - type: extract
-              pattern: inside_parenthesis             # "Brabants, dum (Middle Dutch)" → "Middle Dutch"
-              on_null: omit
-            - type: slugify                           # "Middle Dutch" → "middle-dutch"
-          on_null: omit
-
+  langUsage:
+    language:
+      repeat_on: Witness_regional_writing_style   # peut être multiple
+      attributes:
+        ident: Witness_regional_writing_style_code   # code 3 lettres unicode
       children:
-        - tei_element: lang
-          tei_attribute:
-            n:
-              value: regional                         # littéral fixe
-          tei_text:
-            source_field: witness_regional_writing_style   # "Brabants, dum (Middle Dutch)" en entier
-            on_null: omit
-
-        - tei_element: lang
-          tei_attribute:
-            n:
-              value: scripta                          # littéral fixe
-          tei_text:
-            source_field: witness_scripta_freetext
-            on_null: skip_element                     # si NULL → pas de <lang n="scripta">     
-
+        lang:
+          instances:
+            - attributes:
+                n: "regional"
+              source: Witness_regional_writing_style_name
+            - attributes:
+                n: "scripta"
+              source: Witness_scripta_freetext
 
   creation:
-    tei_path: TEI/teiHeader/profileDesc/creation
-    children:
-      - tei_element: date
-        source_table: Witness
-        tei_attribute:
-          when:
-            source_field: Witness_date_of_creation         # format YYYY ou YYYY-YYYY
-          certainty:
-            source_field: Witness_date_of_creation_certainty
-            mapping:
-              "Probable":    probable
-              "Unlikely":    unlikely
-              "Very likely": very_likely
-              "Unknown":     unknown
-            fallback: unknown
-
-
-# sourceDesc / msDesc
-
-msDesc:
-  tei_path: TEI/teiHeader/fileDesc/sourceDesc/msDesc
-  source_table: Witness
-  tei_attribute:
-    type:
-      source_field: Witness_status_witness
-      mapping:
-        "Citation":    citation
-        "Complete":    complete
-        "Defective":   defective
-        "Fragmentary": fragmentary
-        "Lost":        lost
-        "Unknown":     unknown
-      fallback: unknown
-
-  children:
-
-    - tei_element: msIdentifier
-      children:
-        - tei_element: settlement
-          source_table: Repository
-          source_field: Repository_city_name
-          tei_attribute:
-            heurist_id:
-              source_field: Repository_city_H-ID
-
-        - tei_element: repository
-          source_table: Repository
-          tei_attribute:
-            type:
-              value: preferred_name
-            heurist_id:
-              source_field: Repository_H-ID
-            viaf:
-              source_field: Repository_VIAF
-          tei_text:
-            source_field: Repository_preferred_name
-
-        - tei_element: repository
-          tei_attribute:
-            type:
-              value: label_name
-          tei_text:
-            source_field: Repository_label_name
-
-        - tei_element: idno
-          tei_attribute:
-            type:
-              value: heurist
-          tei_text:
-            source_table: Witness
-            source_field: witness_H-ID
-
-        - tei_element: altIdentifier
-          source_table: "Document"
-          tei_attribute:
-            type:
-              value: old-shelfmark
-          children:
-            - tei_element: idno
-              tei_text:
-                source_field: DocumentTable_old_shelfmark
-
-    - tei_element: msFrag
-      source_table: Document
-      children:
-
-        # msIdentifier du fragment
-        - tei_element: msIdentifier
-          children:
-            - tei_element: idno
-              tei_attribute:
-                type:
-                  value: shelfmark
-              tei_text:
-                source_field: DocumentTable_current_shelfmark
-
-        # physDesc
-        - tei_element: physDesc
-          children:
-
-            - tei_element: objectDesc
-              children:
-                - tei_element: supportDesc
-                  children:
-                    - tei_element: support
-                      children:
-                        - tei_element: material
-                          tei_text:
-                            source_field: material
-
-                - tei_element: layoutDesc
-                  children:
-                    - tei_element: layout
-                      tei_attribute:
-                        type:
-                          value: columns
-                      tei_text:
-                        source_field: number_of_columns
-                    - tei_element: layout
-                      tei_attribute:
-                        type:
-                          value: writtenLines
-                      tei_text:
-                        source_field: number_of_lines_in_writing_area
-
-                    - tei_element: dimensions
-                      tei_attribute:
-                        type:
-                          value: written
-                      children:
-                        - tei_element: height
-                          tei_attribute:
-                            unit:
-                              value: mm
-                            atLeast:
-                              source_field: writing_surface_area_height
-                        - tei_element: width
-                          tei_attribute:
-                            unit:
-                              value: mm
-                            atLeast:
-                              source_field: writing_surface_area_width
-
-                    - tei_element: dimensions
-                      tei_attribute:
-                        type:
-                          value: leaves
-                      children:
-                        - tei_element: height
-                          tei_attribute:
-                            unit:
-                              value: mm
-                            atLeast:
-                              source_field: estimated_folio_size_height
-                        - tei_element: width
-                          tei_attribute:
-                            unit:
-                              value: mm
-                            atLeast:
-                              source_field: estimated_folio_size_width
-
-            - tei_element: handDesc
-              children:
-                - tei_element: handNote
-                  tei_attribute:
-                    script:
-                      source_field: script_type
-                  tei_text:
-                    source_field: subscript_type
-
-            - tei_element: decoDesc
-              children:
-                - tei_element: decoNote
-                  tei_attribute:
-                    type:
-                      source_field: has_decoration
-                      mapping:
-                        "Unknown":           unknown
-                        "Initials":          initials
-                        "Rubrication":       rubrication
-                        "Incomplete dec.":   incomplete-dec.
-                        "No decoration":     no-decoration
-                        "Unrelated picture": unrelated-picture
-                      fallback: unknown
-
-        # msContents
-        - tei_element: msContents
-          children:
-            - tei_element: msItemStruct
-              children:
-                - tei_element: locus
-                  source_table: Part
-                  source_field: Part_page_ranges        # ex. ['157v-164r'] ou ['? (Florent et Octavien)']
-                  parse:
-                    step1:
-                      type: unwrap_list                 # ['157v-164r'] → '157v-164r'
-                    step2:
-                      type: conditional_branch
-                      # Branche A — valeur commence par '?' : incertitude + freetext éventuel
-                      if_starts_with: "?"
-                      then:
-                        from:
-                          value: "?"                    # @from = '?' littéral
-                        to:
-                          value: omit                   # @to absent
-                        tei_text:
-                          extract: inside_parenthesis   # '? (Florent et Octavien)' → 'Florent et Octavien'
-                          on_null: omit                 # pas de textnoeud si rien entre parenthèses
-                      # Branche B — valeur contient '-' : plage normale
-                      else_if_contains: "-"
-                      then:
-                        type: split
-                        separator: "-"                  # '157v-164r' → ['157v', '164r']
-                        from:
-                          parsed_index: 0               # '157v'
-                        to:
-                          parsed_index: 1               # '164r'
-                      # Branche C — aucun des cas ci-dessus : folio unique sans incertitude
-                      else:
-                        from:
-                          use_raw: true                 # valeur brute → @from
-                        to:
-                          value: omit                   # @to absent
-                  tei_attribute:
-                    from:
-                      parsed_key: from
-                    to:
-                      parsed_key: to
-                      on_null: omit
-
-        # additional / surrogates
-        - tei_element: additional
-          children:
-            - tei_element: surrogates
-              children:
-                - tei_element: bibl
-                  tei_attribute:
-                    type:
-                      value: digitisation
-                  children:
-                    - tei_element: idno
-                      tei_attribute:
-                        type:
-                          value: heurist
-                      tei_text:
-                        source_field: Digitization_H-ID
-                    - tei_element: ptr
-                      tei_attribute:
-                        target:
-                          source_field: Digitization_URI
-
+    date:
+      source: Witness_date_of_creation
+      attributes:
+        when: Witness_date_of_creation            # valeur ISO si disponible
+        certainty: Witness_date_of_creation_certainty   # probable | unlikely | very_likely | unknown
+        source: Witness_date_of_creation_source
 
 # ============================================================
-# revisionDesc
+# teiHeader / revisionDesc
 # ============================================================
-
 revisionDesc:
-  tei_path: TEI/teiHeader/revisionDesc
-  children:
-    - tei_element: change
-      tei_attribute:
-        who:
-          source_field: change_who
-        when:
-          source_field: change_when
+  change:
+    attributes:
+      who: null      # non disponible en DB — à déterminer
+      when: null     # idem
+
+# ============================================================
+# Champs non mappés (à traiter ultérieurement)
+# ============================================================
+# - principal/persName : métadonnées Heurist non encore extraites
+# - respStmt/persName  : idem
+# - revisionDesc/change/@who et @when : idem
+# - note/@type="witness-status" (Witness_status_note) : à ajouter si besoin
