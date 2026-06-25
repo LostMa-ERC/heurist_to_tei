@@ -1,0 +1,945 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:svg="http://www.w3.org/2000/svg"
+  xmlns:math="http://www.w3.org/1998/Math/MathML" xmlns="http://www.tei-c.org/ns/1.0">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>ODD test pour la modélisation : schéma spécifique aux éléments des tables witness + parts</title>
+        <author>Maud Mélinand</author>
+      </titleStmt>
+      <publicationStmt>
+        <p/>
+      </publicationStmt>
+      <sourceDesc>
+        <p>Document conforme aux guidelines de la TEI-P5</p>
+      </sourceDesc>
+    </fileDesc>
+  </teiHeader>
+  <text>
+    <body>
+      <div>
+        <head>Création d'un ODD test à partir des données du projet LostMa</head>
+        <p>Ce schéma définit une customisation TEI pour l'encodage des données contenues dans les tables 'parts' et 'witnesses'.</p>
+      </div>
+
+      <div>
+        <schemaSpec ident="test_lostma_witness" start="TEI">
+ 
+          <!-- Modules utilisés -->
+
+          <moduleRef key="tei"/>
+          
+          <moduleRef key="core"
+            include="note bibl ref title author term list item
+            relatedItem desc head p name date ptr respStmt resp"/>
+          
+          <moduleRef key="header"
+            include="teiHeader fileDesc titleStmt publicationStmt
+            sourceDesc encodingDesc editorialDecl correction classDecl taxonomy
+            category catDesc idno interpretation hyphenation normalization profileDesc xenoData
+            revisionDesc change status langUsage language creation
+            principal respStmt handNote"/>
+          
+          <moduleRef key="msdescription"
+            include="msDesc msContents msFrag msIdentifier altIdentifier
+            collection repository additional msItem msItemStruct origDate origPlace
+            physDesc objectDesc layoutDesc layout supportDesc support decoDesc decoNote handDesc
+            history locus textLang collation surrogates extent
+            dimensions height width"/>
+          
+          <moduleRef key="textstructure"
+            include="TEI text body div"/>
+          
+          <moduleRef key="namesdates"
+            include="listPlace place location listRelation orgName settlement
+            listOrg org persName forename surname"/>
+          
+          <moduleRef key="linking"/>
+          
+          <moduleRef key="dictionaries"/>
+
+          <!-- Quelques commentaires généraux : -->
+          <!-- tous les éléments sont déclarés via elementSpec même quand leur usage ne change pas de la TEI classique pour les besoins de la documentation -->
+          <!-- les éléments sont déclarés dans l'ordre des modules même si notre structure de données est différente. Ex : les éléments de msIdentifier qui 
+          sont utilisés pour msFrag seulement sont déclarés dans la section msDesc-->
+          <!-- même chose, cetains éléments de description relatifs à l'origine du témoin dans profileDesc sont déclarés dans la section consacrée au module namesdates -->
+          <!-- l'élément desc est utilisé comme un mode de description générique conforme à la TEI : indique les parents, les attributs et les enfants. -->
+          <!-- l'élément remarks spécifie son utilisation vis-à-vis des données du projet : indique attribut et table de référence, explicite les choix scientifiques etc. -->
+          <!-- toutes les listes de valeurs fermées et descriptions d'éléments proviennent du modèle de données publié sur https://lostma-erc.github.io/corpus/documentation/-->
+          
+
+          
+          <!-- TEI racine --> 
+          
+          <elementSpec ident="TEI" mode="change">
+            <desc></desc>
+            <content>
+              <sequence>
+                <elementRef key="teiHeader"/>
+                <elementRef key="text"/>
+              </sequence>
+            </content>
+            <attList>
+              <attDef ident="xml:id" mode="change">
+                <datatype>
+                  <dataRef name="ID"/>
+                </datatype>
+              </attDef>
+            </attList>
+            <remarks>
+              <p>The @xml:id is required in order to comply to DoTS's requirements.</p>
+            </remarks>
+          </elementSpec>
+          
+          
+          <!-- Module header -->
+
+          <!-- fileDesc -->
+
+          <elementSpec ident="fileDesc" mode="change">
+            <desc>The element fileDesc accepts only titleStmt, publicationStmt and sourceDesc (optional) as child elements.</desc>
+            <content>
+              <sequence>
+                <elementRef key="titleStmt" minOccurs="1" maxOccurs="1"/>
+                <elementRef key="publicationStmt" minOccurs="0" maxOccurs="1"/>
+                <elementRef key="sourceDesc" minOccurs="1" maxOccurs="1"/>
+              </sequence>
+            </content>            
+          </elementSpec>
+          
+          <!-- titleStmt -->
+          
+          <elementSpec ident="titleStmt" mode="change">
+            <desc>The element titleStmt takes a required child-element title.</desc>
+            <content>
+            <sequence>
+              <elementRef key="title" minOccurs="1" maxOccurs="1"/>
+              <elementRef key="principal" minOccurs="1" maxOccurs="1"/>
+              <elementRef key="respStmt" minOccurs="1" maxOccurs="unbounded"/>
+            </sequence>
+            </content>
+            <remarks>
+              <p>Title is required in order to comply to DoTS's requirements.</p>
+            </remarks>
+          </elementSpec>
+          
+<!--          <!-\- title -\->
+          
+          <elementSpec ident="title" mode="change">
+            <desc>The element title takes an @type.</desc>
+            <content>
+              <textNode/>
+            </content>
+            <attList>
+              <attDef ident="type" mode="change" usage="rec">
+                <valList type="closed">
+                  <valItem ident="preferred"/>
+                </valList>
+              </attDef>
+            </attList>
+            <remarks>
+              <p>The element title stores the DB's data for witness's name </p>
+            </remarks>
+          </elementSpec> -->
+          
+          <!-- principal -->
+          
+          <elementSpec ident="principal" mode="change">
+            <desc>The element is used to contains the name of the researcher primarily responsible for the creation of an electronic text.</desc>
+            <content>
+              <elementRef key="persName" minOccurs="1" maxOccurs="1"/>
+            </content>
+            <remarks>
+              <p>It receives metadata from Heurist - extraction to be determined, not in the DB yet.</p>
+            </remarks>
+          </elementSpec>
+          
+          <!-- persName -->
+          
+          <elementSpec ident="persName" mode="change">
+            <desc>The element is used to input a name. It takes children element forename and surname.</desc>
+            <content>
+              <sequence>
+               <elementRef key="forename" minOccurs="1" maxOccurs="1"/>
+               <elementRef key="surname" minOccurs="1" maxOccurs="1"/>
+              </sequence>
+            </content>
+            <remarks>
+              <p>It receives metadata from Heurist - extraction to be determined, not in the DB yet.</p>
+            </remarks>
+          </elementSpec>
+          
+          <!-- respStmt -->
+          
+          <elementSpec ident="respStmt" mode="change">
+            <desc>The element is used to describe the people's responsability for the data. It allows children elements resp and persName.</desc>
+            <content>
+              <sequence>
+                <elementRef key="resp" minOccurs="1" maxOccurs="unbounded"/>
+                <elementRef key="persName" minOccurs="1" maxOccurs="unbounded"/>
+              </sequence>
+            </content>
+            <remarks>
+              <p>It receives metadata from Heurist - extraction to be determined, not in the DB yet.</p>
+            </remarks>
+          </elementSpec>
+          
+          <!-- sourceDesc -->
+          
+          <elementSpec ident="sourceDesc" mode="change">
+            <desc>sourceDesc is a required child of fileDesc.</desc>
+            <content>
+              <elementRef key="msDesc" minOccurs="1" maxOccurs="unbounded"/>
+            </content>
+          </elementSpec>
+
+          <!-- langUsage -->
+
+          <elementSpec ident="langUsage" mode="change">
+            <desc>The element takes at least one child language.</desc>
+            <content>
+              <elementRef key="language" minOccurs="1" maxOccurs="unbounded"/>
+            </content>
+          </elementSpec>
+          
+          <!-- language -->
+          
+          <elementSpec ident="language" mode="change">
+            <desc>The element language is used to receive an @ident, a textnode and child element lang.</desc>
+            <content>
+              <sequence>
+                <textNode/>
+                <elementRef key="lang" minOccurs="0" maxOccurs="unbounded"/>
+              </sequence>
+            </content>
+            <attList>
+              <attDef ident="ident" mode="change" usage="rec">
+                <datatype>
+                  <dataRef name="string"/>
+                </datatype>
+              </attDef>
+            </attList>
+            <remarks>
+              <p>The @ident for language receives the DB's attribute Witness_regional_writing_style Name but only the three-letters 
+                unicode between the coma and the open parenthesis.</p>
+            </remarks>
+          </elementSpec>
+          
+          <!-- lang -->
+          
+          <elementSpec ident="lang" mode="change">
+            <desc>The element lang takes a @n allowing two values : regional and scripta.</desc>
+            <content>
+              <textNode/>
+            </content>
+            <attList>
+              <attDef ident="n" mode="change" usage="opt">
+                <valList type="closed">
+                  <valItem ident="regional"/>
+                  <valItem ident="scripta"/>
+                </valList>
+              </attDef>
+            </attList>
+            <remarks> 
+              <p>The value regional is used for the whole string contained by the DB's Witness_regional_writing_style Name, and the value 
+                scripta takes the value of the DB's Witness_scripta_freetext.</p></remarks>
+          </elementSpec>
+          
+          <!-- creation -->
+
+          <elementSpec ident="creation" mode="change" module="header">
+            <desc>This element contains data about the creation of the witness.</desc>
+            <content>
+              <elementRef key="date" minOccurs="0" maxOccurs="unbounded"/>
+            </content>
+          </elementSpec>
+
+          <!-- date -->
+
+          <elementSpec ident="date" mode="change" module="core">
+            <desc>This element contains the date of creation of the witness.</desc>
+           <content>
+              <textNode/>
+           </content>
+            <attList>
+              <attDef ident="when" mode="change" usage="opt">
+                <datatype>
+                  <dataRef name="string"/>
+                </datatype>
+              </attDef>
+              <attDef ident="source" mode="change" usage="opt"/>
+              <attDef ident="certainty" mode="add" usage="opt">
+                <desc>This attribute expresses the extent of certainty for the date.</desc>
+                <datatype>
+                  <dataRef name="token"/>
+                </datatype>
+                <valList type="closed">
+                  <valItem ident="probable">
+                    <desc>Probable (33%-66%)</desc>
+                  </valItem>
+                  <valItem ident="unlikely">
+                    <desc>Unlikely (1%-33%)</desc>
+                  </valItem>
+                  <valItem ident="very_likely">
+                    <desc>Very likely (66%-99%)</desc>
+                  </valItem>
+                  <valItem ident="unknown">
+                    <desc>The certainty is unknown.</desc>
+                  </valItem>
+                </valList>
+              </attDef>
+            </attList>
+            <remarks>
+              <p>The element date stores the DB's attributes Witness_date_of_creation.</p>
+              <p>The @certainty stores the DB's attribute Witness_date_of_creation_certainty.</p>
+              <p>The @source stores the DB's attribute Witness_date_of_creation_source. </p>
+            </remarks>
+          </elementSpec>
+
+
+          <!-- idno -->
+          
+          <elementSpec ident="idno" module="core" mode="change">
+            <attList>
+              <attDef ident="type" mode="change" usage="opt">
+                <datatype>
+                  <dataRef name="string"/>
+                </datatype>
+                <valList type="closed">
+                  <valItem ident="heurist">
+                    <desc>Stores the Heurist ID of the document.</desc>
+                  </valItem>
+                  <valItem ident="shelfmark">
+                    <desc>Stores the current shelfmark of the document.</desc>
+                  </valItem>
+                </valList>
+              </attDef>
+            </attList>
+            <remarks>
+              <p>The element idno when combined with the @type="heurist" stores the DB's Witness_H-ID.</p>
+              <p>The element idno when combined with the @type="shelfmark" stores the DB's DocumentTable_current_shelfmark.</p>
+            </remarks>
+          </elementSpec>
+         
+          <!-- module msDescription  -->
+
+
+          <!-- msDesc -->
+         
+          <!-- @type witness_status -->
+          
+          <elementSpec ident="msDesc" mode="change">
+            <desc>msDesc can have an optionnal @type attribute that receives the data from witness_status_witness</desc>
+            <content>
+              <sequence>
+                <elementRef key="msIdentifier" minOccurs="1" maxOccurs="unbounded"/>
+                <elementRef key="msFrag" minOccurs="1" maxOccurs="unbounded"/>
+              </sequence>
+            </content>
+            <attList>
+              <attDef ident="type" mode="change" usage="req">
+                <desc>The attribute type is required to indicate the witness's status described by the msDesc element.</desc>
+                <datatype>
+                  <dataRef key="teidata.enumerated"/>
+                </datatype>
+                <valList type="closed" mode="replace">
+                  <valItem ident="citation">
+                    <desc>Collection of quotations, which may be in a notebook, in a margin, in another text, in a treatise, or wherever.</desc>
+                  </valItem>
+                  <valItem ident="complete">
+                    <desc>All of the literary content (not including dedication, etc.) is extant and legible.</desc>
+                  </valItem>
+                  <valItem ident="defective">
+                    <desc>Some pages containing literary content are missing from the extant witness, but the majority or a significant portion survives.</desc>
+                  </valItem>
+                  <valItem ident="fragmentary">
+                    <desc>Only 1 or 2 pages are all that remain of the witness, which is expected to be much longer.</desc>
+                  </valItem>
+                  <valItem ident="lost">
+                    <desc>In the case of a hypothetical witness, whose existence is posited, no part of the witness survives.</desc>
+                  </valItem>
+                  <valItem ident="unknown">
+                    <desc>The witness's status is unknown.</desc>
+                  </valItem>
+                </valList>
+              </attDef>
+            </attList>
+            <remarks>
+              <p>The status of the witness is indicated via the @type in the msDesc element, which describes the witness. The closed list refers to the data from 
+                DB's Witness_status_witness, and the "unknown" choice has been added in order to deal with the possible nulls. </p>
+            </remarks>
+          </elementSpec>
+          
+          <!--@type note -->
+          
+          <elementSpec ident="note" mode="change">
+            <desc>Receives additional information as free text from the witness's status.</desc>
+            <attList>
+              <attDef ident="type" mode="change">
+                <valList type="closed">
+                  <valItem ident="witness-status">
+                  </valItem>
+                </valList>
+              </attDef>
+            </attList>
+            <remarks>
+              <p>This type receives the data from Witness_status_note.</p>
+            </remarks>
+          </elementSpec>
+          
+          <!-- msIdentifier -->
+          
+          <elementSpec ident="msIdentifier" mode="change">
+            <desc>msIdentifier is used to describe the witness and its parts. 
+              It contains children elements collection, settlement, repository, idno.</desc>
+            <content>
+              <sequence>
+                <elementRef key="settlement" minOccurs="0" maxOccurs="1"/>
+                <elementRef key="repository" minOccurs="0" maxOccurs="1"/>
+                <elementRef key="idno" minOccurs="1" maxOccurs="unbounded"/>
+                <elementRef key="altIdentifier" minOccurs="0" maxOccurs="unbounded"/>
+              </sequence>
+            </content>
+            <remarks>
+              <p>The idno element must be declared for each msIdentifier in order to input 
+                the Heurist ID of each witness (as stored in the DB's Witness_H-ID). The collection element is optional and allows 
+                either a child element location or a textual node.</p>
+            </remarks>
+          </elementSpec>
+          
+          <!-- altIdentifier --> 
+          
+          <elementSpec ident="altIdentifier" mode="change">
+            <desc>The element altIdentifier is used to input the document's old shelfmark.</desc>
+            <content>
+              <elementRef key="idno" minOccurs="0" maxOccurs="unbounded"/>
+            </content>
+            <attList>
+              <attDef ident="type" mode="change" usage="opt">
+                <datatype>
+                  <dataRef name="string"/>
+                </datatype>
+                <valList type="closed">
+                  <valItem ident="old-shelfmark">
+                    <desc>Indicates the old shelfmark of the document if known.</desc>
+                  </valItem>
+                </valList>
+              </attDef>
+            </attList>
+            <remarks>
+              <p>The altIdentifier + @type="old-shelfmark" stores the DocumentTable_old_shelfmark when not null.</p>
+            </remarks>
+          </elementSpec>
+
+          <!-- repository -->
+
+          <elementSpec ident="repository" mode="change">
+            <desc>Attribute type required for element repository, with a closed list of values.</desc>
+            <attList>
+              <attDef ident="type" mode="change" usage="req">
+                <datatype>
+                  <dataRef name="string"/>
+                </datatype>
+                <valList type="closed">
+                  <valItem ident="label_name">
+                    <desc>Abbreviated/vernacular version of the name of the repository.</desc>
+                  </valItem>
+                  <valItem ident="preferred_name">
+                    <desc>Complete and official name of the repository.</desc>
+                  </valItem>
+                </valList>
+                <remarks>
+                  <p>Allows to specify the type of repository's name, equivalent to the database attributes
+                    Repo_preferred_name and Repo_label_name.</p>
+                </remarks>
+              </attDef>
+              <attDef ident="heurist_id" mode="add" usage="opt">
+                <datatype>
+                  <dataRef name="string"/>
+                </datatype>
+                <remarks>
+                  <p>Equivalent to the database attribute Repository_H-ID.</p>
+                </remarks>
+              </attDef>
+              <attDef ident="viaf" mode="add" usage="opt">
+                <datatype>
+                  <dataRef name="string"/>
+                </datatype>
+                <remarks>
+                  <p>Equivalent to the database attribute Repository_VIAF.</p>
+                </remarks>
+              </attDef>
+            </attList>
+          </elementSpec>
+
+          <!-- collection -->
+          
+          
+          <elementSpec ident="collection" mode="change">
+            <desc>Collection is a child element of msIdentifier. It allows either a textual node or a child element location</desc>
+            <content>
+              <alternate>
+                <textNode/>
+                <elementRef key="location" minOccurs="0" maxOccurs="1"/>
+              </alternate>
+            </content>
+            <attList>
+              <attDef ident="type" mode="change">
+                <datatype>
+                  <dataRef name="token"/>
+                </datatype>
+                <valList type="closed">
+                  <valItem ident="yes">
+                    <desc>The document is a collection of fragments.</desc>
+                  </valItem>
+                  <valItem ident="no">
+                    <desc>The document is not a collection of fragments.</desc>
+                  </valItem>
+                  <valItem ident="unknown">
+                    <desc>The document is not a collection of fragments.</desc>
+                  </valItem>
+                </valList>
+              </attDef>
+            </attList>
+            <remarks>
+              <p>The attribute type is used to declare wether the document is a collection of fragments or not. The closed list is 
+                equivalent to the data of the DB's Document_table_collection_of_fragments.</p>
+            </remarks>
+          </elementSpec>
+          
+          <!-- location -->
+          
+          <elementSpec ident="location" mode="change">
+            <desc>Location is a direct child of collection. It provides information about the known status of the collection's location. Only two inputs are allowed : yes or no.</desc>
+            <attList>
+              <attDef ident="known" usage="opt">
+                <desc>Indicates whether the location is known.</desc>
+                <datatype>
+                  <dataRef name="token"/>
+                </datatype>
+                <valList type="closed">
+                  <valItem ident="yes"/>
+                  <valItem ident="no"/>
+                </valList>
+              </attDef>
+            </attList>
+            <remarks>
+              <p>The @known stores the DB's data from DocumentTable_location_known.
+                The use of the attribute @known is recommended but not required in order to deal with a few nulls from the dataset.</p>
+            </remarks>
+          </elementSpec>
+          
+          <!-- msFrag -->
+          
+          
+          <elementSpec ident="msFrag" mode="change">
+            <desc>msFrag describes a part of the witness hosted in a specific manuscript.</desc>
+            <content>
+              <sequence>
+                <elementRef key="msIdentifier" minOccurs="1" 
+                  maxOccurs="1"/>
+                <elementRef key="physDesc" minOccurs="0" 
+                  maxOccurs="1"/>
+                <elementRef key="msContents" minOccurs="0" 
+                  maxOccurs="1"/>
+                <elementRef key="additional" minOccurs="0" 
+                  maxOccurs="1"/>
+              </sequence>
+            </content>
+            <remarks>
+              <p>The number of msFrag element required is equivalent to the integer stored in the DB's Part_div_order. 
+                If value = 1, then only 1 msFrag.</p>
+            </remarks>
+          </elementSpec>
+         
+          <!-- msContents -->
+          
+          <elementSpec ident="msContents" mode="change">
+            <desc>msContents is in this case solely used as a direct child of msFrag, and not msDesc.</desc>
+            <content>
+              <elementRef key="msItemStruct" minOccurs="1" maxOccurs="1"/>
+            </content>
+          </elementSpec>
+          
+          <!-- msItemStruct -->
+          
+          <elementSpec ident="msItemStruct" mode="change">
+            <desc>msItemStruct is a direct child of msContents and receives children elements locus, author, title, notes.</desc>
+            <content>
+             <sequence>
+              <elementRef key="locus" minOccurs="1" maxOccurs="1"/>
+              <elementRef key="author"/>
+              <elementRef key="title"/>
+              <elementRef key="note"/>
+             </sequence>
+            </content>
+          </elementSpec>
+          
+          <!-- locus -->
+          
+          <elementSpec ident="locus" mode="change">
+            <desc>locus identifies the location of the witness or witness fragment within the document.</desc>
+            <attList>
+              <attDef ident="from" mode="change">
+                <datatype>
+                  <dataRef key="teidata.word"/>
+                </datatype>
+              </attDef>
+              <attDef ident="to" mode="change">
+                <datatype>
+                  <dataRef key="teidata.word"/>
+                </datatype>
+              </attDef>
+            </attList>
+            <remarks>
+              <p>The element stores the DB's Part_page_ranges.</p>
+            </remarks>
+          </elementSpec>
+
+          <!-- physDesc -->
+          
+          <elementSpec ident="physDesc" mode="change">
+            <desc>physDesc describes the physical document which hosts the part. His children element used for the project are decoDesc, handDesc and objectDesc.</desc>
+            <content>
+              <sequence>
+                <elementRef key="objectDesc" minOccurs="0" maxOccurs="unbounded"/>
+                <elementRef key="handDesc" minOccurs="0" maxOccurs="unbounded"/>
+                <elementRef key="decoDesc" minOccurs="0" maxOccurs="unbounded"/>
+              </sequence>
+            </content>
+            <remarks>
+              <p>The physDesc element must always be a direct child of msFrag and not msDesc, as there can be multiple parts for a witness and multiple physical documents to describe. </p>
+            </remarks>
+          </elementSpec>
+          
+          <!-- objectDesc -->
+          
+          <elementSpec ident="objectDesc" mode="change">
+            <desc>objectDesc is a direct child of physDesc and describes the materiality of the witness. It accepts as children layoutDesc and supportDesc.
+             </desc>
+            <content>
+              <sequence>
+                <elementRef key="supportDesc" minOccurs="0" maxOccurs="1"/>
+                <elementRef key="layoutDesc" minOccurs="0" maxOccurs="1"/>
+              </sequence>
+            </content>
+          </elementSpec>
+          
+          <!-- supportDesc -->
+          
+          <elementSpec ident="supportDesc" mode="change">
+            <desc>supportDesc is a direct child of objectDesc and describes the support material of the witness. It takes the child element support.</desc>
+            <content>
+              <elementRef key="support" minOccurs="0" maxOccurs="1"/>
+            </content>
+           </elementSpec>
+          
+          <!-- support -->
+          
+          <elementSpec ident="support" mode="change">
+           <desc>The element support describes the form and material of the physical document.</desc>
+            <content>
+             <sequence>
+              <elementRef key="material" minOccurs="0" maxOccurs="unbounded"/>
+              <textNode/>
+             </sequence>
+            </content>
+            <remarks>
+              <p>The support element allows to input the DB's data from 'form'. The recommanded use of the @form allows to deal with the possible nulls 
+                from the dataset.</p>
+              <p>The support element allows to input data from the DB's 'material' with the @material. The closed list of values is equivalent to the controlled vocab of the 
+                data model.</p>
+            </remarks>
+         </elementSpec>
+          
+         <!-- textNode -->
+          
+          <elementSpec ident="material" mode="change">
+            <desc>Describes the material of the physical document</desc>
+            <content>
+              <textNode/>
+            </content>
+          </elementSpec>
+          
+          
+          <!-- layoutDesc -->
+          
+          <elementSpec ident="layoutDesc" mode="change">
+            <desc>layoutDesc is a direct child of objectDesc and contains one or more layout elements describing the page layout.</desc>
+            <content>
+              <elementRef key="layout" minOccurs="1" maxOccurs="1"/>
+            </content>
+          </elementSpec>
+          
+          <!-- layout -->
+          
+          <elementSpec ident="layout" mode="change">
+            <desc>layout describes the way the text is positionned within the page. It's a child of layoutDesc and has dimensions as only child. It takes two attributes, @columns and @writtenLines which both accepts integers as values. </desc>
+            <content>
+              <elementRef key="dimensions" minOccurs="0" maxOccurs="unbounded"/>
+            </content>
+            <attList>
+              <attDef ident="type" mode="change" usage="opt">
+                <valList type="closed">
+                  <valItem ident="writtenLines">
+                    <desc>Describes the layout of the text.</desc>
+                  </valItem>
+                  <valItem ident="columns">
+                    <desc>Describes the number of columns.</desc>
+                  </valItem>
+                </valList>
+              </attDef>
+            </attList>
+            <remarks>
+              <p>The attribute type for layout receives two values : writtenLines and columns for the data from the DB's number_of_columns and number_of_lines_in_writing_area.</p>
+            </remarks>
+          </elementSpec>
+          
+          <!-- dimensions -->
+          
+          <elementSpec ident="dimensions" mode="change">
+            <desc>The element contains a specification of the dimensions with the attribute @type which allow only two values : written and leaves. It also carries 
+              two children : height and width.</desc>
+            <content>
+              <sequence>
+                <elementRef key="height" minOccurs="1" maxOccurs="1"/>
+                <elementRef key="width" minOccurs="1" maxOccurs="1"/>
+              </sequence>
+            </content>
+            <attList>
+              <attDef ident="type" mode="change" usage="opt">
+                <valList type="closed">
+                  <valItem ident="written">
+                    <desc>The dimensions of the written part of the folio.</desc>
+                  </valItem>
+                  <valItem ident="leaves">
+                    <desc>The dimensions of one or multiple folio.</desc>
+                  </valItem>
+                </valList>
+              </attDef>
+            </attList>
+            <remarks>
+              <p>The element dimension takes an @type to specify which part is described. @type written allows to input the data from the DB's writing_surface_area_height, 
+                writing_surface_area_width, writing_surface_area_reference. @type leaves allows to input the data from the DB's folio_size_width, folio_size_height, folio_size_reference.</p>
+            </remarks>
+          </elementSpec>
+          
+          <!-- height -->
+          
+          <elementSpec ident="height" mode="change">
+            <attList>
+              <attDef ident="unit" mode="change" usage="opt"/>
+              <attDef ident="atLeast" mode="change" usage="opt"/>
+              <attDef ident="atMost" mode="change" usage="opt"/>
+            </attList>
+            <remarks>
+              <p>Allows to deal with the unit and estimated sizes, receives the data from the DB's estimated_folio_size_height.</p>
+            </remarks>
+          </elementSpec>
+          
+          <!-- width -->
+          
+          <elementSpec ident="width" mode="change">
+            <attList>
+              <attDef ident="unit" mode="change" usage="opt"/>
+              <attDef ident="atLeast" mode="change" usage="opt"/>
+              <attDef ident="atMost" mode="change" usage="opt"/>
+            </attList>
+            <remarks>
+              <p>Allows to deal with the unit and estimated sizes, receives the data from the DB's estimated_folio_size_width.</p>
+            </remarks>
+          </elementSpec>
+          
+          <!-- handDesc -->
+          
+          <elementSpec ident="handDesc" mode="change">
+            <desc>handDesc is a child of physDesc and is used to describe the different types of script within the witness. It takes one child : handNote.</desc>
+          </elementSpec>
+          
+          <!-- handNote -->
+          
+          <elementSpec ident="handNote" mode="change">
+            <desc>handNote is a child of handDesc and takes the attribute script
+              in order to describe the type and the subtype of script.</desc>
+            <classes mode="change">
+              <memberOf key="model.pLike"/>
+            </classes>
+            <content>
+              <textNode/>
+            </content>
+            <attList>
+              <attDef ident="script" mode="change" usage="opt">
+                <desc>Describes the type of script used in the witness.</desc>
+                <datatype>
+                  <dataRef name="string"/>
+                </datatype>
+              </attDef>
+            </attList>
+            <remarks>
+              <p>handNote is used to input the DB's attributes 'script_type'band 'subscript_type'.</p>
+            </remarks>
+          </elementSpec>
+
+
+          <!-- decoDesc -->
+          
+          <elementSpec ident="decoDesc" mode="change">
+            <desc>decoDesc is a child of physDesc and is used to describe decorations that are unrelated to the text. It takes child element decoNote.</desc>
+            <content>
+              <elementRef key="decoNote" minOccurs="0" maxOccurs="unbounded"/>
+            </content>
+          </elementSpec>
+          
+          <!-- decoNote -->
+          
+          <elementSpec ident="decoNote" mode="change">
+            <desc>The element is used to describe decoration unrelated to the text, including decorated letters (initials), rubrication, 
+              and pictures that do not illustrate scenes connected to the accompanying text.</desc>
+            <attList>
+              <attDef ident="type" mode="change" usage="opt">
+                <valList type="closed">
+                  <valItem ident="unknown"/>
+                  <valItem ident="initials"/>
+                  <valItem ident="rubrication"/>
+                  <valItem ident="incomplete-dec."/>
+                  <valItem ident="no-decoration"/>
+                  <valItem ident="unrelated-picture"/>
+                </valList>
+              </attDef>
+            </attList>
+            <remarks>
+              <p>The input data for decoDesc is equivalent to the DB's attributes has_decoration and amount_of_illustration.</p>
+            </remarks>
+          </elementSpec>
+          
+          
+          <!-- surrogates -->
+
+          <elementSpec ident="surrogates" mode="change">
+            <desc>Surrogates receives the element bibl as a direct child, and is used to describe a digital reproduction of the document.</desc>
+            <content>
+              <elementRef key="bibl" minOccurs="0" maxOccurs="unbounded"/>
+            </content>
+            <remarks>
+              <p>The element "digitization" is added as a direct child of the element surrogates to allow input equivalent to the database attribute 
+                DocumentTable_digitization_freetext.</p>
+            </remarks>
+          </elementSpec>
+
+          <!-- bibl -->
+
+          <elementSpec ident="bibl" mode="change">
+            <desc>idno and ptr are both direct children of the bibl element. They are optional but cannot take more than one value. Bibl takes the @type in order to specify 
+            that the content described is a digitisation.</desc>
+            <content>
+              <sequence>
+                <elementRef key="idno" minOccurs="0" maxOccurs="1"/>
+                <elementRef key="ptr" minOccurs="0" maxOccurs="1"/>
+              </sequence>
+            </content>
+            <attList>
+              <attDef ident="type" mode="change">
+                <valList type="closed">
+                  <valItem ident="digitisation"/>
+                </valList>
+              </attDef>
+            </attList>
+            <remarks>
+              <p>The two children elements are used in order to receive the Heurist ID of the digitisation and
+                the URI, respectively equivalent to the database attributes Digitization_H-ID and Digitization_URI.</p>
+            </remarks>
+          </elementSpec>
+
+
+          <!-- module namesdates -->
+
+          <!-- settlement -->
+          
+          <elementSpec ident="settlement" mode="change">
+            <attList>
+              <attDef ident="heurist_id" mode="add" usage="opt">
+                <desc>Allows to input the Heurist ID of the settlement.</desc>
+                <datatype>
+                  <dataRef name="string"/>
+                </datatype>
+                <remarks>
+                  <p>Allows to input the Heurist identification number of the repository's settlement,
+                    equivalent to the database attribute Repository_city_H-ID.</p>
+                </remarks>
+              </attDef>
+            </attList>
+          </elementSpec>
+          
+          <!-- revisionDesc -->
+          
+          <elementSpec ident="revisionDesc" mode="change">
+            <desc>Describes the modifications and the person responsible.</desc>
+            <content>
+              <elementRef key="change" minOccurs="1" maxOccurs="unbounded"/>
+            </content>
+            <remarks>
+              <p>It receives metadata from Heurist - extraction to be determined, not in the DB yet.</p>
+            </remarks>
+          </elementSpec>
+
+
+          <!-- change --> 
+          <elementSpec ident="change" mode="change">
+            <desc>Describes the modifications and the person responsible.</desc>
+          <attList>
+            <attDef ident="who" mode="change" usage="opt">
+              <datatype>
+                <dataRef key="teidata.pointer"/>
+              </datatype>
+            </attDef>
+            <attDef ident="when" mode="change" usage="opt">
+              <datatype>
+                <dataRef key="teidata.temporal.w3c"/>
+              </datatype>
+            </attDef>
+          </attList>
+            <remarks>
+              <p>It receives metadata from Heurist - extraction to be determined, not in the DB yet.</p>
+            </remarks>
+          </elementSpec>
+          
+          
+          <!-- encodingDesc --> 
+          
+          <elementSpec ident="encodingDesc" mode="change">
+            <desc>Describes the encoding.</desc>
+            <content>
+              <elementRef key="editorialDecl"/>
+            </content>
+            <remarks>
+              <p>It receives metadata from Heurist - extraction to be determined, not in the DB yet.</p>
+            </remarks>
+          </elementSpec>
+          
+          <!-- editorialDecl -->
+          
+          <elementSpec ident="editorialDecl" mode="change">
+            <desc>Describes editorial principles for the encoding.</desc>
+            <content>
+             <sequence>
+              <elementRef key="correction" minOccurs="0" maxOccurs="unbounded"/>
+               <elementRef key="hyphenation" minOccurs="0" maxOccurs="unbounded"/>
+               <elementRef key="interpretation" minOccurs="0" maxOccurs="unbounded"/>
+               <elementRef key="normalization" minOccurs="0" maxOccurs="unbounded"/>
+               <elementRef key="punctuation" minOccurs="0" maxOccurs="unbounded"/>
+               <elementRef key="quotation" minOccurs="0" maxOccurs="unbounded"/>
+               <elementRef key="segmentation" minOccurs="0" maxOccurs="unbounded"/>
+               <elementRef key="stdVals" minOccurs="0" maxOccurs="unbounded"/>
+             </sequence>
+            </content>
+            <remarks>
+              <p>It receives metadata from Heurist - extraction to be determined, not in the DB yet.</p>
+            </remarks>
+          </elementSpec>
+          
+          
+        </schemaSpec>
+      </div>
+    </body>
+  </text>
+</TEI>

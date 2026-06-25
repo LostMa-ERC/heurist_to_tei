@@ -1,307 +1,273 @@
-# Mapping des champs Heurist -> éléments TEI pour les fichiers witness
-# Dérivé de l'ODD witness
-# Namespace TEI : http://www.tei-c.org/ns/1.0
+# mapping_witness.yaml
+# Mapping entre les colonnes du "witnesses" définies dans witness_to_tei.py
+# et les éléments TEI définis dans witness.odd 
 
-namespaces:
-  tei: "http://www.tei-c.org/ns/1.0"
 
-# ============================================================
-# RACINE TEI
-# ============================================================
-root:
-  element: TEI
-  attributes:
-    xml:id:
-      source: Witness_H-ID          # identifiant Heurist du witness -> @xml:id de <TEI>
-      transform: "hid_{value}"      # préfixe "hid_" pour garantir un ID XML valide
+record_type: witness
+
+tei_root:
+  xml_id:
+    source: Witness_H-ID
+    transform: "lambda x: f'witness_{int(x)}'"
 
 # ============================================================
 # teiHeader / fileDesc / titleStmt
 # ============================================================
 titleStmt:
-
   title:
-    xpath: teiHeader/fileDesc/titleStmt/title
-    attributes:
-      type: "preferred"
-    source: ???           # trouver l'équivalent du titre du witness dans Heurist
-
-    principal:
-    xpath: teiHeader/fileDesc/titleStmt/principal/persName
-    children:
-      forename:
-        value: "Jean-Baptiste"
-      surname:
-        value: "Camps"
-
-  respStmt:
-    xpath: teiHeader/fileDesc/titleStmt/respStmt
-    instances:
-      - children:
-          resp:
-            value: "Editor of the French corpus"
-          persName:
-            attributes:
-              xml:id: "JBC"
-            children:
-              forename:
-                value: "Jean-Baptiste"
-              surname:
-                value: "Camps"
-      - children:
-          resp:
-            value: "Data architect"
-          persName:
-            attributes:
-              xml:id: "VR"
-            children:
-              forename:
-                value: "Virgile"
-              surname:
-                value: "Reignier"
-      - children:
-          resp:
-            value: "Data architect"
-          persName:
-            attributes:
-              xml:id: "KC"
-            children:
-              forename:
-                value: "Kelly"
-              surname:
-                value: "Christensen"
-      - children:
-          resp:
-            value: "Data architect"
-          persName:
-            attributes:
-              xml:id: "MM"
-            children:
-              forename:
-                value: "Maud"
-              surname:
-                value: "Mélinand"
-      - children:
-          resp:
-            value: "Research engineer"
-          persName:
-            attributes:
-              xml:id: "TM"
-            children:
-              forename:
-                value: "Théo"
-              surname:
-                value: "Moins"
-      - children:
-          resp:
-            value: "Research engineer"
-          persName:
-            attributes:
-              xml:id: "BH"
-            children:
-              forename:
-                value: "Brenna"
-              surname:
-                value: "Hensley"
-      - children:
-          resp:
-            value: "Research engineer"
-          persName:
-            attributes:
-              xml:id: "UG"
-            children:
-              forename:
-                value: "Ulysse"
-              surname:
-                value: "Godreau"
+    source: Witness_preferred_siglum
+    tei_path: teiHeader/fileDesc/titleStmt/title
 
 # ============================================================
-# teiHeader / fileDesc / sourceDesc / msDesc
+# teiHeader / profileDesc / langUsage
+# ============================================================
+langUsage:
+  language:
+    # Valeur textuelle complète (ex. "dum (Middle Dutch)")
+    source: Witness_regional_writing_style Name
+    tei_path: teiHeader/profileDesc/langUsage/language
+    attributes:
+      ident:
+        source: Witness_regional_writing_style Name
+        # Extraire le code ISO entre le début et l'espace
+        transform: "lambda x: x.split(' ')[0] if isinstance(x, str) else None"
+    children:
+      - element: lang
+        attributes:
+          n: regional
+        source: Witness_regional_writing_style Name
+      - element: lang
+        attributes:
+          n: scripta
+        source: Witness_scripta_freetext
+
+# ============================================================
+# teiHeader / profileDesc / creation
+# ============================================================
+creation:
+  date:
+    tei_path: teiHeader/profileDesc/creation/date
+    source: Witness_date_of_creation
+    attributes:
+      certainty:
+        source: Witness_date_of_creation_certainty
+        # Valeurs fermées : probable, unlikely, very_likely, unknown
+      source:
+        source: Witness_date_of_creation_source
+      when:
+        source: Witness_date_of_creation
+        # Extraire la valeur numérique de la date si structurée
+
+# ============================================================
+# teiHeader / sourceDesc / msDesc
 # ============================================================
 msDesc:
-  xpath: teiHeader/fileDesc/sourceDesc/msDesc
+  tei_path: teiHeader/sourceDesc/msDesc
   attributes:
     type:
-      source: Witness_status_witness    # valeur fermée : citation | complete | defective | fragmentary | lost | unknown
-      default: "unknown"
+      source: Witness_status_witness
+      # Valeurs fermées : citation, complete, defective, fragmentary, lost, unknown
+      nullable_fallback: unknown
 
   # --- msIdentifier (niveau witness) ---
   msIdentifier:
-    xpath: msDesc/msIdentifier
+    tei_path: teiHeader/sourceDesc/msDesc/msIdentifier
     children:
-      settlement:
-        source: Repository_city_name
+      - element: settlement
+        source: Repository_city Name
         attributes:
-          heurist_id: Repository_city_H-ID
-      repository:
-        # deux occurrences : label_name et preferred_name
-        instances:
-          - attributes:
-              type: "label_name"
-            source: Repo_label_name
-            attributes_extra:
-              heurist_id: Repository_H-ID
-              viaf: Repository_VIAF
-          - attributes:
-              type: "preferred_name"
-            source: Repository_preferred_name
-      idno:
-        instances:
-          - attributes:
-              type: "heurist"
-            source: Witness_H-ID
-          - attributes:
-              type: "shelfmark"
-            source: DocumentTable_current_shelfmark
-      altIdentifier:
+          heurist_id:
+            source: Repository_city H-ID
+      - element: repository
+        source: Repository_preferred_name
+        attributes:
+          type: preferred_name
+          heurist_id:
+            source: Repository_H-ID
+          viaf:
+            source: Repository_VIAF
+      - element: repository
+        source: Repository_label_name
+        attributes:
+          type: label_name
+      - element: idno
+        source: Witness_H-ID
+        attributes:
+          type: heurist
+      - element: idno
+        source: DocumentTable_current_shelfmark
+        attributes:
+          type: shelfmark
+      - element: altIdentifier
         condition: "DocumentTable_old_shelfmark is not null"
         attributes:
-          type: "old-shelfmark"
+          type: old-shelfmark
         children:
-          idno:
+          - element: idno
             source: DocumentTable_old_shelfmark
 
-  # --- msFrag (une instance par Part, répété selon Part_div_order) ---
-  msFrag:
-    xpath: msDesc/msFrag
-    repeat_on: parts                  # itère sur les lignes de la table parts liées au witness
+  # --- note (status_notes) ---
+  note:
+    tei_path: teiHeader/sourceDesc/msDesc/note
+    source: Witness_status_notes
+    attributes:
+      type: witness-status
 
+  # ============================================================
+  # msFrag (1 par Part, piloté par Part_div_order)
+  # ============================================================
+  msFrag:
+    tei_path: teiHeader/sourceDesc/msDesc/msFrag
+    # Chaque ligne du dataframe correspondant à une Part génère un msFrag
+    iterate_on: Part_div_order
+
+    # msIdentifier du fragment (document porteur)
     msIdentifier:
       children:
-        collection:
-          source: DocumentTable_collection_of_fragments   # yes | no | unknown
+        - element: settlement
+          source: Repository_city Name
+          attributes:
+            heurist_id:
+              source: Repository_city H-ID
+        - element: repository
+          source: Repository_preferred_name
+          attributes:
+            type: preferred_name
+            heurist_id:
+              source: Repository_H-ID
+        - element: idno
+          source: DocumentTable_H-ID
+          attributes:
+            type: heurist
+        - element: idno
+          source: DocumentTable_current_shelfmark
+          attributes:
+            type: shelfmark
+        - element: altIdentifier
+          condition: "DocumentTable_old_shelfmark is not null"
+          attributes:
+            type: old-shelfmark
           children:
-            location:
+            - element: idno
+              source: DocumentTable_old_shelfmark
+        - element: collection
+          source: DocumentTable_collection_of_fragments
+          attributes:
+            type:
+              source: DocumentTable_collection_of_fragments
+              # Valeurs fermées : yes, no, unknown
+          children:
+            - element: location
               attributes:
-                known: DocumentTable_location_known       # yes | no
-        idno:
-          instances:
-            - attributes:
-                type: "heurist"
-              source: Part_H-ID
-            - attributes:
-                type: "shelfmark"
-              source: DocumentTable_current_shelfmark
+                known:
+                  source: DocumentTable_location_known
+                  # Valeurs fermées : yes, no
 
+    # physDesc du fragment
     physDesc:
-      objectDesc:
-        supportDesc:
-          support:
-            children:
-              material:
-                source: Part_material                    # valeur textuelle libre
-        layoutDesc:
-          layout:
-            instances:
-              - attributes:
-                  type: "columns"
-                source: Part_number_of_columns
-              - attributes:
-                  type: "writtenLines"
-                source: Part_number_of_lines_in_writing_area
-            dimensions:
-              instances:
-                - attributes:
-                    type: "written"
-                  children:
-                    height:
-                      source: Part_writing_surface_area_height
-                      attributes:
-                        unit: "mm"
-                    width:
-                      source: Part_writing_surface_area_width
-                      attributes:
-                        unit: "mm"
-                - attributes:
-                    type: "leaves"
-                  children:
-                    height:
-                      source: Part_folio_size_height
-                      attributes:
-                        unit: "mm"
-                    width:
-                      source: Part_folio_size_width
-                      attributes:
-                        unit: "mm"
-
-      handDesc:
-        handNote:
-          instances:
-            - attributes:
-                script: Part_script_type
-              source: Part_script_type
-            - attributes:
-                script: Part_subscript_type
-              source: Part_subscript_type
-
-      decoDesc:
-        decoNote:
-          instances:
-            - attributes:
-                type: Part_has_decoration      # valeur fermée ODD
-            - attributes:
-                type: Part_amount_of_illustration
-
-    msContents:
-      msItemStruct:
-        locus:
-          attributes:
-            from: Part_page_ranges_from
-            to: Part_page_ranges_to
-        # author et title : non mappés ici (hérités du text associé)
-
-    additional:
-      surrogates:
-        bibl:
-          condition: "Digitization_H-ID is not null"
-          attributes:
-            type: "digitisation"
-          children:
-            idno:
-              source: Digitization_H-ID
-            ptr:
-              source: Digitization_URI
-
-# ============================================================
-# teiHeader / profileDesc
-# ============================================================
-profileDesc:
-  langUsage:
-    language:
-      repeat_on: Witness_regional_writing_style   # peut être multiple
-      attributes:
-        ident: Witness_regional_writing_style_code   # code 3 lettres unicode
       children:
-        lang:
-          instances:
-            - attributes:
-                n: "regional"
-              source: Witness_regional_writing_style_name
-            - attributes:
-                n: "scripta"
-              source: Witness_scripta_freetext
+        - element: objectDesc
+          children:
+            - element: supportDesc
+              children:
+                - element: support
+                  children:
+                    - element: material
+                      source: PhysDesc_material
+                    # textNode pour la forme
+                    - text:
+                        source: PhysDesc_form
+            - element: layoutDesc
+              children:
+                - element: layout
+                  attributes:
+                    type: columns
+                  children:
+                    - element: dimensions
+                      attributes:
+                        type: leaves
+                      children:
+                        - element: height
+                          source: PhysDesc_folio_size_height
+                          attributes:
+                            unit:
+                              source: PhysDesc_folio_size_reference
+                            atLeast:
+                              source: PhysDesc_estimated_folio_size_height
+                        - element: width
+                          source: PhysDesc_folio_size_width
+                          attributes:
+                            unit:
+                              source: PhysDesc_folio_size_reference
+                            atLeast:
+                              source: PhysDesc_estimated_folio_size_width
+                    - element: dimensions
+                      attributes:
+                        type: written
+                      children:
+                        - element: height
+                          source: PhysDesc_writing_surface_area_height
+                          attributes:
+                            unit:
+                              source: PhysDesc_writing_surface_area_reference
+                        - element: width
+                          source: PhysDesc_writing_surface_area_width
+                          attributes:
+                            unit:
+                              source: PhysDesc_writing_surface_area_reference
+                - element: layout
+                  attributes:
+                    type: writtenLines
+                  source: PhysDesc_number_of_lines_in_writing_area
+        - element: handDesc
+          children:
+            - element: handNote
+              source: PhysDesc_script_type
+              attributes:
+                script:
+                  source: PhysDesc_subscript_type
+        - element: decoDesc
+          children:
+            - element: decoNote
+              source: PhysDesc_has_decorations
+              attributes:
+                type:
+                  source: PhysDesc_has_decorations
+                  # Valeurs fermées : unknown, initials, rubrication,
+                  # incomplete-dec., no-decoration, unrelated-picture
 
-  creation:
-    date:
-      source: Witness_date_of_creation
-      attributes:
-        when: Witness_date_of_creation            # valeur ISO si disponible
-        certainty: Witness_date_of_creation_certainty   # probable | unlikely | very_likely | unknown
-        source: Witness_date_of_creation_source
+    # msContents du fragment
+    msContents:
+      children:
+        - element: msItemStruct
+          children:
+            - element: locus
+              attributes:
+                from:
+                  source: Part_page_ranges
+                  transform: "lambda x: x[0] if isinstance(x, list) else x"
+                to:
+                  source: Part_page_ranges
+                  transform: "lambda x: x[-1] if isinstance(x, list) else x"
 
-# ============================================================
-# teiHeader / revisionDesc
-# ============================================================
-revisionDesc:
-  change:
-    attributes:
-      who: null      # non disponible en DB — à déterminer
-      when: null     # idem
-
-# ============================================================
-# Champs non mappés (à traiter ultérieurement)
-# ============================================================
-# - principal/persName : métadonnées Heurist non encore extraites
-# - respStmt/persName  : idem
-# - revisionDesc/change/@who et @when : idem
-# - note/@type="witness-status" (Witness_status_note) : à ajouter si besoin
+    # additional > surrogates > bibl (digitizations)
+    additional:
+      children:
+        - element: surrogates
+          # Itère sur les digitizations associées au document
+          iterate_on: Digitization_H-ID
+          children:
+            - element: bibl
+              attributes:
+                type: digitisation
+              children:
+                - element: idno
+                  source: Digitization_H-ID
+                  attributes:
+                    type: heurist
+                - element: ptr
+                  source: Digitization_URI
+                  # IIIF manifest si disponible
+                  attributes:
+                    target:
+                      source: Digitization_URI
