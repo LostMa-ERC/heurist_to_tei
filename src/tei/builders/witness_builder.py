@@ -32,8 +32,12 @@ import pandas as pd
 # create the client object
 from lostma_db import LostmaDB
 
-login = "maud.melinand"
-pwd = "mojo"
+from dotenv import load_dotenv
+import os 
+
+load_dotenv()
+login = os.getenv("HEURIST_LOGIN")
+pwd = os.getenv("HEURIST_PASSWORD")
 db = LostmaDB(login, pwd)
 
 """On télécharge la base de données :"""
