@@ -9,7 +9,7 @@ Story, Storyverse et Stemma.
 
 import pandas as pd
 from lostma_db import LostmaDB
-
+from pathlib import Path
 
 def build_texts(
     db: LostmaDB,
@@ -45,6 +45,9 @@ def build_texts(
     # Liaison via is_expression_of H-ID (text) -> H-ID (story).
     # Cette colonne est un INTEGER[] côté text, donc explode + cast
     # sont nécessaires avant le merge.
+    story = db.table("Story")[["H-ID", "preferred_name", "is_part_of_storyverse H-ID"]]
+
+    story["H-ID"] = story["H-ID"].astype("Int64")
 
     import ast
 
@@ -68,6 +71,12 @@ def build_texts(
     # Liaison via story_is_part_of_storyverse H-ID -> H-ID (storyverse).
     # Même logique explode + cast, la colonne story_is_part_of_storyverse
     # H-ID est elle-même un INTEGER[] côté Story.
+    storyverse = db.table("Storyverse")[["H-ID", "preferred_name"]]
+    
+    storyverse["H-ID"] = storyverse["H-ID"].astype("Int64")
+    
+    import ast
+    
     texts["story_is_part_of_storyverse H-ID"] = texts["story_is_part_of_storyverse H-ID"].apply(
         lambda x: ast.literal_eval(x) if isinstance(x, str) else x
     )

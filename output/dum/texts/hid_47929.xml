@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ns0:TEI xmlns:ns0="http://www.tei-c.org/ns/1.0" xml:id="hid_47929">
+  <ns0:teiHeader>
+    <ns0:fileDesc>
+      <ns0:titleStmt>
+        <ns0:title type="preferred">Roman van Caesar</ns0:title>
+      </ns0:titleStmt>
+      <ns0:sourceDesc/>
+    </ns0:fileDesc>
+    <ns0:encodingDesc>
+      <ns0:classDecl>
+        <ns0:taxonomy xml:id="genre"/>
+        <ns0:taxonomy xml:id="litterary-form"/>
+        <ns0:taxonomy xml:id="versification"/>
+        <ns0:taxonomy xml:id="rhyme"/>
+        <ns0:taxonomy xml:id="stanza"/>
+      </ns0:classDecl>
+    </ns0:encodingDesc>
+    <ns0:profileDesc>
+      <ns0:langUsage>
+        <ns0:language ident="dum">Middle Dutch<ns0:lang n="regional">&lt;NA&gt;</ns0:lang>
+        </ns0:language>
+      </ns0:langUsage>
+      <ns0:creation>
+        <ns0:date from="1176" to="1325" source="Caers &amp; Kestemont (2011), p. 38.">'Waarschijnlijk hebben we dus met een nog dertiende-eeuwse roman te maken.'</ns0:date>
+      </ns0:creation>
+      <ns0:textClass>
+        <ns0:catRef scheme="#genre" target="#other"/>
+        <ns0:catRef scheme="#litterary-form" target="#verse"/>
+        <ns0:catRef scheme="#versification" target="#[]"/>
+        <ns0:catRef scheme="#rhyme" target="#['full-rhyme']"/>
+      </ns0:textClass>
+      <ns0:textDesc>
+        <ns0:derivation corresp="hid_[]"/>
+      </ns0:textDesc>
+    </ns0:profileDesc>
+  </ns0:teiHeader>
+  <ns0:text>
+    <ns0:body/>
+  </ns0:text>
+</ns0:TEI>

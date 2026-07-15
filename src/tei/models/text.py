@@ -23,7 +23,7 @@ Structure TEI couverte :
             └── graph (label, node, arc)
 """
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional, Literal
 
 
@@ -158,15 +158,13 @@ class Date(BaseModel):
     @cert   ← TextTable_date_of_creation_certainty
     textnode ← TextTable_date_freetext
     """
-    from_: Optional[str] = None    # alias "from" (mot réservé Python)
+    from_: Optional[str] = Field(None, alias="from")
     to: Optional[str] = None
     source: Optional[str] = None
     cert: Optional[Literal["low", "medium", "high"]] = None
     value: Optional[str] = None    # date_freetext
 
-    class Config:
-        populate_by_name = True
-        fields = {"from_": "from"}
+    model_config = {"populate_by_name": True}
 
 
 class PlaceName(BaseModel):
@@ -279,13 +277,11 @@ class Arc(BaseModel):
     @from ← nœud source
     @to   ← nœud cible
     """
-    from_: Optional[str] = None
+    from_: Optional[str] = Field(None, alias="from")
     to: Optional[str] = None
     label: Optional[str] = None
 
-    class Config:
-        populate_by_name = True
-        fields = {"from_": "from"}
+    model_config = {"populate_by_name": True}
 
 
 class Node(BaseModel):

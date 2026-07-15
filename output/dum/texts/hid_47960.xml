@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ns0:TEI xmlns:ns0="http://www.tei-c.org/ns/1.0" xml:id="hid_47960">
+  <ns0:teiHeader>
+    <ns0:fileDesc>
+      <ns0:titleStmt>
+        <ns0:title type="preferred">Borchgrave van Couchi</ns0:title>
+      </ns0:titleStmt>
+      <ns0:sourceDesc/>
+    </ns0:fileDesc>
+    <ns0:encodingDesc>
+      <ns0:classDecl>
+        <ns0:taxonomy xml:id="genre"/>
+        <ns0:taxonomy xml:id="litterary-form"/>
+        <ns0:taxonomy xml:id="versification"/>
+        <ns0:taxonomy xml:id="rhyme"/>
+        <ns0:taxonomy xml:id="stanza"/>
+      </ns0:classDecl>
+    </ns0:encodingDesc>
+    <ns0:profileDesc>
+      <ns0:langUsage>
+        <ns0:language ident="dum">Middle Dutch<ns0:lang n="regional">46305</ns0:lang>
+        </ns0:language>
+      </ns0:langUsage>
+      <ns0:creation>
+        <ns0:date from="1276" to="1375" source="Caers &amp; Kestemont (2011), p. 36.">'een cluster in de eerste helft Van de Veertiende eeuw'</ns0:date>
+      </ns0:creation>
+      <ns0:textClass>
+        <ns0:catRef scheme="#genre" target="#other"/>
+        <ns0:catRef scheme="#litterary-form" target="#verse"/>
+        <ns0:catRef scheme="#versification" target="#[]"/>
+        <ns0:catRef scheme="#rhyme" target="#['full-rhyme']"/>
+      </ns0:textClass>
+      <ns0:textDesc>
+        <ns0:derivation corresp="hid_[48471]">Uncertain about the directness of the relation.</ns0:derivation>
+      </ns0:textDesc>
+    </ns0:profileDesc>
+  </ns0:teiHeader>
+  <ns0:text>
+    <ns0:body/>
+  </ns0:text>
+</ns0:TEI>
