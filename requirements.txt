@@ -1,1 +1,3 @@
 python-dotenv>=1.0.0
+heurist-analyser @ git+https://github.com/LostMa-ERC/Heurist-analyser.git
+requests>=2.31.0
