@@ -109,6 +109,21 @@ def extract_lang_label(language_column: str) -> str | None:
     m = re.search(r"\((.+)\)", language_column.strip())
     return m.group(1) if m else None
 
+def cert_mapping(certainty: str | None) -> str | None:
+    if not certainty:
+        return None
+    mapping = {
+        "1. Very likely (> 90%)": "very_likely",
+        "2. Probable (33%-66%)":  "probable",
+        "3. Unlikely (< 33%)":    "unlikely",
+        "4. Unknown":             "unknown",
+        # Format court (cohérence avec text.py)
+        "Very likely": "very_likely",
+        "Probable":    "probable",
+        "Unlikely":    "unlikely",
+        "Unknown":     "unknown",
+    }
+    return mapping.get(certainty)
 
 # ── Construction du modèle Pydantic depuis une ligne ─────────
 
@@ -135,10 +150,11 @@ def row_to_witness_model(row: pd.Series) -> Witness:
 
     # Creation / Date
     date = Date(
-        when=val(row, "Witness_date_of_creation"),
-        certainty=val(row, "Witness_date_of_creation_certainty"),
-        source=val(row, "Witness_date_of_creation_source"),
-    )
+    when=val(row, "Witness_date_of_creation"),
+    certainty=cert_mapping(val(row, "Witness_date_of_creation_certainty")),  # ← mappé
+    source=val(row, "Witness_date_of_creation_source"),
+)
+
     creation = Creation(date=date)
 
     # MsIdentifier

@@ -36,12 +36,12 @@ log = logging.getLogger(__name__)
 
 TEI_NS  = "http://www.tei-c.org/ns/1.0"
 XML_NS  = "http://www.w3.org/XML/1998/namespace"
-
+NSMAP = {None: TEI_NS}
 
 # ── Helpers XML ───────────────────────────────────────────────
 
-def el(tag: str, text: str | None = None, **attrs) -> etree._Element:
-    e = etree.Element(f"{{{TEI_NS}}}{tag}")
+def el(tag: str, text: str | None = None, nsmap=None, **attrs) -> etree._Element:
+    e = etree.Element(f"{{{TEI_NS}}}{tag}", nsmap=nsmap)
     for k, v in attrs.items():
         if v is not None:
             if k == "xml_id":
@@ -244,7 +244,7 @@ def text_to_xml(text: Text) -> etree._Element:
     """
     Convertit un objet Text en arbre XML TEI.
     """
-    tei = el("TEI", xml_id=text.xml_id)
+    tei = el("TEI", xml_id=text.xml_id, nsmap=NSMAP)
 
     # ── teiHeader ─────────────────────────────────────────────
     header = sub(tei, "teiHeader")
