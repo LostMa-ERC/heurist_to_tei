@@ -11,7 +11,7 @@
           </persName>
         </principal>
         <respStmt>
-          <resp>Project's manager</resp>
+          <resp>Project leader</resp>
           <persName xml:id="JBC">
             <forename>Jean-Baptiste</forename>
             <surname>Camps</surname>
@@ -61,50 +61,21 @@
           <msIdentifier>
             <idno type="heurist">47388</idno>
           </msIdentifier>
+          <msFrag/>
           <msFrag>
-            <msIdentifier>
-              <settlement>Paris, Île-de-France, France</settlement>
-              <repository>Bibliothèque nationale de France</repository>
-              <idno type="shelfmark">Allemand 118</idno>
-              <altIdentifier type="old-shelfmark">
-                <idno>&lt;NA&gt;</idno>
-              </altIdentifier>
-            </msIdentifier>
             <msContents>
               <msItemStruct>
                 <locus/>
               </msItemStruct>
             </msContents>
-          </msFrag>
-          <msFrag>
-            <msIdentifier>
-              <settlement>Paris, Île-de-France, France</settlement>
-              <repository>Bibliothèque nationale de France</repository>
-              <idno type="shelfmark">Allemand 118</idno>
-              <altIdentifier type="old-shelfmark">
-                <idno>&lt;NA&gt;</idno>
-              </altIdentifier>
-            </msIdentifier>
-            <msContents>
-              <msItemStruct>
-                <locus/>
-              </msItemStruct>
-            </msContents>
-          </msFrag>
-          <msFrag>
-            <msIdentifier>
-              <settlement>Paris, Île-de-France, France</settlement>
-              <repository>Bibliothèque nationale de France</repository>
-              <idno type="shelfmark">Allemand 118</idno>
-              <altIdentifier type="old-shelfmark">
-                <idno>&lt;NA&gt;</idno>
-              </altIdentifier>
-            </msIdentifier>
-            <msContents>
-              <msItemStruct>
-                <locus/>
-              </msItemStruct>
-            </msContents>
+            <additional>
+              <surrogates>
+                <bibl type="digitisation">
+                  <idno type="IIIF"/>
+                  <ptr/>
+                </bibl>
+              </surrogates>
+            </additional>
           </msFrag>
         </msDesc>
       </sourceDesc>

@@ -33,13 +33,6 @@ def build_witnesses(db: LostmaDB, available_languages: list[str]) -> pd.DataFram
     # remplies, contrairement à la release de Virgile.
     witnesses_full = db.witnesses(available_languages, 0, 0)
 
-    print("=== RAW COLUMNS ===")
-    for col in witnesses_full.columns:
-        print(repr(col))
-    print("===================")
-    print(f"DEBUG: witnesses_full shape = {witnesses_full.shape}")
-    print(f"DEBUG: available_languages = {available_languages}")
-
     # Suppression des colonnes issues de TextTable, Genre et Story :
     # ces données sont gérées par le builder text_builder.py et ne
     # doivent pas être dupliquées ici.
@@ -50,21 +43,21 @@ def build_witnesses(db: LostmaDB, available_languages: list[str]) -> pd.DataFram
         or col.startswith("Story_")
     ]
 
-    print(f"DEBUG: cols_to_drop count = {len(cols_to_drop)}")
 
     witnesses = witnesses_full.drop(
         columns=[col for col in cols_to_drop if col in witnesses_full.columns]
     )
 
-    print(f"DEBUG: after drop TextTable/Genre/Story, shape = {witnesses.shape}")
+    witnesses = witnesses.explode("Witness_observed_on_pages H-ID", ignore_index=False)
 
     # Ajout des attributs liés de Part.
     # Renommage de DocumentTable_H-ID en Witness_last_observed_in_doc H-ID
     # pour faciliter la jointure.
 
     parts_data = db.parts(available_languages, 0, 0)
-    print(f"DEBUG: parts_data shape = {parts_data.shape}")
-    print(f"DEBUG: parts_data columns = {parts_data.columns.tolist()}")
+
+    witnesses["Witness_observed_on_pages H-ID"] = witnesses["Witness_observed_on_pages H-ID"].astype(str)
+    parts_data["Part_H-ID"] = parts_data["Part_H-ID"].astype(str)
     #     parts_data_renamed = parts_data.rename(
     #     columns={"DocumentTable_H-ID": "Witness_last_observed_in_doc H-ID"}
     # )
@@ -75,8 +68,8 @@ def build_witnesses(db: LostmaDB, available_languages: list[str]) -> pd.DataFram
     
     witnesses = witnesses.merge(
         parts_data,
-        left_on="Witness_last_observed_in_doc H-ID",
-        right_on="DocumentTable_H-ID",  
+        left_on="Witness_observed_on_pages H-ID", 
+        right_on="Part_H-ID",
         how="left",
         suffixes=("_witness", "_part"),
     )

@@ -11,7 +11,7 @@
           </persName>
         </principal>
         <respStmt>
-          <resp>Project's manager</resp>
+          <resp>Project leader</resp>
           <persName xml:id="JBC">
             <forename>Jean-Baptiste</forename>
             <surname>Camps</surname>
@@ -61,65 +61,23 @@
           <msIdentifier>
             <idno type="heurist">47556</idno>
           </msIdentifier>
+          <msFrag/>
+          <msFrag/>
+          <msFrag/>
           <msFrag>
-            <msIdentifier>
-              <settlement>Leiden, South Holland, Netherlands</settlement>
-              <repository>Universitaire Bibliotheken Leiden</repository>
-              <idno type="shelfmark">Ltk. 2040</idno>
-              <altIdentifier type="old-shelfmark">
-                <idno>&lt;NA&gt;</idno>
-              </altIdentifier>
-            </msIdentifier>
             <msContents>
               <msItemStruct>
                 <locus/>
               </msItemStruct>
             </msContents>
-          </msFrag>
-          <msFrag>
-            <msIdentifier>
-              <settlement>Leiden, South Holland, Netherlands</settlement>
-              <repository>Universitaire Bibliotheken Leiden</repository>
-              <idno type="shelfmark">Ltk. 2040</idno>
-              <altIdentifier type="old-shelfmark">
-                <idno>&lt;NA&gt;</idno>
-              </altIdentifier>
-            </msIdentifier>
-            <msContents>
-              <msItemStruct>
-                <locus/>
-              </msItemStruct>
-            </msContents>
-          </msFrag>
-          <msFrag>
-            <msIdentifier>
-              <settlement>Leiden, South Holland, Netherlands</settlement>
-              <repository>Universitaire Bibliotheken Leiden</repository>
-              <idno type="shelfmark">Ltk. 2040</idno>
-              <altIdentifier type="old-shelfmark">
-                <idno>&lt;NA&gt;</idno>
-              </altIdentifier>
-            </msIdentifier>
-            <msContents>
-              <msItemStruct>
-                <locus/>
-              </msItemStruct>
-            </msContents>
-          </msFrag>
-          <msFrag>
-            <msIdentifier>
-              <settlement>Leiden, South Holland, Netherlands</settlement>
-              <repository>Universitaire Bibliotheken Leiden</repository>
-              <idno type="shelfmark">Ltk. 2040</idno>
-              <altIdentifier type="old-shelfmark">
-                <idno>&lt;NA&gt;</idno>
-              </altIdentifier>
-            </msIdentifier>
-            <msContents>
-              <msItemStruct>
-                <locus/>
-              </msItemStruct>
-            </msContents>
+            <additional>
+              <surrogates>
+                <bibl type="digitisation">
+                  <idno type="IIIF"/>
+                  <ptr/>
+                </bibl>
+              </surrogates>
+            </additional>
           </msFrag>
         </msDesc>
       </sourceDesc>

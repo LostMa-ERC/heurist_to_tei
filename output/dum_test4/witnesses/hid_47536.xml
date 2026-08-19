@@ -11,7 +11,7 @@
           </persName>
         </principal>
         <respStmt>
-          <resp>Project's manager</resp>
+          <resp>Project leader</resp>
           <persName xml:id="JBC">
             <forename>Jean-Baptiste</forename>
             <surname>Camps</surname>
@@ -62,19 +62,19 @@
             <idno type="heurist">47536</idno>
           </msIdentifier>
           <msFrag>
-            <msIdentifier>
-              <settlement>Göttingen, Lower Saxony, Germany</settlement>
-              <repository>Niedersächsische Staats- und Universitätsbibliothek Göttingen</repository>
-              <idno type="shelfmark">4o Cod. ms.theol. 98, f.6</idno>
-              <altIdentifier type="old-shelfmark">
-                <idno>&lt;NA&gt;</idno>
-              </altIdentifier>
-            </msIdentifier>
             <msContents>
               <msItemStruct>
                 <locus/>
               </msItemStruct>
             </msContents>
+            <additional>
+              <surrogates>
+                <bibl type="digitisation">
+                  <idno type="IIIF"/>
+                  <ptr/>
+                </bibl>
+              </surrogates>
+            </additional>
           </msFrag>
         </msDesc>
       </sourceDesc>

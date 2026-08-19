@@ -11,7 +11,7 @@
           </persName>
         </principal>
         <respStmt>
-          <resp>Project's manager</resp>
+          <resp>Project leader</resp>
           <persName xml:id="JBC">
             <forename>Jean-Baptiste</forename>
             <surname>Camps</surname>
@@ -62,12 +62,19 @@
             <idno type="heurist">47982</idno>
           </msIdentifier>
           <msFrag>
-            <msIdentifier/>
             <msContents>
               <msItemStruct>
                 <locus/>
               </msItemStruct>
             </msContents>
+            <additional>
+              <surrogates>
+                <bibl type="digitisation">
+                  <idno type="IIIF"/>
+                  <ptr/>
+                </bibl>
+              </surrogates>
+            </additional>
           </msFrag>
         </msDesc>
       </sourceDesc>

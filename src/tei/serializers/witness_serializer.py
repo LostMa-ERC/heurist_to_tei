@@ -106,7 +106,7 @@ def add_project_metadata(title_stmt_el: etree._Element) -> None:
     sub(person_name, "surname", "Camps")
 
     resp_stmt_1 = sub(title_stmt_el, "respStmt")
-    sub(resp_stmt_1, "resp", "Project's manager")
+    sub(resp_stmt_1, "resp", "Project leader")
     person_name_1 = sub(resp_stmt_1, "persName", xml_id="JBC")
     sub(person_name_1, "forename", "Jean-Baptiste")
     sub(person_name_1, "surname", "Camps")
@@ -215,6 +215,15 @@ def rows_to_witness_model(group_rows: pd.DataFrame) -> Witness:
     first_row = group_rows.iloc[0]  # Métadonnées du Witness (identiques pour tout le groupe)
     hid = str(int(first_row["Witness_H-ID"]))
 
+    print(f"\n=== DEBUG: Colonnes disponibles pour witness {hid} ===")
+    print(group_rows.columns.tolist())
+
+    print(f"\nPremière ligne (sample):")
+    for col in group_rows.columns:
+        if "TextTable" in col or "Part" in col or "Repository" in col:
+            print(f"  {col}: {first_row.get(col, 'NOT FOUND')}")
+    print("=" * 50)
+
     # TitleStmt
     title_stmt = TitleStmt(title=val(first_row, "Witness_preferred_siglum") or f"Witness {hid}")
 
@@ -272,23 +281,30 @@ def rows_to_witness_model(group_rows: pd.DataFrame) -> Witness:
                 idno=Idno(value=old_shelfmark, type="old-shelfmark"),
             )
 
-        frag_ms_identifier = MsIdentifier(
+        frag_ms_identifier = MsIdentifier(  
             settlement=settlement,
             repository=repository,
             idnos=idnos_frag,
             alt_identifier=alt_identifier,
         )
 
-        # MsContents pour cette Part
+        # MsContents avec author/title du TextTable + page_ranges de Part
         page_ranges = val(row, "Part_page_ranges")
         locus_from, locus_to = parse_locus_range(page_ranges)
-        locus = Locus(from_=locus_from, to=locus_to or "")
-        frag_ms_contents = MsContents(ms_item_structs=[MsItemStruct(locus=locus)])
 
-        # Créer UN msFrag pour cette Part
+        print(f"Part_page_ranges: {page_ranges}")
+        print(f"  → locus_from: {locus_from}, locus_to: {locus_to}")
+
+        ms_item = MsItemStruct(
+            locus=Locus(from_=locus_from, to=locus_to or ""),
+        )
+        frag_ms_contents = MsContents(ms_item_structs=[ms_item])
+
         ms_frags.append(
             MsFrag(ms_identifier=frag_ms_identifier, ms_contents=frag_ms_contents)
         )
+
+       
 
     # MsDesc
     status = val(first_row, "Witness_status_witness") or "unknown"
@@ -379,32 +395,28 @@ def witness_to_xml(witness: Witness) -> etree._Element:
     # ── msFrag (un par fragment physique) ──────────────────────
     for frag in ms.ms_frags:
         frag_el = sub(ms_desc_el, "msFrag")
-        frag_id_el = sub(frag_el, "msIdentifier")
-        fid = frag.ms_identifier
+    
 
-        if fid.settlement and fid.settlement.name:
-            sub(frag_id_el, "settlement", fid.settlement.name)
-        if fid.repository and fid.repository.name:
-            sub(frag_id_el, "repository", fid.repository.name)
-        for idno in fid.idnos:
-            sub(frag_id_el, "idno", idno.value, type=idno.type)
-        if fid.alt_identifier:
-            alt_el = sub(frag_id_el, "altIdentifier", type=fid.alt_identifier.type)
-            sub(alt_el, "idno", fid.alt_identifier.idno.value)
-
-        if frag.ms_contents and frag.ms_contents.ms_item_structs:
-            frag_contents_el = sub(frag_el, "msContents")
-            for item in frag.ms_contents.ms_item_structs:
-                item_el = sub(frag_contents_el, "msItemStruct")
-                if item.locus:
-                    attrs = {}
-                    if item.locus.from_:
-                        attrs["from"] = item.locus.from_
-                    if item.locus.to:
-                        attrs["to"] = item.locus.to
-                    sub(item_el, "locus", **attrs)
-
-
+    if frag.ms_contents and frag.ms_contents.ms_item_structs:
+        frag_contents_el = sub(frag_el, "msContents")
+        for item in frag.ms_contents.ms_item_structs:
+            item_el = sub(frag_contents_el, "msItemStruct")
+            
+            if item.locus:
+                attrs = {}
+                if item.locus.from_:
+                    attrs["from"] = item.locus.from_
+                if item.locus.to:
+                    attrs["to"] = item.locus.to
+                # Texte du locus = Part_page_ranges
+                sub(item_el, "locus",  **attrs)
+            
+    # Additional / Surrogates
+    additional_el = sub(frag_el, "additional")
+    surrogates_el = sub(additional_el, "surrogates")
+    bibl_el = sub(surrogates_el, "bibl", type="digitisation")
+    sub(bibl_el, "idno", type="IIIF")
+    sub(bibl_el, "ptr")
 
     if ms.note:
         sub(ms_desc_el, "note", ms.note, type="witness-status")

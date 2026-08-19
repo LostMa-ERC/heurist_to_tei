@@ -11,7 +11,7 @@
           </persName>
         </principal>
         <respStmt>
-          <resp>Project's manager</resp>
+          <resp>Project leader</resp>
           <persName xml:id="JBC">
             <forename>Jean-Baptiste</forename>
             <surname>Camps</surname>
@@ -61,245 +61,35 @@
           <msIdentifier>
             <idno type="heurist">47514</idno>
           </msIdentifier>
+          <msFrag/>
+          <msFrag/>
+          <msFrag/>
+          <msFrag/>
+          <msFrag/>
+          <msFrag/>
+          <msFrag/>
+          <msFrag/>
+          <msFrag/>
+          <msFrag/>
+          <msFrag/>
+          <msFrag/>
+          <msFrag/>
+          <msFrag/>
+          <msFrag/>
           <msFrag>
-            <msIdentifier>
-              <settlement>Ghent, Flanders, Belgium</settlement>
-              <repository>Koninklijke academie voor Nederlandse taal en letteren</repository>
-              <idno type="shelfmark">7 bis d</idno>
-              <altIdentifier type="old-shelfmark">
-                <idno>&lt;NA&gt;</idno>
-              </altIdentifier>
-            </msIdentifier>
             <msContents>
               <msItemStruct>
                 <locus/>
               </msItemStruct>
             </msContents>
-          </msFrag>
-          <msFrag>
-            <msIdentifier>
-              <settlement>Ghent, Flanders, Belgium</settlement>
-              <repository>Koninklijke academie voor Nederlandse taal en letteren</repository>
-              <idno type="shelfmark">7 bis d</idno>
-              <altIdentifier type="old-shelfmark">
-                <idno>&lt;NA&gt;</idno>
-              </altIdentifier>
-            </msIdentifier>
-            <msContents>
-              <msItemStruct>
-                <locus/>
-              </msItemStruct>
-            </msContents>
-          </msFrag>
-          <msFrag>
-            <msIdentifier>
-              <settlement>Ghent, Flanders, Belgium</settlement>
-              <repository>Koninklijke academie voor Nederlandse taal en letteren</repository>
-              <idno type="shelfmark">7 bis d</idno>
-              <altIdentifier type="old-shelfmark">
-                <idno>&lt;NA&gt;</idno>
-              </altIdentifier>
-            </msIdentifier>
-            <msContents>
-              <msItemStruct>
-                <locus/>
-              </msItemStruct>
-            </msContents>
-          </msFrag>
-          <msFrag>
-            <msIdentifier>
-              <settlement>Ghent, Flanders, Belgium</settlement>
-              <repository>Koninklijke academie voor Nederlandse taal en letteren</repository>
-              <idno type="shelfmark">7 bis d</idno>
-              <altIdentifier type="old-shelfmark">
-                <idno>&lt;NA&gt;</idno>
-              </altIdentifier>
-            </msIdentifier>
-            <msContents>
-              <msItemStruct>
-                <locus/>
-              </msItemStruct>
-            </msContents>
-          </msFrag>
-          <msFrag>
-            <msIdentifier>
-              <settlement>Ghent, Flanders, Belgium</settlement>
-              <repository>Koninklijke academie voor Nederlandse taal en letteren</repository>
-              <idno type="shelfmark">7 bis d</idno>
-              <altIdentifier type="old-shelfmark">
-                <idno>&lt;NA&gt;</idno>
-              </altIdentifier>
-            </msIdentifier>
-            <msContents>
-              <msItemStruct>
-                <locus/>
-              </msItemStruct>
-            </msContents>
-          </msFrag>
-          <msFrag>
-            <msIdentifier>
-              <settlement>Ghent, Flanders, Belgium</settlement>
-              <repository>Koninklijke academie voor Nederlandse taal en letteren</repository>
-              <idno type="shelfmark">7 bis d</idno>
-              <altIdentifier type="old-shelfmark">
-                <idno>&lt;NA&gt;</idno>
-              </altIdentifier>
-            </msIdentifier>
-            <msContents>
-              <msItemStruct>
-                <locus/>
-              </msItemStruct>
-            </msContents>
-          </msFrag>
-          <msFrag>
-            <msIdentifier>
-              <settlement>Ghent, Flanders, Belgium</settlement>
-              <repository>Koninklijke academie voor Nederlandse taal en letteren</repository>
-              <idno type="shelfmark">7 bis d</idno>
-              <altIdentifier type="old-shelfmark">
-                <idno>&lt;NA&gt;</idno>
-              </altIdentifier>
-            </msIdentifier>
-            <msContents>
-              <msItemStruct>
-                <locus/>
-              </msItemStruct>
-            </msContents>
-          </msFrag>
-          <msFrag>
-            <msIdentifier>
-              <settlement>Ghent, Flanders, Belgium</settlement>
-              <repository>Koninklijke academie voor Nederlandse taal en letteren</repository>
-              <idno type="shelfmark">7 bis d</idno>
-              <altIdentifier type="old-shelfmark">
-                <idno>&lt;NA&gt;</idno>
-              </altIdentifier>
-            </msIdentifier>
-            <msContents>
-              <msItemStruct>
-                <locus/>
-              </msItemStruct>
-            </msContents>
-          </msFrag>
-          <msFrag>
-            <msIdentifier>
-              <settlement>Ghent, Flanders, Belgium</settlement>
-              <repository>Koninklijke academie voor Nederlandse taal en letteren</repository>
-              <idno type="shelfmark">7 bis d</idno>
-              <altIdentifier type="old-shelfmark">
-                <idno>&lt;NA&gt;</idno>
-              </altIdentifier>
-            </msIdentifier>
-            <msContents>
-              <msItemStruct>
-                <locus/>
-              </msItemStruct>
-            </msContents>
-          </msFrag>
-          <msFrag>
-            <msIdentifier>
-              <settlement>Ghent, Flanders, Belgium</settlement>
-              <repository>Koninklijke academie voor Nederlandse taal en letteren</repository>
-              <idno type="shelfmark">7 bis d</idno>
-              <altIdentifier type="old-shelfmark">
-                <idno>&lt;NA&gt;</idno>
-              </altIdentifier>
-            </msIdentifier>
-            <msContents>
-              <msItemStruct>
-                <locus/>
-              </msItemStruct>
-            </msContents>
-          </msFrag>
-          <msFrag>
-            <msIdentifier>
-              <settlement>Ghent, Flanders, Belgium</settlement>
-              <repository>Koninklijke academie voor Nederlandse taal en letteren</repository>
-              <idno type="shelfmark">7 bis d</idno>
-              <altIdentifier type="old-shelfmark">
-                <idno>&lt;NA&gt;</idno>
-              </altIdentifier>
-            </msIdentifier>
-            <msContents>
-              <msItemStruct>
-                <locus/>
-              </msItemStruct>
-            </msContents>
-          </msFrag>
-          <msFrag>
-            <msIdentifier>
-              <settlement>Ghent, Flanders, Belgium</settlement>
-              <repository>Koninklijke academie voor Nederlandse taal en letteren</repository>
-              <idno type="shelfmark">7 bis d</idno>
-              <altIdentifier type="old-shelfmark">
-                <idno>&lt;NA&gt;</idno>
-              </altIdentifier>
-            </msIdentifier>
-            <msContents>
-              <msItemStruct>
-                <locus/>
-              </msItemStruct>
-            </msContents>
-          </msFrag>
-          <msFrag>
-            <msIdentifier>
-              <settlement>Ghent, Flanders, Belgium</settlement>
-              <repository>Koninklijke academie voor Nederlandse taal en letteren</repository>
-              <idno type="shelfmark">7 bis d</idno>
-              <altIdentifier type="old-shelfmark">
-                <idno>&lt;NA&gt;</idno>
-              </altIdentifier>
-            </msIdentifier>
-            <msContents>
-              <msItemStruct>
-                <locus/>
-              </msItemStruct>
-            </msContents>
-          </msFrag>
-          <msFrag>
-            <msIdentifier>
-              <settlement>Ghent, Flanders, Belgium</settlement>
-              <repository>Koninklijke academie voor Nederlandse taal en letteren</repository>
-              <idno type="shelfmark">7 bis d</idno>
-              <altIdentifier type="old-shelfmark">
-                <idno>&lt;NA&gt;</idno>
-              </altIdentifier>
-            </msIdentifier>
-            <msContents>
-              <msItemStruct>
-                <locus/>
-              </msItemStruct>
-            </msContents>
-          </msFrag>
-          <msFrag>
-            <msIdentifier>
-              <settlement>Ghent, Flanders, Belgium</settlement>
-              <repository>Koninklijke academie voor Nederlandse taal en letteren</repository>
-              <idno type="shelfmark">7 bis d</idno>
-              <altIdentifier type="old-shelfmark">
-                <idno>&lt;NA&gt;</idno>
-              </altIdentifier>
-            </msIdentifier>
-            <msContents>
-              <msItemStruct>
-                <locus/>
-              </msItemStruct>
-            </msContents>
-          </msFrag>
-          <msFrag>
-            <msIdentifier>
-              <settlement>Ghent, Flanders, Belgium</settlement>
-              <repository>Koninklijke academie voor Nederlandse taal en letteren</repository>
-              <idno type="shelfmark">7 bis d</idno>
-              <altIdentifier type="old-shelfmark">
-                <idno>&lt;NA&gt;</idno>
-              </altIdentifier>
-            </msIdentifier>
-            <msContents>
-              <msItemStruct>
-                <locus/>
-              </msItemStruct>
-            </msContents>
+            <additional>
+              <surrogates>
+                <bibl type="digitisation">
+                  <idno type="IIIF"/>
+                  <ptr/>
+                </bibl>
+              </surrogates>
+            </additional>
           </msFrag>
         </msDesc>
       </sourceDesc>

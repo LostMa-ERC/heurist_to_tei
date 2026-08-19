@@ -11,7 +11,7 @@
           </persName>
         </principal>
         <respStmt>
-          <resp>Project's manager</resp>
+          <resp>Project leader</resp>
           <persName xml:id="JBC">
             <forename>Jean-Baptiste</forename>
             <surname>Camps</surname>
@@ -61,85 +61,29 @@
           <msIdentifier>
             <idno type="heurist">55271</idno>
           </msIdentifier>
+          <msFrag/>
+          <msFrag/>
+          <msFrag/>
+          <msFrag/>
+          <msFrag/>
+          <msFrag/>
+          <msFrag/>
+          <msFrag/>
+          <msFrag/>
           <msFrag>
-            <msIdentifier/>
             <msContents>
               <msItemStruct>
                 <locus/>
               </msItemStruct>
             </msContents>
-          </msFrag>
-          <msFrag>
-            <msIdentifier/>
-            <msContents>
-              <msItemStruct>
-                <locus/>
-              </msItemStruct>
-            </msContents>
-          </msFrag>
-          <msFrag>
-            <msIdentifier/>
-            <msContents>
-              <msItemStruct>
-                <locus/>
-              </msItemStruct>
-            </msContents>
-          </msFrag>
-          <msFrag>
-            <msIdentifier/>
-            <msContents>
-              <msItemStruct>
-                <locus/>
-              </msItemStruct>
-            </msContents>
-          </msFrag>
-          <msFrag>
-            <msIdentifier/>
-            <msContents>
-              <msItemStruct>
-                <locus/>
-              </msItemStruct>
-            </msContents>
-          </msFrag>
-          <msFrag>
-            <msIdentifier/>
-            <msContents>
-              <msItemStruct>
-                <locus/>
-              </msItemStruct>
-            </msContents>
-          </msFrag>
-          <msFrag>
-            <msIdentifier/>
-            <msContents>
-              <msItemStruct>
-                <locus/>
-              </msItemStruct>
-            </msContents>
-          </msFrag>
-          <msFrag>
-            <msIdentifier/>
-            <msContents>
-              <msItemStruct>
-                <locus/>
-              </msItemStruct>
-            </msContents>
-          </msFrag>
-          <msFrag>
-            <msIdentifier/>
-            <msContents>
-              <msItemStruct>
-                <locus/>
-              </msItemStruct>
-            </msContents>
-          </msFrag>
-          <msFrag>
-            <msIdentifier/>
-            <msContents>
-              <msItemStruct>
-                <locus/>
-              </msItemStruct>
-            </msContents>
+            <additional>
+              <surrogates>
+                <bibl type="digitisation">
+                  <idno type="IIIF"/>
+                  <ptr/>
+                </bibl>
+              </surrogates>
+            </additional>
           </msFrag>
           <note type="witness-status">The first of three volumes, containing the first two-thirds of the Roman van Lancelot, has been lost.</note>
         </msDesc>
