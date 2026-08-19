@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="hid_47392">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>H51</title>
+        <principal>
+          <persName>
+            <forename>Jean-Baptiste</forename>
+            <surname>Camps</surname>
+          </persName>
+        </principal>
+        <respStmt>
+          <resp>Project's manager</resp>
+          <persName xml:id="JBC">
+            <forename>Jean-Baptiste</forename>
+            <surname>Camps</surname>
+          </persName>
+        </respStmt>
+        <respStmt>
+          <resp>Data architect</resp>
+          <persName xml:id="VR">
+            <forename>Virgile</forename>
+            <surname>Reignier</surname>
+          </persName>
+        </respStmt>
+        <respStmt>
+          <resp>Data architect</resp>
+          <persName xml:id="KC">
+            <forename>Kelly</forename>
+            <surname>Christensen</surname>
+          </persName>
+        </respStmt>
+        <respStmt>
+          <resp>Data architect</resp>
+          <persName xml:id="MM">
+            <forename>Maud</forename>
+            <surname>Mélinand</surname>
+          </persName>
+        </respStmt>
+        <respStmt>
+          <resp>HTR engineer</resp>
+          <persName xml:id="TM">
+            <forename>Théo</forename>
+            <surname>Moins</surname>
+          </persName>
+        </respStmt>
+        <respStmt>
+          <resp>HTR engineer</resp>
+          <persName xml:id="BH">
+            <forename>Brenna</forename>
+            <surname>Hensley</surname>
+          </persName>
+        </respStmt>
+      </titleStmt>
+      <publicationStmt>
+        <p>Cette publication a été produite à partir des données du projet LostMa conservées sur Heurist.</p>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc type="fragmentary">
+          <msIdentifier>
+            <idno type="heurist">47392</idno>
+          </msIdentifier>
+          <msFrag>
+            <msIdentifier>
+              <settlement>Ghent, Flanders, Belgium</settlement>
+              <repository>Koninklijke academie voor Nederlandse taal en letteren</repository>
+              <idno type="shelfmark">7 bis b</idno>
+              <altIdentifier type="old-shelfmark">
+                <idno>&lt;NA&gt;</idno>
+              </altIdentifier>
+            </msIdentifier>
+            <msContents>
+              <msItemStruct>
+                <locus/>
+              </msItemStruct>
+            </msContents>
+          </msFrag>
+          <msFrag>
+            <msIdentifier>
+              <settlement>Ghent, Flanders, Belgium</settlement>
+              <repository>Koninklijke academie voor Nederlandse taal en letteren</repository>
+              <idno type="shelfmark">7 bis b</idno>
+              <altIdentifier type="old-shelfmark">
+                <idno>&lt;NA&gt;</idno>
+              </altIdentifier>
+            </msIdentifier>
+            <msContents>
+              <msItemStruct>
+                <locus/>
+              </msItemStruct>
+            </msContents>
+          </msFrag>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc/>
+    <profileDesc>
+      <langUsage>
+        <language ident="dum">Middle Dutch<lang n="regional">Brabants, dum (Middle Dutch)</lang>
+        </language>
+      </langUsage>
+      <creation>
+        <date notBefore="1326" notAfter="1360" cert="medium" source="Klein (1995), p. 15.">1326 - 1360</date>
+      </creation>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body/>
+  </text>
+</TEI>

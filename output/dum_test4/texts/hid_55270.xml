@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="hid_55270">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="preferred">Lancelot-compilatie</title>
+      </titleStmt>
+      <sourceDesc/>
+    </fileDesc>
+    <encodingDesc>
+      <classDecl>
+        <taxonomy xml:id="genre"/>
+        <taxonomy xml:id="litterary-form"/>
+        <taxonomy xml:id="versification"/>
+        <taxonomy xml:id="rhyme"/>
+        <taxonomy xml:id="stanza"/>
+      </classDecl>
+    </encodingDesc>
+    <profileDesc>
+      <langUsage>
+        <language ident="dum">Middle Dutch<lang n="regional">46305</lang>
+        </language>
+      </langUsage>
+      <creation>
+        <date from="1296" to="1355" source="https://www.kb.nl/ontdekken-bewonderen/topstukken/lancelotcompilatie">'1320-1330'</date>
+      </creation>
+      <textClass>
+        <catRef scheme="#genre" target="#arthurroman"/>
+        <catRef scheme="#litterary-form" target="#verse"/>
+        <catRef scheme="#versification" target="#[]"/>
+        <catRef scheme="#rhyme" target="#['full-rhyme']"/>
+        <catRef scheme="#stanza" target="#couplets"/>
+      </textClass>
+      <textDesc>
+        <derivation corresp="hid_[48085 48179 47896 47780 48082 48237 48258 48302 48268 48293]"/>
+      </textDesc>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body/>
+  </text>
+</TEI>

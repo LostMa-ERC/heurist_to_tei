@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="hid_47755">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="preferred">Borchgravinne van Vergi (1)</title>
+      </titleStmt>
+      <sourceDesc/>
+    </fileDesc>
+    <encodingDesc>
+      <classDecl>
+        <taxonomy xml:id="genre"/>
+        <taxonomy xml:id="litterary-form"/>
+        <taxonomy xml:id="versification"/>
+        <taxonomy xml:id="rhyme"/>
+        <taxonomy xml:id="stanza"/>
+      </classDecl>
+    </encodingDesc>
+    <profileDesc>
+      <langUsage>
+        <language ident="dum">Middle Dutch<lang n="regional">46312</lang>
+        </language>
+      </langUsage>
+      <creation>
+        <date from="1315" to="1315" source="Caers &amp; Kestemont (2011), p. 31.">'Hoewel dit jaartal niet door het rijm is beschermd, is er vooralsnog geen reden om aan de juistheid ervan te twijfelen.'</date>
+      </creation>
+      <textClass>
+        <catRef scheme="#genre" target="#other"/>
+        <catRef scheme="#litterary-form" target="#verse"/>
+        <catRef scheme="#versification" target="#[]"/>
+        <catRef scheme="#rhyme" target="#['full-rhyme']"/>
+      </textClass>
+      <textDesc>
+        <derivation corresp="hid_[50184]"/>
+      </textDesc>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body/>
+  </text>
+</TEI>

@@ -94,6 +94,53 @@ def val(row: pd.Series, col: str) -> str | None:
         return None
     return str(v).strip() or None
 
+def add_project_metadata(title_stmt_el: etree._Element) -> None:
+    """
+    Attention je n'ai ajouté que ceux qui ont vocation à apparaitre dans tous les corpus linguistiques. 
+    Pour les contributeurs, il faudra rajouter une fonction par corpus : ex Cecile Vermaas pour le corpus DUM. 
+    """
+    # Principal
+    principal = sub(title_stmt_el, "principal")
+    person_name = sub(principal, "persName")
+    sub(person_name, "forename", "Jean-Baptiste")
+    sub(person_name, "surname", "Camps")
+
+    resp_stmt_1 = sub(title_stmt_el, "respStmt")
+    sub(resp_stmt_1, "resp", "Project's manager")
+    person_name_1 = sub(resp_stmt_1, "persName", xml_id="JBC")
+    sub(person_name_1, "forename", "Jean-Baptiste")
+    sub(person_name_1, "surname", "Camps")
+
+    resp_stmt_2 = sub(title_stmt_el, "respStmt")
+    sub(resp_stmt_2, "resp", "Data architect")
+    person_name_2 = sub(resp_stmt_2, "persName", xml_id="VR")
+    sub(person_name_2, "forename", "Virgile")
+    sub(person_name_2, "surname", "Reignier")
+
+    resp_stmt_3 = sub(title_stmt_el, "respStmt")
+    sub(resp_stmt_3, "resp", "Data architect")
+    person_name_3 = sub(resp_stmt_3, "persName", xml_id="KC")
+    sub(person_name_3, "forename", "Kelly")
+    sub(person_name_3, "surname", "Christensen")
+
+    resp_stmt_4 = sub(title_stmt_el, "respStmt")
+    sub(resp_stmt_4, "resp", "Data architect")
+    person_name_4 = sub(resp_stmt_4, "persName", xml_id="MM")
+    sub(person_name_4, "forename", "Maud")
+    sub(person_name_4, "surname", "Mélinand")
+
+    resp_stmt_5 = sub(title_stmt_el, "respStmt")
+    sub(resp_stmt_5, "resp", "HTR engineer")
+    person_name_5 = sub(resp_stmt_5, "persName", xml_id="TM")
+    sub(person_name_5, "forename", "Théo")
+    sub(person_name_5, "surname", "Moins")
+
+    resp_stmt_6 = sub(title_stmt_el, "respStmt")
+    sub(resp_stmt_6, "resp", "HTR engineer")
+    person_name_6 = sub(resp_stmt_6, "persName", xml_id="BH")
+    sub(person_name_6, "forename", "Brenna")
+    sub(person_name_6, "surname", "Hensley")
+
 
 # ── Parsing du code langue ────────────────────────────────────
 
@@ -283,6 +330,10 @@ def witness_to_xml(witness: Witness) -> etree._Element:
     file_desc = sub(header, "fileDesc")
     title_stmt = sub(file_desc, "titleStmt")
     sub(title_stmt, "title", witness.title_stmt.title)
+    add_project_metadata(title_stmt)
+
+    pub_stmt = sub(file_desc, "publicationStmt")
+    sub(pub_stmt, "p", "Cette publication a été produite à partir des données du projet LostMa conservées sur Heurist.")
 
     source_desc_el = sub(file_desc, "sourceDesc")
     ms_desc_el = sub(source_desc_el, "msDesc", type=ms.type)
@@ -314,8 +365,6 @@ def witness_to_xml(witness: Witness) -> etree._Element:
     sub(creation_el, "date", d.value, **date_attrs)
 
     # ── msDesc ────────────────────────────────────────────────
-    ms = witness.ms_desc
-    ms_desc_el = sub(source_desc_el, "msDesc", type=ms.type)
 
     ms_id = ms.ms_identifier
     ms_id_el = sub(ms_desc_el, "msIdentifier")

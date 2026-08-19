@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="hid_47283">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="preferred">Ogier van Denemarken</title>
+      </titleStmt>
+      <sourceDesc/>
+    </fileDesc>
+    <encodingDesc>
+      <classDecl>
+        <taxonomy xml:id="genre"/>
+        <taxonomy xml:id="litterary-form"/>
+        <taxonomy xml:id="versification"/>
+        <taxonomy xml:id="rhyme"/>
+        <taxonomy xml:id="stanza"/>
+      </classDecl>
+    </encodingDesc>
+    <profileDesc>
+      <langUsage>
+        <language ident="dum">Middle Dutch<lang n="regional">46305</lang>
+        </language>
+      </langUsage>
+      <creation>
+        <date from="1235" to="1375" source="Caers &amp; Kestemont (2011), p. 40.">'Op deze manier zou Ogiers kintshede omstreeks 1260-1270 geschreven kunnen zijn en de olthede rond de eeuwwisseling (of nog later).'</date>
+      </creation>
+      <textClass>
+        <catRef scheme="#genre" target="#karelepiek"/>
+        <catRef scheme="#litterary-form" target="#verse"/>
+        <catRef scheme="#versification" target="#[]"/>
+        <catRef scheme="#rhyme" target="#['full-rhyme']"/>
+        <catRef scheme="#stanza" target="#couplets"/>
+      </textClass>
+      <textDesc>
+        <derivation corresp="hid_[721]"/>
+      </textDesc>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body/>
+  </text>
+</TEI>
