@@ -7,9 +7,9 @@ Clone the repository
 ```bash
 git clone https://github.com/LostMa-ERC/heurist_to_tei
 ```
-Go to the repository
+Go to the directory
 ```bash
-cd chemin/vers/dossier
+cd path/to/directory
 ```
 Create the virtual environment  
 ```bash
