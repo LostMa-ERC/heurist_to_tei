@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="hid_47545">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>H13</title>
+      </titleStmt>
+      <sourceDesc>
+        <msDesc type="fragmentary"/>
+        <msDesc type="fragmentary">
+          <msIdentifier>
+            <idno type="heurist">47545</idno>
+          </msIdentifier>
+          <msFrag>
+            <msIdentifier>
+              <settlement>Amsterdam, North Holland, Netherlands</settlement>
+              <repository>Universiteitsbibliotheek Amsterdam</repository>
+              <idno type="shelfmark">E q 73a</idno>
+              <altIdentifier type="old-shelfmark">
+                <idno>&lt;NA&gt;</idno>
+              </altIdentifier>
+            </msIdentifier>
+            <msContents>
+              <msItemStruct>
+                <locus/>
+              </msItemStruct>
+            </msContents>
+          </msFrag>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc/>
+    <profileDesc>
+      <langUsage>
+        <language ident="dum">Middle Dutch<lang n="regional">Vlaams, dum (Middle Dutch)</lang>
+        </language>
+      </langUsage>
+      <creation>
+        <date notBefore="1341" notAfter="1385" cert="medium" source="Klein (1995), p. 16.">1341 - 1385</date>
+      </creation>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body/>
+  </text>
+</TEI>

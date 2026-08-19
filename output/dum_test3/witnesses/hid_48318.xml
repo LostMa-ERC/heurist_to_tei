@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="hid_48318">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>H124</title>
+      </titleStmt>
+      <sourceDesc>
+        <msDesc type="fragmentary"/>
+        <msDesc type="fragmentary">
+          <msIdentifier>
+            <idno type="heurist">48318</idno>
+          </msIdentifier>
+          <msFrag>
+            <msIdentifier/>
+            <msContents>
+              <msItemStruct>
+                <locus/>
+              </msItemStruct>
+            </msContents>
+          </msFrag>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc/>
+    <profileDesc>
+      <langUsage>
+        <language ident="dum">Middle Dutch<lang n="regional">Limburgs, dum (Middle Dutch)</lang>
+        </language>
+      </langUsage>
+      <creation>
+        <date notBefore="1191" notAfter="1250" cert="medium" source="Klein (1995), p. 13.">1191 - 1250</date>
+      </creation>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body/>
+  </text>
+</TEI>

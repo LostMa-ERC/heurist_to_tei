@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="hid_46368">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>H1</title>
+      </titleStmt>
+      <sourceDesc>
+        <msDesc type="fragmentary"/>
+        <msDesc type="fragmentary">
+          <msIdentifier>
+            <idno type="heurist">46368</idno>
+          </msIdentifier>
+          <msFrag>
+            <msIdentifier/>
+            <msContents>
+              <msItemStruct>
+                <locus/>
+              </msItemStruct>
+            </msContents>
+          </msFrag>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc/>
+    <profileDesc>
+      <langUsage>
+        <language ident="dum">Middle Dutch<lang n="regional">Nederfrankisch, dum (Middle Dutch)</lang>
+        </language>
+      </langUsage>
+      <creation>
+        <date notBefore="1181" notAfter="1200" cert="medium" source="Klein 1995, p. 13">1181 - 1200</date>
+      </creation>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body/>
+  </text>
+</TEI>

@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="hid_47797">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Oxford, Ms. Dutch b. 2, fol. 6</title>
+      </titleStmt>
+      <sourceDesc>
+        <msDesc type="fragmentary"/>
+        <msDesc type="fragmentary">
+          <msIdentifier>
+            <idno type="heurist">47797</idno>
+          </msIdentifier>
+          <msFrag>
+            <msIdentifier/>
+            <msContents>
+              <msItemStruct>
+                <locus/>
+              </msItemStruct>
+            </msContents>
+          </msFrag>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc/>
+    <profileDesc>
+      <langUsage>
+        <language ident="dum">Middle Dutch<lang n="regional">Vlaams, dum (Middle Dutch)</lang>
+        </language>
+      </langUsage>
+      <creation>
+        <date notBefore="1291" notAfter="1410" cert="medium" source="Kienhorst (https://www.dbnl.org/tekst/_tij003199801_01/_tij003199801_01_0009.php)">1291 - 1410</date>
+      </creation>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body/>
+  </text>
+</TEI>

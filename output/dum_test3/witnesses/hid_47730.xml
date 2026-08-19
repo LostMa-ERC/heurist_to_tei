@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="hid_47730">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Leiden, BPL 2387</title>
+      </titleStmt>
+      <sourceDesc>
+        <msDesc type="fragmentary"/>
+        <msDesc type="fragmentary">
+          <msIdentifier>
+            <idno type="heurist">47730</idno>
+          </msIdentifier>
+          <msFrag>
+            <msIdentifier/>
+            <msContents>
+              <msItemStruct>
+                <locus/>
+              </msItemStruct>
+            </msContents>
+          </msFrag>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc/>
+    <profileDesc>
+      <langUsage>
+        <language ident="dum">Middle Dutch<lang n="regional">Vlaams, dum (Middle Dutch)</lang>
+        </language>
+      </langUsage>
+      <creation>
+        <date notBefore="1316" notAfter="1385" cert="medium" source="https://catalogue.leidenuniv.nl/discovery/fulldisplay?docid=alma990035456460302711&amp;context=L&amp;vid=31UKB_LEU:UBL_V1&amp;lang=en&amp;search_scope=MyInst_and_CI&amp;adaptor=Local%20Search%20Engine&amp;isFrbr=true&amp;tab=Everything&amp;query=any">1316 - 1385</date>
+      </creation>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body/>
+  </text>
+</TEI>

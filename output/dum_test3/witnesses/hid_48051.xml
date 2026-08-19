@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="hid_48051">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>H33</title>
+      </titleStmt>
+      <sourceDesc>
+        <msDesc type="lost"/>
+        <msDesc type="lost">
+          <msIdentifier>
+            <idno type="heurist">48051</idno>
+          </msIdentifier>
+          <msFrag>
+            <msIdentifier/>
+            <msContents>
+              <msItemStruct>
+                <locus/>
+              </msItemStruct>
+            </msContents>
+          </msFrag>
+          <note type="witness-status">Lost in bombing of the city in 1940.</note>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc/>
+    <profileDesc>
+      <langUsage>
+        <language ident="dum">Middle Dutch<lang n="regional">Vlaams, dum (Middle Dutch)</lang>
+        </language>
+      </langUsage>
+      <creation>
+        <date notBefore="1341" notAfter="1410" cert="medium" source="Klein (1995), p. 15.">1341 - 1410</date>
+      </creation>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body/>
+  </text>
+</TEI>

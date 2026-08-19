@@ -60,13 +60,14 @@ log = logging.getLogger(__name__)
 TEI_NS = "http://www.tei-c.org/ns/1.0"
 XML_NS = "http://www.w3.org/XML/1998/namespace"
 NS = {"tei": TEI_NS}
+NSMAP = {None: TEI_NS}
 
 
 # ── Helpers XML ───────────────────────────────────────────────
 
-def el(tag: str, text: str | None = None, **attrs) -> etree._Element:
+def el(tag: str, text: str | None = None, nsmap=None, **attrs) -> etree._Element:
     """Crée un élément TEI avec attributs et texte optionnels."""
-    e = etree.Element(f"{{{TEI_NS}}}{tag}")
+    e = etree.Element(f"{{{TEI_NS}}}{tag}", nsmap=nsmap)
     for k, v in attrs.items():
         if v is not None:
             # Convertit xml_id → {xml_ns}id
@@ -99,90 +100,158 @@ def val(row: pd.Series, col: str) -> str | None:
 def extract_lang_code(language_column: str) -> str | None:
     if not language_column:
         return None
-    m = re.match(r"^(\w+)\s*\(", language_column.strip())
+    m = re.search(r"([\w-]+)\s*\(", language_column.strip())
     return m.group(1).lower() if m else None
 
 
-def extract_lang_label(language_column: str) -> str | None:
-    if not language_column:
+def extract_lang_label(s: str) -> str | None:
+    if not s:
         return None
-    m = re.search(r"\((.+)\)", language_column.strip())
+    m = re.search(r"\((.+)\)", s.strip())
     return m.group(1) if m else None
 
 def cert_mapping(certainty: str | None) -> str | None:
     if not certainty:
         return None
     mapping = {
-        "1. Very likely (> 90%)": "very_likely",
-        "2. Probable (33%-66%)":  "probable",
-        "3. Unlikely (< 33%)":    "unlikely",
+        "1. Very likely (> 90%)": "high",
+        "2. Probable (33%-66%)":  "medium",
+        "3. Unlikely (< 33%)":    "low",
         "4. Unknown":             "unknown",
         # Format court (cohérence avec text.py)
-        "Very likely": "very_likely",
-        "Probable":    "probable",
-        "Unlikely":    "unlikely",
+        "Very likely": "high",
+        "Probable":    "medium",
+        "Unlikely":    "low",
         "Unknown":     "unknown",
     }
     return mapping.get(certainty)
 
+def parse_date_range(date_val) -> tuple[str | None, str | None]:
+    """
+    "1201-1300" → ("1201", "1300")
+    "1200"      → ("1200", None)
+    Texte libre → (None, None)
+    """
+    if not date_val:
+        return None, None
+    m = re.match(r"^(\d{3,4})\s*[-–]\s*(\d{3,4})$", str(date_val).strip())
+    if m:
+        return m.group(1), m.group(2)
+    m = re.match(r"^(\d{3,4})$", str(date_val).strip())
+    if m:
+        return m.group(1), None
+    return None, None
+
+def parse_locus_range(page_ranges: str | None) -> tuple[str | None, str | None]:
+    """
+    "12-23" → ("12", "23")
+    "12"    → ("12", "12")
+    Texte libre → (None, None)
+    """
+    if not page_ranges:
+        return None, None
+    m = re.match(r"^(\d+)\s*[-–]\s*(\d+)$", page_ranges.strip())
+    if m:
+        return m.group(1), m.group(2)
+    m = re.match(r"^(\d+)$", page_ranges.strip())
+    if m:
+        return m.group(1), m.group(1)
+    return None, None
+
 # ── Construction du modèle Pydantic depuis une ligne ─────────
 
-def row_to_witness_model(row: pd.Series) -> Witness:
+def rows_to_witness_model(group_rows: pd.DataFrame) -> Witness:
     """
-    Construit un objet Pydantic Witness depuis une ligne du DataFrame.
+    Construit un objet Pydantic Witness depuis UN GROUP de lignes (Parts).
+    Une ligne = une Part du même Witness.
     """
-    hid = str(int(row["Witness_H-ID"]))
+    first_row = group_rows.iloc[0]  # Métadonnées du Witness (identiques pour tout le groupe)
+    hid = str(int(first_row["Witness_H-ID"]))
 
     # TitleStmt
-    title_stmt = TitleStmt(title=val(row, "Witness_preferred_siglum") or f"Witness {hid}")
+    title_stmt = TitleStmt(title=val(first_row, "Witness_preferred_siglum") or f"Witness {hid}")
 
     # LangUsage
-    lang_col = val(row, "Witness_regional_writing_style Name")
+    lang_col = val(first_row, "Witness_regional_writing_style Name")
     language = Language(
-        ident=extract_lang_code(lang_col) if lang_col else None,
+        ident=extract_lang_code(lang_col),
         value=extract_lang_label(lang_col) if lang_col else None,
         langs=[
-            Lang(n="regional", value=val(row, "Witness_regional_writing_style Name")),
-            Lang(n="scripta",   value=val(row, "Witness_scripta_freetext")),
+            Lang(n="regional", value=lang_col),
+            Lang(n="scripta",  value=val(first_row, "Witness_scripta_freetext")),
         ],
     )
     lang_usage = LangUsage(language=language)
 
     # Creation / Date
+    date_raw = val(first_row, "Witness_date_of_creation")
+    not_before, not_after = parse_date_range(date_raw)
     date = Date(
-    when=val(row, "Witness_date_of_creation"),
-    certainty=cert_mapping(val(row, "Witness_date_of_creation_certainty")),  # ← mappé
-    source=val(row, "Witness_date_of_creation_source"),
-)
-
+        not_before=not_before,
+        not_after=not_after,
+        cert=cert_mapping(val(first_row, "Witness_date_of_creation_certainty")),
+        source=val(first_row, "Witness_date_of_creation_source"),
+        value=date_raw,
+    )
     creation = Creation(date=date)
 
-    # MsIdentifier
-    settlement = Settlement(
-        name=val(row, "Repository_city_preferred_name"),
-        heurist_id=row.get("Repository_city_H-ID"),
-    )
-    repository = Repository(
-        name=val(row, "Repository_preferred_name"),
-        type="preferred_name",
-        heurist_id=row.get("Repository_H-ID"),
-        viaf=val(row, "Repository_VIAF"),
-    )
+    # MsIdentifier (niveau msDesc) : uniquement l'idno heurist
     idno_heurist = Idno(value=hid, type="heurist")
-    ms_identifier = MsIdentifier(
-        settlement=settlement,
-        repository=repository,
-        idnos=[idno_heurist],
-    )
+    ms_identifier_top = MsIdentifier(idnos=[idno_heurist])
+
+    # ── Construire UN msFrag par Part (par ligne du groupe) ────
+    ms_frags = []
+    for _, row in group_rows.iterrows():
+        settlement = Settlement(
+            name=val(row, "Repository_city Name"),
+            heurist_id=val(row, "Repository_city H-ID"),
+        )
+        repository = Repository(
+            name=val(row, "Repository_preferred_name"),
+            type="preferred_name",
+            heurist_id=val(row, "Repository_H-ID"),
+        )
+
+        idnos_frag = []
+        shelfmark = val(row, "DocumentTable_current_shelfmark")
+        if shelfmark:
+            idnos_frag.append(Idno(value=shelfmark, type="shelfmark"))
+
+        alt_identifier = None
+        old_shelfmark = val(row, "DocumentTable_old_shelfmark")
+        if old_shelfmark:
+            alt_identifier = AltIdentifier(
+                type="old-shelfmark",
+                idno=Idno(value=old_shelfmark, type="old-shelfmark"),
+            )
+
+        frag_ms_identifier = MsIdentifier(
+            settlement=settlement,
+            repository=repository,
+            idnos=idnos_frag,
+            alt_identifier=alt_identifier,
+        )
+
+        # MsContents pour cette Part
+        page_ranges = val(row, "Part_page_ranges")
+        locus_from, locus_to = parse_locus_range(page_ranges)
+        locus = Locus(from_=locus_from, to=locus_to or "")
+        frag_ms_contents = MsContents(ms_item_structs=[MsItemStruct(locus=locus)])
+
+        # Créer UN msFrag pour cette Part
+        ms_frags.append(
+            MsFrag(ms_identifier=frag_ms_identifier, ms_contents=frag_ms_contents)
+        )
 
     # MsDesc
-    status = val(row, "Witness_status_witness") or "unknown"
+    status = val(first_row, "Witness_status_witness") or "unknown"
     ms_desc = MsDesc(
         type=status.lower() if status.lower() in
             ["citation", "complete", "defective", "fragmentary", "lost", "unknown"]
             else "unknown",
-        ms_identifier=ms_identifier,
-        note=val(row, "Witness_status_notes"),
+        ms_identifier=ms_identifier_top,
+        note=val(first_row, "Witness_status_notes"),
+        ms_frags=ms_frags,  # ← TOUS les msFrag
     )
 
     return Witness(
@@ -192,6 +261,7 @@ def row_to_witness_model(row: pd.Series) -> Witness:
         creation=creation,
         ms_desc=ms_desc,
     )
+   
 
 
 # ── Sérialisation du modèle Pydantic en XML TEI ───────────────
@@ -200,7 +270,11 @@ def witness_to_xml(witness: Witness) -> etree._Element:
     """
     Convertit un objet Witness en arbre XML TEI.
     """
-    tei = el("TEI", xml_id=witness.xml_id)
+    tei = el("TEI", xml_id=witness.xml_id, nsmap=NSMAP)
+
+    # ajout parce qu'il avait été déclaré trop loin 
+
+    ms = witness.ms_desc
 
     # ── teiHeader ─────────────────────────────────────────────
     header = sub(tei, "teiHeader")
@@ -210,8 +284,8 @@ def witness_to_xml(witness: Witness) -> etree._Element:
     title_stmt = sub(file_desc, "titleStmt")
     sub(title_stmt, "title", witness.title_stmt.title)
 
-    source_desc = sub(file_desc, "sourceDesc")
-    sub(source_desc, "p")
+    source_desc_el = sub(file_desc, "sourceDesc")
+    ms_desc_el = sub(source_desc_el, "msDesc", type=ms.type)
 
     # encodingDesc
     sub(header, "encodingDesc")
@@ -233,18 +307,15 @@ def witness_to_xml(witness: Witness) -> etree._Element:
     creation_el = sub(profile_desc, "creation")
     d = witness.creation.date
     date_attrs = {}
-    if d.when:
-        date_attrs["when"] = d.when
-    if d.certainty:
-        date_attrs["certainty"] = d.certainty
-    if d.source:
-        date_attrs["source"] = d.source
-    sub(creation_el, "date", **date_attrs)
+    if d.not_before:  date_attrs["notBefore"] = d.not_before
+    if d.not_after:   date_attrs["notAfter"]  = d.not_after
+    if d.cert:        date_attrs["cert"]      = d.cert
+    if d.source:      date_attrs["source"]    = d.source
+    sub(creation_el, "date", d.value, **date_attrs)
 
     # ── msDesc ────────────────────────────────────────────────
     ms = witness.ms_desc
-    source_desc_header = sub(header, "sourceDesc")
-    ms_desc_el = sub(source_desc_header, "msDesc", type=ms.type)
+    ms_desc_el = sub(source_desc_el, "msDesc", type=ms.type)
 
     ms_id = ms.ms_identifier
     ms_id_el = sub(ms_desc_el, "msIdentifier")
@@ -255,6 +326,36 @@ def witness_to_xml(witness: Witness) -> etree._Element:
             type=ms_id.repository.type)
     for idno in ms_id.idnos:
         sub(ms_id_el, "idno", idno.value, type=idno.type)
+
+    # ── msFrag (un par fragment physique) ──────────────────────
+    for frag in ms.ms_frags:
+        frag_el = sub(ms_desc_el, "msFrag")
+        frag_id_el = sub(frag_el, "msIdentifier")
+        fid = frag.ms_identifier
+
+        if fid.settlement and fid.settlement.name:
+            sub(frag_id_el, "settlement", fid.settlement.name)
+        if fid.repository and fid.repository.name:
+            sub(frag_id_el, "repository", fid.repository.name)
+        for idno in fid.idnos:
+            sub(frag_id_el, "idno", idno.value, type=idno.type)
+        if fid.alt_identifier:
+            alt_el = sub(frag_id_el, "altIdentifier", type=fid.alt_identifier.type)
+            sub(alt_el, "idno", fid.alt_identifier.idno.value)
+
+        if frag.ms_contents and frag.ms_contents.ms_item_structs:
+            frag_contents_el = sub(frag_el, "msContents")
+            for item in frag.ms_contents.ms_item_structs:
+                item_el = sub(frag_contents_el, "msItemStruct")
+                if item.locus:
+                    attrs = {}
+                    if item.locus.from_:
+                        attrs["from"] = item.locus.from_
+                    if item.locus.to:
+                        attrs["to"] = item.locus.to
+                    sub(item_el, "locus", **attrs)
+
+
 
     if ms.note:
         sub(ms_desc_el, "note", ms.note, type="witness-status")
@@ -270,31 +371,36 @@ def witness_to_xml(witness: Witness) -> etree._Element:
 
 def serialize_witnesses(witnesses_df: pd.DataFrame, output_dir: Path) -> None:
     """
-    Sérialise chaque ligne du DataFrame en un fichier TEI XML.
-    Produit un fichier hid_{H-ID}.xml par witness dans output_dir.
+    Sérialise chaque Witness (groupé par H-ID) en un fichier TEI XML.
+    Un seul fichier hid_{H-ID}.xml par witness, contenant tous ses msFrag.
 
     Args:
-        witnesses_df : DataFrame produit par build_witnesses()
-        output_dir   : dossier de sortie (créé si absent)
+        witnesses_df : DataFrame produit par build_witnesses() (avec Parts dupliquées)
+        output_dir   : dossier de sortie
     """
     output_dir.mkdir(parents=True, exist_ok=True)
-    total = len(witnesses_df)
+    
+    # Grouper par Witness_H-ID pour traiter toutes les Parts ensemble
+    grouped = witnesses_df.groupby("Witness_H-ID")
+    total_witnesses = len(grouped)
     success = 0
 
-    for _, row in witnesses_df.iterrows():
-        hid = row.get("Witness_H-ID")
-        if pd.isna(hid):
-            log.warning("  [!] Ligne sans H-ID ignorée.")
-            continue
-
+    for witness_hid, group_rows in grouped:
         try:
-            model   = row_to_witness_model(row)
+            # group_rows contient toutes les lignes (Parts) pour ce witness
+            log.info(f"  Processing Witness {witness_hid} with {len(group_rows)} part(s)")
+            
+            # Utilise la première ligne pour les métadonnées de Witness
+            first_row = group_rows.iloc[0]
+            
+            # Crée un Witness avec tous ses msFrag (un par Part)
+            model = rows_to_witness_model(group_rows)  # ← NOUVELLE FONCTION
             xml_root = witness_to_xml(model)
 
             tree = etree.ElementTree(xml_root)
             etree.indent(tree, space="  ")
 
-            output_path = output_dir / f"hid_{int(hid)}.xml"
+            output_path = output_dir / f"hid_{int(witness_hid)}.xml"
             tree.write(
                 output_path,
                 xml_declaration=True,
@@ -305,6 +411,10 @@ def serialize_witnesses(witnesses_df: pd.DataFrame, output_dir: Path) -> None:
             log.info(f"  ✓ {output_path.name}")
 
         except Exception as e:
-            log.error(f"  [!] Erreur pour witness H-ID {hid} : {e}")
+            log.error(f"  [!] Erreur pour Witness H-ID {witness_hid} : {e}")
+            import traceback
+            traceback.print_exc()
 
-    log.info(f"  {success}/{total} fichier(s) witness produit(s) dans {output_dir}")
+    log.info(f"  {success}/{total_witnesses} fichier(s) witness produit(s) dans {output_dir}")
+
+    

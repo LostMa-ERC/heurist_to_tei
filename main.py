@@ -163,6 +163,15 @@ def main():
     args = parser.parse_args()
     run(args.languages, args.output)
 
+    try:
+        run(args.languages, args.output)
+    except Exception as e:
+        print(f"\n❌ FATAL ERROR: {e}", file=sys.stderr)
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)
+
 
 if __name__ == "__main__":
     main()
+

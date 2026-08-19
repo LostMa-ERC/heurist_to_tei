@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="hid_47420">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>H55</title>
+      </titleStmt>
+      <sourceDesc>
+        <msDesc type="lost"/>
+        <msDesc type="lost">
+          <msIdentifier>
+            <idno type="heurist">47420</idno>
+          </msIdentifier>
+          <msFrag>
+            <msIdentifier>
+              <altIdentifier type="old-shelfmark">
+                <idno>&lt;NA&gt;</idno>
+              </altIdentifier>
+            </msIdentifier>
+            <msContents>
+              <msItemStruct>
+                <locus/>
+              </msItemStruct>
+            </msContents>
+          </msFrag>
+          <msFrag>
+            <msIdentifier>
+              <altIdentifier type="old-shelfmark">
+                <idno>&lt;NA&gt;</idno>
+              </altIdentifier>
+            </msIdentifier>
+            <msContents>
+              <msItemStruct>
+                <locus/>
+              </msItemStruct>
+            </msContents>
+          </msFrag>
+          <note type="witness-status">Copy exists of a fragment, but the fragment itself is lost.</note>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc/>
+    <profileDesc>
+      <langUsage>
+        <language ident="dum">Middle Dutch<lang n="regional">Brabants, dum (Middle Dutch)</lang>
+        </language>
+      </langUsage>
+      <creation>
+        <date notBefore="1101" notAfter="1500" cert="medium" source="Klein (1995), p. 17.">1101 - 1500</date>
+      </creation>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body/>
+  </text>
+</TEI>

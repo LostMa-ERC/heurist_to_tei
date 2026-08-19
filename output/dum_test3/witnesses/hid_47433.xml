@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="hid_47433">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>H100</title>
+      </titleStmt>
+      <sourceDesc>
+        <msDesc type="lost"/>
+        <msDesc type="lost">
+          <msIdentifier>
+            <idno type="heurist">47433</idno>
+          </msIdentifier>
+          <msFrag>
+            <msIdentifier>
+              <settlement>Lille, Hauts-de-France, France</settlement>
+              <repository>Médiathèque municipale Jean-Lévy Lille</repository>
+              <idno type="shelfmark">z.s.</idno>
+              <altIdentifier type="old-shelfmark">
+                <idno>&lt;NA&gt;</idno>
+              </altIdentifier>
+            </msIdentifier>
+            <msContents>
+              <msItemStruct>
+                <locus/>
+              </msItemStruct>
+            </msContents>
+          </msFrag>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc/>
+    <profileDesc>
+      <langUsage>
+        <language ident="dum">Middle Dutch<lang n="regional">Vlaams, dum (Middle Dutch)</lang>
+        </language>
+      </langUsage>
+      <creation>
+        <date notBefore="1291" notAfter="1410" cert="medium" source="Klein (1995), p. 17.">1291 - 1410</date>
+      </creation>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body/>
+  </text>
+</TEI>

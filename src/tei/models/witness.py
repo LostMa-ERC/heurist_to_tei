@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional, Literal
 
 class Settlement(BaseModel):
@@ -97,7 +97,7 @@ class PhysDesc(BaseModel):
     deco_desc: Optional[DecoDesc] = None
 
 class Locus(BaseModel):
-    from_: str  # "from" est un mot réservé Python, alias nécessaire
+    from_: Optional[str] = Field(None, alias="from")  
     to: str
 
     model_config = {"populate_by_name": True}
@@ -108,7 +108,7 @@ class MsItemStruct(BaseModel):
 
 
 class MsContents(BaseModel):
-    ms_item_struct: MsItemStruct
+    ms_item_structs: list[MsItemStruct] = []
 
 class Bibl(BaseModel):
     type: Literal["digitisation"]
@@ -132,7 +132,8 @@ class MsFrag(BaseModel):
 class MsDesc(BaseModel):
     type: Literal["citation", "complete", "defective", "fragmentary", "lost", "unknown"]
     ms_identifier: MsIdentifier
-    note: Optional[str] = None  # status_notes
+    note: Optional[str] = None  
+    ms_contents: Optional[MsContents] = None
     ms_frags: list[MsFrag] = []
 
 class TitleStmt(BaseModel):
@@ -155,9 +156,12 @@ class LangUsage(BaseModel):
 
 
 class Date(BaseModel):
-    certainty: Optional[Literal["probable", "unlikely", "very_likely", "unknown"]] = None
+    not_before: Optional[str] = None
+    not_after: Optional[str] = None
+    cert: Optional[Literal["medium", "low", "high", "unknown"]] = None
     source: Optional[str] = None
-    when: Optional[str] = None
+    value: Optional[str] = None
+    
 
 
 class Creation(BaseModel):
