@@ -15,7 +15,7 @@ class Repository(BaseModel):
 
 class Idno(BaseModel):
     value: str
-    type: Literal["heurist", "shelfmark", "old-shelfmark"]
+    type: Literal["heurist", "shelfmark", "old-shelfmark", "IIIF"]
 
 
 class AltIdentifier(BaseModel):
@@ -114,7 +114,7 @@ class Bibl(BaseModel):
     type: Literal["digitisation"]
     idno: Idno
     iiif_target: Optional[str] = None  # ptr/@target
-
+    uri_text: Optional[str] = None
 
 class Surrogates(BaseModel):
     bibl_list: list[Bibl] = []
@@ -128,6 +128,7 @@ class MsFrag(BaseModel):
     phys_desc: Optional[PhysDesc] = None
     ms_contents: Optional[MsContents] = None
     additional: Optional[Additional] = None
+    
 
 class MsDesc(BaseModel):
     type: Literal["citation", "complete", "defective", "fragmentary", "lost", "unknown"]

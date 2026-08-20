@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="hid_61189">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="preferred">Roman d'Arles</title>
+      </titleStmt>
+      <sourceDesc/>
+    </fileDesc>
+    <encodingDesc>
+      <classDecl>
+        <taxonomy xml:id="genre"/>
+        <taxonomy xml:id="litterary-form"/>
+        <taxonomy xml:id="versification"/>
+        <taxonomy xml:id="rhyme"/>
+        <taxonomy xml:id="stanza"/>
+      </classDecl>
+    </encodingDesc>
+    <profileDesc>
+      <langUsage>
+        <language ident="pro">Occitan<lang n="regional">48775</lang>
+          <lang n="scripta">mil. 14e s.; Provence [RomArlH 120, 119] (DOM)</lang>
+        </language>
+      </langUsage>
+      <creation>
+        <date from="1341" to="1360">mil. 14e s. (DOM)</date>
+      </creation>
+      <textClass>
+        <catRef scheme="#genre" target="#other"/>
+        <catRef scheme="#litterary-form" target="#mixed"/>
+        <catRef scheme="#versification" target="#[]"/>
+        <catRef scheme="#rhyme" target="#[]"/>
+      </textClass>
+      <textDesc>
+        <derivation corresp="hid_[]"/>
+      </textDesc>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body/>
+  </text>
+</TEI>

@@ -58,13 +58,7 @@ def build_witnesses(db: LostmaDB, available_languages: list[str]) -> pd.DataFram
 
     witnesses["Witness_observed_on_pages H-ID"] = witnesses["Witness_observed_on_pages H-ID"].astype(str)
     parts_data["Part_H-ID"] = parts_data["Part_H-ID"].astype(str)
-    #     parts_data_renamed = parts_data.rename(
-    #     columns={"DocumentTable_H-ID": "Witness_last_observed_in_doc H-ID"}
-    # )
-
-    # witnesses = witnesses.rename(
-    # columns={"Witness_last_observed_in_doc H-ID": "Witness_last_observed_in_doc H-ID"}
-    # )
+   
     
     witnesses = witnesses.merge(
         parts_data,
@@ -123,8 +117,6 @@ def build_witnesses(db: LostmaDB, available_languages: list[str]) -> pd.DataFram
         columns=[col for col in cols_to_clean if col in witnesses.columns]
     )
 
-    print(f"DEBUG: final shape = {witnesses.shape}")
-    print(f"DEBUG: final columns = {witnesses.columns.tolist()}")
 
     return witnesses
 

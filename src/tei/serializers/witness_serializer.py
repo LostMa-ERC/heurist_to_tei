@@ -189,20 +189,23 @@ def parse_date_range(date_val) -> tuple[str | None, str | None]:
         return m.group(1), None
     return None, None
 
-def parse_locus_range(page_ranges: str | None) -> tuple[str | None, str | None]:
-    """
-    "12-23" → ("12", "23")
-    "12"    → ("12", "12")
-    Texte libre → (None, None)
-    """
-    if not page_ranges:
+
+def parse_locus_range(page_ranges) -> tuple[str | None, str | None]:
+
+    if not page_ranges or page_ranges == "" or pd.isna(page_ranges):
         return None, None
-    m = re.match(r"^(\d+)\s*[-–]\s*(\d+)$", page_ranges.strip())
-    if m:
-        return m.group(1), m.group(2)
-    m = re.match(r"^(\d+)$", page_ranges.strip())
-    if m:
-        return m.group(1), m.group(1)
+    
+    if isinstance(page_ranges, list):
+        if len(page_ranges) == 0:
+            return None, None
+        page_ranges = page_ranges[0]
+    
+    # Parse '15v-62v'
+    parts = str(page_ranges).split("-")
+    if len(parts) == 2:
+        return parts[0].strip(), parts[1].strip()
+    elif len(parts) == 1:
+        return parts[0].strip(), None
     return None, None
 
 # ── Construction du modèle Pydantic depuis une ligne ─────────
@@ -304,7 +307,24 @@ def rows_to_witness_model(group_rows: pd.DataFrame) -> Witness:
             MsFrag(ms_identifier=frag_ms_identifier, ms_contents=frag_ms_contents)
         )
 
-       
+    digitization_uri = val(row, "Digitization_URI")
+    idno = Idno(value="", type="IIIF")
+    bibl = Bibl(
+            type="digitisation",
+            idno=idno,
+            iiif_target=None,
+            uri_text=digitization_uri,
+        )
+    surrogates = Surrogates(bibl_list=[bibl])
+    additional = Additional(surrogates=surrogates)
+
+    ms_frags.append(
+        MsFrag(
+            ms_identifier=frag_ms_identifier,
+            ms_contents=frag_ms_contents,
+            additional=additional,  
+            )
+        )
 
     # MsDesc
     status = val(first_row, "Witness_status_witness") or "unknown"
@@ -412,11 +432,24 @@ def witness_to_xml(witness: Witness) -> etree._Element:
                 sub(item_el, "locus",  **attrs)
             
     # Additional / Surrogates
-    additional_el = sub(frag_el, "additional")
-    surrogates_el = sub(additional_el, "surrogates")
-    bibl_el = sub(surrogates_el, "bibl", type="digitisation")
-    sub(bibl_el, "idno", type="IIIF")
-    sub(bibl_el, "ptr")
+    if frag.additional and frag.additional.surrogates and frag.additional.surrogates.bibl_list:
+        additional_el = sub(frag_el, "additional")
+        surrogates_el = sub(additional_el, "surrogates")
+        
+        for bibl in frag.additional.surrogates.bibl_list:
+            bibl_el = sub(surrogates_el, "bibl", type=bibl.type)
+            
+            # Digitization_URI
+            if bibl.uri_text:
+                bibl_el.text = bibl.uri_text
+            
+            # iiif à rajouter pour idno @type quand j'aurai compris où sont les données 
+             
+            # ptr
+            if bibl.iiif_target:
+                sub(bibl_el, "ptr", target=bibl.iiif_target)
+            else:
+                sub(bibl_el, "ptr")
 
     if ms.note:
         sub(ms_desc_el, "note", ms.note, type="witness-status")

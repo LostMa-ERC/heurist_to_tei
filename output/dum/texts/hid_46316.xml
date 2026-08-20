@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="hid_46316">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="preferred">Loyhier en Malaert</title>
+      </titleStmt>
+      <sourceDesc/>
+    </fileDesc>
+    <encodingDesc>
+      <classDecl>
+        <taxonomy xml:id="genre"/>
+        <taxonomy xml:id="litterary-form"/>
+        <taxonomy xml:id="versification"/>
+        <taxonomy xml:id="rhyme"/>
+        <taxonomy xml:id="stanza"/>
+      </classDecl>
+    </encodingDesc>
+    <profileDesc>
+      <langUsage>
+        <language ident="dum">Middle Dutch<lang n="regional">46305</lang>
+          <lang n="scripta">"misschien Vlaanderen" (Kienhorst 1988, 123 met verwijzing naar Van den Berg 1985, 22)</lang>
+        </language>
+      </langUsage>
+      <creation>
+        <date from="1276" to="1375" source="Caers &amp; Kestemont 2011, 36-37">"eerste helft veertiende eeuw"</date>
+      </creation>
+      <textClass>
+        <catRef scheme="#genre" target="#karelepiek"/>
+        <catRef scheme="#litterary-form" target="#verse"/>
+        <catRef scheme="#versification" target="#[]"/>
+        <catRef scheme="#rhyme" target="#['full-rhyme']"/>
+      </textClass>
+      <textDesc>
+        <derivation corresp="hid_[711]"/>
+      </textDesc>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body/>
+  </text>
+</TEI>

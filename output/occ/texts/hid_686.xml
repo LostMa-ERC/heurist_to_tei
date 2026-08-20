@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="hid_686">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="preferred">Rollan a Saragossa</title>
+      </titleStmt>
+      <sourceDesc/>
+    </fileDesc>
+    <encodingDesc>
+      <classDecl>
+        <taxonomy xml:id="genre"/>
+        <taxonomy xml:id="litterary-form"/>
+        <taxonomy xml:id="versification"/>
+        <taxonomy xml:id="rhyme"/>
+        <taxonomy xml:id="stanza"/>
+      </classDecl>
+    </encodingDesc>
+    <profileDesc>
+      <langUsage>
+        <language ident="pro">Occitan<lang n="regional">48775</lang>
+          <lang n="scripta">Provence (DLF-MA; DOM)</lang>
+        </language>
+      </langUsage>
+      <creation>
+        <date from="1101" to="1185">XIV ou avant, XII 2/2, ou XII1/4 -- 	Peut-être le premier quart du XIIe siècle (Arlima, DLF-MA); 12e s. (Jonas); avant 1180-1185 (à cause de l'allusion de Guilhem de Berguedan); DOM says "14e s.; Provence [RolSarR xxᴠ]", but this might apply only to the specific version of the sole manuscript</date>
+      </creation>
+      <textClass>
+        <catRef scheme="#genre" target="#chanson-de-geste"/>
+        <catRef scheme="#litterary-form" target="#verse"/>
+        <catRef scheme="#versification" target="#['decasyllabe'-'alexandrine']"/>
+        <catRef scheme="#rhyme" target="#['assonance']"/>
+        <catRef scheme="#stanza" target="#monorhyme-'laisse'"/>
+      </textClass>
+      <textDesc>
+        <derivation corresp="hid_[]"/>
+      </textDesc>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body/>
+  </text>
+</TEI>

@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="hid_48186">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="preferred">Nevelingenlied</title>
+      </titleStmt>
+      <sourceDesc/>
+    </fileDesc>
+    <encodingDesc>
+      <classDecl>
+        <taxonomy xml:id="genre"/>
+        <taxonomy xml:id="litterary-form"/>
+        <taxonomy xml:id="versification"/>
+        <taxonomy xml:id="rhyme"/>
+        <taxonomy xml:id="stanza"/>
+      </classDecl>
+    </encodingDesc>
+    <profileDesc>
+      <langUsage>
+        <language ident="dum">Middle Dutch<lang n="regional">46312</lang>
+        </language>
+      </langUsage>
+      <creation>
+        <date from="1151" to="1225" source="Caers &amp; Kestemont (2011), p. 14.">'&lt; 1200 tot ca. 1200'</date>
+      </creation>
+      <textClass>
+        <catRef scheme="#genre" target="#other"/>
+        <catRef scheme="#litterary-form" target="#verse"/>
+        <catRef scheme="#versification" target="#[]"/>
+        <catRef scheme="#rhyme" target="#[]"/>
+      </textClass>
+      <textDesc>
+        <derivation corresp="hid_[56277]"/>
+      </textDesc>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body/>
+  </text>
+</TEI>

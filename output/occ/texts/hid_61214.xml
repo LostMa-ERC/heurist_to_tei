@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="hid_61214">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="preferred">Guerra de Navarra</title>
+      </titleStmt>
+      <sourceDesc/>
+    </fileDesc>
+    <encodingDesc>
+      <classDecl>
+        <taxonomy xml:id="genre"/>
+        <taxonomy xml:id="litterary-form"/>
+        <taxonomy xml:id="versification"/>
+        <taxonomy xml:id="rhyme"/>
+        <taxonomy xml:id="stanza"/>
+      </classDecl>
+    </encodingDesc>
+    <profileDesc>
+      <langUsage>
+        <language ident="pro">Occitan<lang n="regional">61212</lang>
+          <lang n="scripta">1277‥; Toulouse (Haute‑Garonne) [GRLMA XI.2: 13013] (DOM)</lang>
+        </language>
+      </langUsage>
+      <creation>
+        <date from="1277" to="1286">1277‥ (DOM); après 1277; 3e quart du 13e s. (Jonas)</date>
+      </creation>
+      <textClass>
+        <catRef scheme="#genre" target="#chanson-de-geste"/>
+        <catRef scheme="#litterary-form" target="#verse"/>
+        <catRef scheme="#versification" target="#['alexandrine']"/>
+        <catRef scheme="#rhyme" target="#['full-rhyme']"/>
+        <catRef scheme="#stanza" target="#monorhyme-'laisse'"/>
+      </textClass>
+      <textDesc>
+        <derivation corresp="hid_[]"/>
+      </textDesc>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body/>
+  </text>
+</TEI>

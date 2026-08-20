@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="hid_61245">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="preferred">Blandin de Cornualha</title>
+      </titleStmt>
+      <sourceDesc/>
+    </fileDesc>
+    <encodingDesc>
+      <classDecl>
+        <taxonomy xml:id="genre"/>
+        <taxonomy xml:id="litterary-form"/>
+        <taxonomy xml:id="versification"/>
+        <taxonomy xml:id="rhyme"/>
+        <taxonomy xml:id="stanza"/>
+      </classDecl>
+    </encodingDesc>
+    <profileDesc>
+      <langUsage>
+        <language ident="pro">Occitan<lang n="regional">48775</lang>
+          <lang n="scripta">Debatted. Meyer thought written by a Catalan, but current consensus is rather: bassin du Rhône/sud du dép. des Alpes‑de‑Haute‑Provence [BlandCornH 62, 63] (DOM). Complicated by the fact that the scribe of the sole ms. is Italian</lang>
+        </language>
+      </langUsage>
+      <creation>
+        <date from="1351" to="1400">2e m. 14e s. (DOM); 14e s. (Jonas, Arlima); after 1350 (Taylor 2015)</date>
+      </creation>
+      <textClass>
+        <catRef scheme="#genre" target="#roman"/>
+        <catRef scheme="#litterary-form" target="#verse"/>
+        <catRef scheme="#versification" target="#['octosyllabe']"/>
+        <catRef scheme="#rhyme" target="#['full-rhyme']"/>
+        <catRef scheme="#stanza" target="#couplets"/>
+      </textClass>
+      <textDesc>
+        <derivation corresp="hid_[]"/>
+      </textDesc>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body/>
+  </text>
+</TEI>

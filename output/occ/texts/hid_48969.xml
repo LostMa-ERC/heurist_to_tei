@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="hid_48969">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="preferred">Jaufré</title>
+        <author>one or two unnamed authors</author>
+      </titleStmt>
+      <sourceDesc/>
+    </fileDesc>
+    <encodingDesc>
+      <classDecl>
+        <taxonomy xml:id="genre"/>
+        <taxonomy xml:id="litterary-form"/>
+        <taxonomy xml:id="versification"/>
+        <taxonomy xml:id="rhyme"/>
+        <taxonomy xml:id="stanza"/>
+      </classDecl>
+    </encodingDesc>
+    <profileDesc>
+      <langUsage>
+        <language ident="pro">Occitan<lang n="regional">&lt;NA&gt;</lang>
+          <lang n="scripta">Bas-Languedoc ou Catalogne (Jonas)</lang>
+        </language>
+      </langUsage>
+      <creation>
+        <date from="1152" to="1276">entre 1152 et 1176 (cf. commentary on Jonas: it has been dedicated to a king of Aragon, either Alphonse II (1152-1196) or Jacques I le Conquérant (1213-1276); a later date is more consensual, likely around 1220</date>
+      </creation>
+      <textClass>
+        <catRef scheme="#genre" target="#roman"/>
+        <catRef scheme="#litterary-form" target="#verse"/>
+        <catRef scheme="#versification" target="#['octosyllabe']"/>
+        <catRef scheme="#rhyme" target="#['full-rhyme']"/>
+        <catRef scheme="#stanza" target="#couplets"/>
+      </textClass>
+      <textDesc>
+        <derivation corresp="hid_[]"/>
+      </textDesc>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body/>
+  </text>
+</TEI>
