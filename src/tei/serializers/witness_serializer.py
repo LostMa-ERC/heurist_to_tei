@@ -5,7 +5,7 @@ src/tei/serializers/witness.py
 Sérialise chaque ligne du DataFrame witnesses produit par build_witnesses()
 en un fichier TEI-P5 individuel conforme au schéma witness.rng.
 
-Un fichier par witness, nommé hid_{H-ID}.xml, écrit dans output_dir.
+Un fichier par witness, nommé hid_{H-ID}.xml, sort dans le directory demandé.
 
 Dépendances :
     - src/tei/models/witness.py  : modèles Pydantic
@@ -63,7 +63,7 @@ NS = {"tei": TEI_NS}
 NSMAP = {None: TEI_NS}
 
 
-# ── Helpers XML ───────────────────────────────────────────────
+# Fonctions pour définir les éléments XML 
 
 def el(tag: str, text: str | None = None, nsmap=None, **attrs) -> etree._Element:
     """Crée un élément TEI avec attributs et texte optionnels."""
@@ -142,7 +142,7 @@ def add_project_metadata(title_stmt_el: etree._Element) -> None:
     sub(person_name_6, "surname", "Hensley")
 
 
-# ── Parsing du code langue ────────────────────────────────────
+# Parsing pour récupérer le code ISO de la langue
 
 def extract_lang_code(language_column: str) -> str | None:
     if not language_column:
@@ -200,12 +200,18 @@ def parse_locus_range(page_ranges) -> tuple[str | None, str | None]:
             return None, None
         page_ranges = page_ranges[0]
     
-    # Parse '15v-62v'
-    parts = str(page_ranges).split("-")
+    page_ranges = str(page_ranges).strip()
+    
+    # Vérifie si c'est une vraie plage (contient "-")
+    if "-" not in page_ranges:
+        # C'est un cas comme '152' ou '? (Apollonius de Tyr)'
+        return None, None
+    
+    # Parse '1r-32v'
+    parts = page_ranges.split("-", 1)  # Split seulement sur le premier "-"
     if len(parts) == 2:
         return parts[0].strip(), parts[1].strip()
-    elif len(parts) == 1:
-        return parts[0].strip(), None
+    
     return None, None
 
 # ── Construction du modèle Pydantic depuis une ligne ─────────
@@ -258,7 +264,7 @@ def rows_to_witness_model(group_rows: pd.DataFrame) -> Witness:
     idno_heurist = Idno(value=hid, type="heurist")
     ms_identifier_top = MsIdentifier(idnos=[idno_heurist])
 
-    # ── Construire UN msFrag par Part (par ligne du groupe) ────
+    # Boucle pour construire un msFrag par Part
     ms_frags = []
     for _, row in group_rows.iterrows():
         settlement = Settlement(
@@ -347,7 +353,7 @@ def rows_to_witness_model(group_rows: pd.DataFrame) -> Witness:
    
 
 
-# ── Sérialisation du modèle Pydantic en XML TEI ───────────────
+# Conversion objet python Witness vers arborescence TEI
 
 def witness_to_xml(witness: Witness) -> etree._Element:
     """
@@ -359,7 +365,7 @@ def witness_to_xml(witness: Witness) -> etree._Element:
 
     ms = witness.ms_desc
 
-    # ── teiHeader ─────────────────────────────────────────────
+    # teiHeader
     header = sub(tei, "teiHeader")
 
     # fileDesc
@@ -369,7 +375,7 @@ def witness_to_xml(witness: Witness) -> etree._Element:
     add_project_metadata(title_stmt)
 
     pub_stmt = sub(file_desc, "publicationStmt")
-    sub(pub_stmt, "p", "Cette publication a été produite à partir des données du projet LostMa conservées sur Heurist.")
+    sub(pub_stmt, "p", "This publication was produced using data from the LostMa project stored in Heurist.")
 
     source_desc_el = sub(file_desc, "sourceDesc")
     ms_desc_el = sub(source_desc_el, "msDesc", type=ms.type)
@@ -400,7 +406,7 @@ def witness_to_xml(witness: Witness) -> etree._Element:
     if d.source:      date_attrs["source"]    = d.source
     sub(creation_el, "date", d.value, **date_attrs)
 
-    # ── msDesc ────────────────────────────────────────────────
+    # msDesc
 
     ms_id = ms.ms_identifier
     ms_id_el = sub(ms_desc_el, "msIdentifier")
@@ -412,7 +418,7 @@ def witness_to_xml(witness: Witness) -> etree._Element:
     for idno in ms_id.idnos:
         sub(ms_id_el, "idno", idno.value, type=idno.type)
 
-    # ── msFrag (un par fragment physique) ──────────────────────
+    # msFrag
     for frag in ms.ms_frags:
         frag_el = sub(ms_desc_el, "msFrag")
     
@@ -454,14 +460,14 @@ def witness_to_xml(witness: Witness) -> etree._Element:
     if ms.note:
         sub(ms_desc_el, "note", ms.note, type="witness-status")
 
-    # ── text (corps vide) ─────────────────────────────────────
+    # text - à reprendre quand j'aurai branché les sorties HTR
     text_el = sub(tei, "text")
     sub(text_el, "body")
 
     return tei
 
 
-# ── Écriture sur disque ───────────────────────────────────────
+# Sérialisation du témoin : 
 
 def serialize_witnesses(witnesses_df: pd.DataFrame, output_dir: Path) -> None:
     """

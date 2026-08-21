@@ -69,7 +69,7 @@ def build_witnesses(db: LostmaDB, available_languages: list[str]) -> pd.DataFram
     )
     print(f"DEBUG: after Part merge, shape = {witnesses.shape}")
 
-
+ 
     # Ajout des attributs liés de PhysDesc.
     # Attention : PhysDesc n'existe à ce jour que pour les données
     # scrappées depuis Jonas (corpus français). Pour dum et enm, les

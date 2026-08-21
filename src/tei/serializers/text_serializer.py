@@ -38,7 +38,7 @@ TEI_NS  = "http://www.tei-c.org/ns/1.0"
 XML_NS  = "http://www.w3.org/XML/1998/namespace"
 NSMAP = {None: TEI_NS}
 
-# ── Helpers XML ───────────────────────────────────────────────
+# Fonctions pour définir les éléments XML 
 
 def el(tag: str, text: str | None = None, nsmap=None, **attrs) -> etree._Element:
     e = etree.Element(f"{{{TEI_NS}}}{tag}", nsmap=nsmap)
@@ -66,7 +66,7 @@ def val(row: pd.Series, col: str) -> str | None:
     return str(v).strip() or None
 
 
-# ── Parsing ───────────────────────────────────────────────────
+# Parsing pour récupérer le code ISO de la langue 
 
 def extract_lang_code(s: str) -> str | None:
     if not s:
@@ -144,7 +144,7 @@ def group_to_text_model(group: pd.DataFrame) -> Text:
 
     file_desc = FileDesc(title_stmt=title_stmt, source_desc=source_desc)
 
-    # ── EncodingDesc / classDecl ──────────────────────────────
+    # encodingDesc --> A REVOIR
     # Les taxonomies sont déclarées une fois par fichier text
     encoding_desc = EncodingDesc(class_decl=ClassDecl(taxonomies=[
         Taxonomy(xml_id="genre",          categories=[]),
@@ -154,7 +154,7 @@ def group_to_text_model(group: pd.DataFrame) -> Text:
         Taxonomy(xml_id="stanza",         categories=[]),
     ]))
 
-    # ── ProfileDesc ───────────────────────────────────────────
+    # ProfileDesc
 
     # langUsage
     lang_col = val(row, "language_COLUMN")
@@ -215,7 +215,7 @@ def group_to_text_model(group: pd.DataFrame) -> Text:
         text_desc=text_desc if text_desc.derivation else None,
     )
 
-    # ── Body / Graph (un graphe par stemma) ───────────────────
+    # Body / graph --> A REPRENDRE quand j'aurai branché OpenStemmata
     graphs = []
     for _, stemma_row in group.iterrows():
         openstemmata_id = val(stemma_row, "openstemmata id")
@@ -238,7 +238,7 @@ def group_to_text_model(group: pd.DataFrame) -> Text:
     )
 
 
-# ── Sérialisation du modèle Pydantic en XML TEI ───────────────
+# Conversion objet python Text vers arborescence TEI
 
 def text_to_xml(text: Text) -> etree._Element:
     """
@@ -246,7 +246,7 @@ def text_to_xml(text: Text) -> etree._Element:
     """
     tei = el("TEI", xml_id=text.xml_id, nsmap=NSMAP)
 
-    # ── teiHeader ─────────────────────────────────────────────
+    # teiHeader
     header = sub(tei, "teiHeader")
 
     # fileDesc
@@ -332,7 +332,7 @@ def text_to_xml(text: Text) -> etree._Element:
                 if person.p:
                     sub(person_el, "p", person.p)
 
-    # ── text / body / graph ───────────────────────────────────
+    # text / body /graph
     text_el = sub(tei, "text")
     body_el = sub(text_el, "body")
 
@@ -359,7 +359,7 @@ def text_to_xml(text: Text) -> etree._Element:
     return tei
 
 
-# ── Écriture sur disque ───────────────────────────────────────
+# Sérialisation du texte
 
 def serialize_texts(texts_df: pd.DataFrame, output_dir: Path) -> None:
     """

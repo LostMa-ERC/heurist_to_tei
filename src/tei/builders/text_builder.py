@@ -26,7 +26,7 @@ def build_texts(
         available_languages: liste des langues à filtrer, ex.
             ["dum (Middle Dutch)", "enm (Middle English)"].
 
-    Returns:
+    Retourne :
         DataFrame text nettoyé et enrichi.
     """
     texts = db.texts(available_languages)
