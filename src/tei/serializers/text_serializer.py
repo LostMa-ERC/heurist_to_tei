@@ -65,6 +65,70 @@ def val(row: pd.Series, col: str) -> str | None:
         return None
     return str(v).strip() or None
 
+ # fonction qui ajoute les métadonnées "en dur" (qui ne vont pas bouger)   
+
+def add_project_metadata(title_stmt_el: etree._Element) -> None:
+    """
+    Attention je n'ai ajouté que ceux qui ont vocation à apparaitre dans tous les corpus linguistiques. 
+    Pour les contributeurs, il faudra rajouter une fonction par corpus : ex Cecile Vermaas pour le corpus DUM. 
+    """
+    
+    # Principal
+    principal = sub(title_stmt_el, "principal")
+    person_name = sub(principal, "persName")
+    sub(person_name, "forename", "Jean-Baptiste")
+    sub(person_name, "surname", "Camps")
+
+    resp_stmt_1 = sub(title_stmt_el, "respStmt")
+    sub(resp_stmt_1, "resp", "Project leader")
+    person_name_1 = sub(resp_stmt_1, "persName", xml_id="JBC")
+    sub(person_name_1, "forename", "Jean-Baptiste")
+    sub(person_name_1, "surname", "Camps")
+
+    resp_stmt_2 = sub(title_stmt_el, "respStmt")
+    sub(resp_stmt_2, "resp", "Data architect")
+    person_name_2 = sub(resp_stmt_2, "persName", xml_id="VR")
+    sub(person_name_2, "forename", "Virgile")
+    sub(person_name_2, "surname", "Reignier")
+
+    resp_stmt_3 = sub(title_stmt_el, "respStmt")
+    sub(resp_stmt_3, "resp", "Data architect")
+    person_name_3 = sub(resp_stmt_3, "persName", xml_id="KC")
+    sub(person_name_3, "forename", "Kelly")
+    sub(person_name_3, "surname", "Christensen")
+
+    resp_stmt_4 = sub(title_stmt_el, "respStmt")
+    sub(resp_stmt_4, "resp", "Data architect")
+    person_name_4 = sub(resp_stmt_4, "persName", xml_id="MM")
+    sub(person_name_4, "forename", "Maud")
+    sub(person_name_4, "surname", "Mélinand")
+
+    resp_stmt_5 = sub(title_stmt_el, "respStmt")
+    sub(resp_stmt_5, "resp", "HTR engineer")
+    person_name_5 = sub(resp_stmt_5, "persName", xml_id="TM")
+    sub(person_name_5, "forename", "Théo")
+    sub(person_name_5, "surname", "Moins")
+
+    resp_stmt_6 = sub(title_stmt_el, "respStmt")
+    sub(resp_stmt_6, "resp", "HTR engineer")
+    person_name_6 = sub(resp_stmt_6, "persName", xml_id="BH")
+    sub(person_name_6, "forename", "Brenna")
+    sub(person_name_6, "surname", "Hensley")
+
+    #funder (financements)
+    funder = sub(title_stmt_el, "funder")
+    sub(funder, "orgName", "European Research Council")
+    note_1 = sub(funder, "note")
+    note_1.text = "Horizon Europe ERC Grant number "
+    sub(note_1, "idno", "101117408")
+    sub(
+        funder,
+        "note",
+        "Funded by the European Research Council. Views and opinions expressed are "
+        "however those of the author(s) only and not necessarily reflect those of "
+        "the European Union or the European Research Council. Neither the European "
+        "Union nor the granting authority can be held responsible for them.",
+    )
 
 # Parsing pour récupérer le code ISO de la langue 
 
@@ -264,6 +328,18 @@ def text_to_xml(text: Text) -> etree._Element:
         list_wit_el = sub(source_desc_el, "listWit")
         for w in text.file_desc.source_desc.list_wit.witnesses:
             sub(list_wit_el, "witness", xml_id=w.xml_id)
+
+    pub_stmt = sub(file_desc, "publicationStmt")
+    sub(pub_stmt, "publisher", "ERC LostMA")
+    sub(pub_stmt, "date", when="2026")
+    availability = sub(pub_stmt, "availability")
+    sub(
+        availability,
+        "licence",
+        "CC BY 4.0",
+        target="http://creativecommons.org/licenses/by/4.0/deed.en",
+    )
+    sub(availability, "p", "Les données sont disponibles sous licence CC BY 4.0.")
 
     # encodingDesc
     if text.encoding_desc:

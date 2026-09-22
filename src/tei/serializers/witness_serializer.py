@@ -63,7 +63,7 @@ NS = {"tei": TEI_NS}
 NSMAP = {None: TEI_NS}
 
 
-# Fonctions pour définir les éléments XML 
+# Helpers : Fonctions pour définir les éléments XML 
 
 def el(tag: str, text: str | None = None, nsmap=None, **attrs) -> etree._Element:
     """Crée un élément TEI avec attributs et texte optionnels."""
@@ -99,6 +99,7 @@ def add_project_metadata(title_stmt_el: etree._Element) -> None:
     Attention je n'ai ajouté que ceux qui ont vocation à apparaitre dans tous les corpus linguistiques. 
     Pour les contributeurs, il faudra rajouter une fonction par corpus : ex Cecile Vermaas pour le corpus DUM. 
     """
+    
     # Principal
     principal = sub(title_stmt_el, "principal")
     person_name = sub(principal, "persName")
@@ -141,6 +142,19 @@ def add_project_metadata(title_stmt_el: etree._Element) -> None:
     sub(person_name_6, "forename", "Brenna")
     sub(person_name_6, "surname", "Hensley")
 
+    funder = sub(title_stmt_el, "funder")
+    sub(funder, "orgName", "European Research Council")
+    note_1 = sub(funder, "note")
+    note_1.text = "Horizon Europe ERC Grant number "
+    sub(note_1, "idno", "101117408")
+    sub(
+        funder,
+        "note",
+        "Funded by the European Research Council. Views and opinions expressed are "
+        "however those of the author(s) only and not necessarily reflect those of "
+        "the European Union or the European Research Council. Neither the European "
+        "Union nor the granting authority can be held responsible for them.",
+    )
 
 # Parsing pour récupérer le code ISO de la langue
 
@@ -290,7 +304,7 @@ def rows_to_witness_model(group_rows: pd.DataFrame) -> Witness:
                 idno=Idno(value=old_shelfmark, type="old-shelfmark"),
             )
 
-        frag_ms_identifier = MsIdentifier(  
+        frag_ms_identifier = MsIdentifier(
             settlement=settlement,
             repository=repository,
             idnos=idnos_frag,
@@ -309,26 +323,25 @@ def rows_to_witness_model(group_rows: pd.DataFrame) -> Witness:
         )
         frag_ms_contents = MsContents(ms_item_structs=[ms_item])
 
+        # Digitization : propre à chaque Part, plus à la dernière ligne du groupe
+        additional = None
+        digitization_uri = val(row, "Digitization_URI")
+        if digitization_uri:
+            idno = Idno(value="", type="IIIF")
+            bibl = Bibl(
+                type="digitisation",
+                idno=idno,
+                iiif_target=None,
+                uri_text=digitization_uri,
+            )
+            surrogates = Surrogates(bibl_list=[bibl])
+            additional = Additional(surrogates=surrogates)
+
         ms_frags.append(
-            MsFrag(ms_identifier=frag_ms_identifier, ms_contents=frag_ms_contents)
-        )
-
-    digitization_uri = val(row, "Digitization_URI")
-    idno = Idno(value="", type="IIIF")
-    bibl = Bibl(
-            type="digitisation",
-            idno=idno,
-            iiif_target=None,
-            uri_text=digitization_uri,
-        )
-    surrogates = Surrogates(bibl_list=[bibl])
-    additional = Additional(surrogates=surrogates)
-
-    ms_frags.append(
-        MsFrag(
-            ms_identifier=frag_ms_identifier,
-            ms_contents=frag_ms_contents,
-            additional=additional,  
+            MsFrag(
+                ms_identifier=frag_ms_identifier,
+                ms_contents=frag_ms_contents,
+                additional=additional,
             )
         )
 
@@ -375,7 +388,16 @@ def witness_to_xml(witness: Witness) -> etree._Element:
     add_project_metadata(title_stmt)
 
     pub_stmt = sub(file_desc, "publicationStmt")
-    sub(pub_stmt, "p", "This publication was produced using data from the LostMa project stored in Heurist.")
+    sub(pub_stmt, "publisher", "ERC LostMA")
+    sub(pub_stmt, "date", when="2026")
+    availability = sub(pub_stmt, "availability")
+    sub(
+        availability,
+        "licence",
+        "CC BY 4.0",
+        target="http://creativecommons.org/licenses/by/4.0/deed.en",
+    )
+    sub(availability, "p", "Les données sont disponibles sous licence CC BY 4.0.")
 
     source_desc_el = sub(file_desc, "sourceDesc")
     ms_desc_el = sub(source_desc_el, "msDesc", type=ms.type)
@@ -494,7 +516,7 @@ def serialize_witnesses(witnesses_df: pd.DataFrame, output_dir: Path) -> None:
             first_row = group_rows.iloc[0]
             
             # Crée un Witness avec tous ses msFrag (un par Part)
-            model = rows_to_witness_model(group_rows)  # ← NOUVELLE FONCTION
+            model = rows_to_witness_model(group_rows)  
             xml_root = witness_to_xml(model)
 
             tree = etree.ElementTree(xml_root)

@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="hid_585">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="preferred">Aigar et Maurin</title>
+      </titleStmt>
+      <sourceDesc/>
+    </fileDesc>
+    <encodingDesc>
+      <classDecl>
+        <taxonomy xml:id="genre"/>
+        <taxonomy xml:id="litterary-form"/>
+        <taxonomy xml:id="versification"/>
+        <taxonomy xml:id="rhyme"/>
+        <taxonomy xml:id="stanza"/>
+      </classDecl>
+    </encodingDesc>
+    <profileDesc>
+      <langUsage>
+        <language ident="pro">Occitan<lang n="regional">57452</lang>
+          <lang n="scripta">2e m. 12e s.; sud du Poitou ou plutôt nord de la région girondine (DOM); or maybe, "Rouergue et Quercy" (Naudeau, Romania 1997, p. 337, cit. Jonas)</lang>
+        </language>
+      </langUsage>
+      <creation>
+        <date from="1151" to="1200">XII, apr. 1150; 2e m. 12e s.; sud du Poitou ou plutôt nord de la région girondine (DOM)</date>
+      </creation>
+      <textClass>
+        <catRef scheme="#genre" target="#chanson-de-geste"/>
+        <catRef scheme="#litterary-form" target="#verse"/>
+        <catRef scheme="#versification" target="#['decasyllabe']"/>
+        <catRef scheme="#rhyme" target="#['full-rhyme']"/>
+        <catRef scheme="#stanza" target="#monorhyme-'laisse'"/>
+      </textClass>
+      <textDesc>
+        <derivation corresp="hid_[]"/>
+      </textDesc>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body/>
+  </text>
+</TEI>

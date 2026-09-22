@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="/Users/maudmelinand/Desktop/LostMa-divers/LostMa_ODD/witness/out/witness.rng" 
+            type="application/xml" 
+            schematypens="http://relaxng.org/ns/structure/1.0"?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="hid_54437">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title>Witness 54437</title>
+        <funder>
+          <orgName>European Research Council</orgName>
+          <note>Horizon Europe ERC Grant number <idno>101117408</idno>
+          </note>
+          <note>Funded by the European Research Council. Views and opinions expressed are however those of the author(s) only and not necessarily reflect those of the European Union or the European Research Council. Neither the European Union nor the granting authority can be held responsible for them.</note>
+        </funder>
+        <principal>
+          <persName>
+            <forename>Jean-Baptiste</forename>
+            <surname>Camps</surname>
+          </persName>
+        </principal>
+        <respStmt>
+          <resp>Project leader</resp>
+          <persName xml:id="JBC">
+            <forename>Jean-Baptiste</forename>
+            <surname>Camps</surname>
+          </persName>
+        </respStmt>
+        <respStmt>
+          <resp>Data architect</resp>
+          <persName xml:id="VR">
+            <forename>Virgile</forename>
+            <surname>Reignier</surname>
+          </persName>
+        </respStmt>
+        <respStmt>
+          <resp>Data architect</resp>
+          <persName xml:id="KC">
+            <forename>Kelly</forename>
+            <surname>Christensen</surname>
+          </persName>
+        </respStmt>
+        <respStmt>
+          <resp>Data architect</resp>
+          <persName xml:id="MM">
+            <forename>Maud</forename>
+            <surname>Mélinand</surname>
+          </persName>
+        </respStmt>
+        <respStmt>
+          <resp>HTR engineer</resp>
+          <persName xml:id="TM">
+            <forename>Théo</forename>
+            <surname>Moins</surname>
+          </persName>
+        </respStmt>
+        <respStmt>
+          <resp>HTR engineer</resp>
+          <persName xml:id="BH">
+            <forename>Brenna</forename>
+            <surname>Hensley</surname>
+          </persName>
+        </respStmt>
+      </titleStmt>
+      <publicationStmt>
+        <publisher>ERC LostMA</publisher>
+        <date when="2026"/>
+        <availability>
+          <licence target="http://creativecommons.org/licenses/by/4.0/deed.en">CC BY 4.0</licence>
+          <p>Les données sont disponibles sous licence CC BY 4.0.</p>
+        </availability>
+      </publicationStmt>
+      <sourceDesc>
+        <msDesc type="fragmentary">
+          <msIdentifier>
+            <idno type="heurist">54437</idno>
+          </msIdentifier>
+          <msFrag>
+            <msContents>
+              <msItemStruct>
+                <locus from="['84r" to="99v']"/>
+              </msItemStruct>
+            </msContents>
+            <additional>
+              <surrogates>
+                <bibl type="digitisation">https://digi.vatlib.it/iiif/MSS_Vat.lat.3206/manifest.json<ptr/>
+                </bibl>
+              </surrogates>
+            </additional>
+          </msFrag>
+        </msDesc>
+      </sourceDesc>
+    </fileDesc>
+    <encodingDesc/>
+    <profileDesc>
+      <langUsage>
+        <language/>
+      </langUsage>
+      <creation>
+        <date notBefore="1381" notAfter="1400" source="Jonas">1381 - 1400</date>
+      </creation>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body/>
+  </text>
+</TEI>

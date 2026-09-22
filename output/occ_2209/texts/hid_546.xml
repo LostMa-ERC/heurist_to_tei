@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="hid_546">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="preferred">Fierabras occitan</title>
+      </titleStmt>
+      <sourceDesc/>
+    </fileDesc>
+    <encodingDesc>
+      <classDecl>
+        <taxonomy xml:id="genre"/>
+        <taxonomy xml:id="litterary-form"/>
+        <taxonomy xml:id="versification"/>
+        <taxonomy xml:id="rhyme"/>
+        <taxonomy xml:id="stanza"/>
+      </classDecl>
+    </encodingDesc>
+    <profileDesc>
+      <langUsage>
+        <language ident="pro">Occitan<lang n="regional">&lt;NA&gt;</lang>
+          <lang n="scripta">prov. [ref?]; "localization has proved so far to be quite controversial; Buridant believes that the language is a “Mischsprache”" (according to Taylor, 2015). Babin 1994 believes the text to be a translation from French by a Toulousain.</lang>
+        </language>
+      </langUsage>
+      <creation>
+        <date from="1181" to="1240">XII/XIII, avant Fierabras fr, ou XIIIdeb (Jonas), ou c. 1230-1240 (fichier IRHT, Arlima); déb. 13e s (DOM)</date>
+      </creation>
+      <textClass>
+        <catRef scheme="#genre" target="#chanson-de-geste"/>
+        <catRef scheme="#litterary-form" target="#verse"/>
+        <catRef scheme="#versification" target="#['alexandrine']"/>
+        <catRef scheme="#rhyme" target="#['full-rhyme']"/>
+        <catRef scheme="#stanza" target="#monorhyme-'laisse'"/>
+      </textClass>
+      <textDesc>
+        <derivation corresp="hid_[522]"/>
+      </textDesc>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body/>
+  </text>
+</TEI>

@@ -161,7 +161,7 @@ encodingDesc:
                                                # karelepiek, chanson-de-geste, chronique, mise-en-prose,
                                                # roman, other, unknown
             attributes:
-              xml:id: Genre_preferred_name_slug   # version normalisée (sans espaces ni diacritiques)
+              xml:id: Genre_preferred_name_slug   # version normalisée 
             children:
               desc:
                 source: Genre_preferred_name

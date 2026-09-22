@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="hid_679">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="preferred">Ronsasvals</title>
+      </titleStmt>
+      <sourceDesc/>
+    </fileDesc>
+    <encodingDesc>
+      <classDecl>
+        <taxonomy xml:id="genre"/>
+        <taxonomy xml:id="litterary-form"/>
+        <taxonomy xml:id="versification"/>
+        <taxonomy xml:id="rhyme"/>
+        <taxonomy xml:id="stanza"/>
+      </classDecl>
+    </encodingDesc>
+    <profileDesc>
+      <langUsage>
+        <language ident="pro">Occitan<lang n="regional">48775</lang>
+          <lang n="scripta">sans doute écrit en Provence (DLF-MA)</lang>
+        </language>
+      </langUsage>
+      <creation>
+        <date from="1101" to="1250">XIV (Roques); av. 1250 (Schulze-Busacker); XIIdeb -- 	Début du XIIe siècle (Arlima), 1ère moitié du 12e s. (Jonas); the hypothesis of shared authorship with Rollan a Saragossa pushes the possible date further; ‥1180‥1250‥ [Schulze3 424] (DOM)</date>
+      </creation>
+      <textClass>
+        <catRef scheme="#genre" target="#chanson-de-geste"/>
+        <catRef scheme="#litterary-form" target="#verse"/>
+        <catRef scheme="#versification" target="#['decasyllabe'-'alexandrine']"/>
+        <catRef scheme="#rhyme" target="#['assonance']"/>
+        <catRef scheme="#stanza" target="#monorhyme-'laisse'"/>
+      </textClass>
+      <textDesc>
+        <derivation corresp="hid_[]"/>
+      </textDesc>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body/>
+  </text>
+</TEI>
