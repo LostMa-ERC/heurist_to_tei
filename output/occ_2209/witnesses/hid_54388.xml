@@ -89,7 +89,8 @@
             </msContents>
             <additional>
               <surrogates>
-                <bibl type="digitisation">https://bibliotecadigital.rah.es/es/consulta/registro.do?id=7<ptr/>
+                <bibl type="digitisation">
+                  <ptr target="https://bibliotecadigital.rah.es/es/consulta/registro.do?id=7"/>
                 </bibl>
               </surrogates>
             </additional>
@@ -97,7 +98,6 @@
         </msDesc>
       </sourceDesc>
     </fileDesc>
-    <encodingDesc/>
     <profileDesc>
       <langUsage>
         <language>
@@ -110,6 +110,8 @@
     </profileDesc>
   </teiHeader>
   <text>
-    <body/>
+    <body>
+      <p/>
+    </body>
   </text>
 </TEI>

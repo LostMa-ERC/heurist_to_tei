@@ -89,7 +89,8 @@
             </msContents>
             <additional>
               <surrogates>
-                <bibl type="digitisation">https://api.irht.cnrs.fr/ark:/63955/f70wc1t6wn23/manifest.json<ptr/>
+                <bibl type="digitisation">
+                  <ptr target="https://api.irht.cnrs.fr/ark:/63955/f70wc1t6wn23/manifest.json"/>
                 </bibl>
               </surrogates>
             </additional>
@@ -110,7 +111,7 @@
   </teiHeader>
   <text>
     <body>
-      <p></p>
+      <p/>
     </body>
   </text>
 </TEI>

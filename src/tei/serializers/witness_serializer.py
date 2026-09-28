@@ -218,7 +218,7 @@ def parse_locus_range(page_ranges) -> tuple[str | None, str | None]:
     if isinstance(page_ranges, float) and pd.isna(page_ranges):
         return None, None
 
-    # Nettoie la représentation texte d'une liste : ['30r-50v'] → 30r-50v
+    # Nettoie la représentation texte d'une liste : ['30r-50v'] = 30r-50v
     s = str(page_ranges).strip().strip("[]").strip().strip("'\"").strip()
 
     if not s or "-" not in s or s.startswith("?"):
@@ -227,7 +227,7 @@ def parse_locus_range(page_ranges) -> tuple[str | None, str | None]:
     return start.strip() or None, end.strip() or None
 
 def viaf_uri(viaf: str | None) -> str | None:
-    """Convertit la valeur VIAF (parfois lue comme float) en URI, ou None."""
+    """Convertit la valeur VIAF en URI ou None."""
     if not viaf:
         return None
     try:
@@ -438,8 +438,8 @@ def witness_to_xml(witness: Witness) -> etree._Element:
     source_desc_el = sub(file_desc, "sourceDesc")
     ms_desc_el = sub(source_desc_el, "msDesc", type=ms.type)
 
-    # encodingDesc
-    sub(header, "encodingDesc")
+    # encodingDesc - commenté pour le moment mais à conserver pour le futur quand les HTR auront été intégrés
+    # sub(header, "encodingDesc")
 
     # profileDesc
     profile_desc = sub(header, "profileDesc")
@@ -500,12 +500,8 @@ def witness_to_xml(witness: Witness) -> etree._Element:
             surrogates_el = sub(additional_el, "surrogates")
             for bibl in frag.additional.surrogates.bibl_list:
                 bibl_el = sub(surrogates_el, "bibl", type=bibl.type)
-                if bibl.uri_text:
-                    bibl_el.text = bibl.uri_text
-                if bibl.iiif_target:
-                    sub(bibl_el, "ptr", target=bibl.iiif_target)
-                else:
-                    sub(bibl_el, "ptr")
+                # l'URI de Digitization_URI devient @target de <ptr>, sans texte dans <bibl>
+                sub(bibl_el, "ptr", target=bibl.iiif_target or bibl.uri_text)
 
     if ms.note:
         sub(ms_desc_el, "note", ms.note, type="witness-status")
@@ -515,6 +511,7 @@ def witness_to_xml(witness: Witness) -> etree._Element:
     text_el = sub(tei, "text")
     body_el = sub(text_el, "body")
     sub(body_el, "p")   # <p/> vide : permet de valider en l'absence de transcription
+
     return tei
 
 

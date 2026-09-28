@@ -91,7 +91,6 @@
         </msDesc>
       </sourceDesc>
     </fileDesc>
-    <encodingDesc/>
     <profileDesc>
       <langUsage>
         <language ident="pro">Occitan<lang n="regional">ita., pro (Occitan)</lang>
@@ -104,6 +103,8 @@
     </profileDesc>
   </teiHeader>
   <text>
-    <body/>
+    <body>
+      <p/>
+    </body>
   </text>
 </TEI>

@@ -89,7 +89,8 @@
             </msContents>
             <additional>
               <surrogates>
-                <bibl type="digitisation">https://api.irht.cnrs.fr/ark:/63955/fpksqeaop62h/manifest.json<ptr/>
+                <bibl type="digitisation">
+                  <ptr target="https://api.irht.cnrs.fr/ark:/63955/fpksqeaop62h/manifest.json"/>
                 </bibl>
               </surrogates>
             </additional>
@@ -97,7 +98,6 @@
         </msDesc>
       </sourceDesc>
     </fileDesc>
-    <encodingDesc/>
     <profileDesc>
       <langUsage>
         <language/>
@@ -108,6 +108,8 @@
     </profileDesc>
   </teiHeader>
   <text>
-    <body/>
+    <body>
+      <p/>
+    </body>
   </text>
 </TEI>

@@ -89,7 +89,8 @@
             </msContents>
             <additional>
               <surrogates>
-                <bibl type="digitisation">https://gallica.bnf.fr/iiif/ark:/12148/btv1b60009476/<ptr/>
+                <bibl type="digitisation">
+                  <ptr target="https://gallica.bnf.fr/iiif/ark:/12148/btv1b60009476/"/>
                 </bibl>
               </surrogates>
             </additional>
@@ -97,7 +98,6 @@
         </msDesc>
       </sourceDesc>
     </fileDesc>
-    <encodingDesc/>
     <profileDesc>
       <langUsage>
         <language/>
@@ -108,6 +108,8 @@
     </profileDesc>
   </teiHeader>
   <text>
-    <body/>
+    <body>
+      <p/>
+    </body>
   </text>
 </TEI>

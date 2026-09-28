@@ -89,7 +89,8 @@
             </msContents>
             <additional>
               <surrogates>
-                <bibl type="digitisation">https://gallica.bnf.fr/ark:/12148/btv1b60006868<ptr/>
+                <bibl type="digitisation">
+                  <ptr target="https://gallica.bnf.fr/ark:/12148/btv1b60006868"/>
                 </bibl>
               </surrogates>
             </additional>
@@ -97,7 +98,6 @@
         </msDesc>
       </sourceDesc>
     </fileDesc>
-    <encodingDesc/>
     <profileDesc>
       <langUsage>
         <language ident="pro">Occitan<lang n="regional">lang.: toul., pro (Occitan)</lang>
@@ -110,6 +110,8 @@
     </profileDesc>
   </teiHeader>
   <text>
-    <body/>
+    <body>
+      <p/>
+    </body>
   </text>
 </TEI>
