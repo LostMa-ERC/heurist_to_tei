@@ -175,4 +175,3 @@ def main():
 if __name__ == "__main__":
     main()
 
-print(witnesses_df[["Witness_H-ID", "Part_div_order"]].drop_duplicates().head(20))

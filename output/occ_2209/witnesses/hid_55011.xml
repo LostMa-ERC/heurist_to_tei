@@ -3,13 +3,8 @@
   <teiHeader>
     <fileDesc>
       <titleStmt>
-        <title>fragm</title>
-        <funder>
-          <orgName>European Research Council</orgName>
-          <note>Horizon Europe ERC Grant number <idno>101117408</idno>
-          </note>
-          <note>Funded by the European Research Council. Views and opinions expressed are however those of the author(s) only and not necessarily reflect those of the European Union or the European Research Council. Neither the European Union nor the granting authority can be held responsible for them.</note>
-        </funder>
+        <title type="text_name">Ronsasvals</title>
+        <title type="witness_siglum">fragm</title>
         <principal>
           <persName>
             <forename>Jean-Baptiste</forename>
@@ -58,6 +53,12 @@
             <surname>Hensley</surname>
           </persName>
         </respStmt>
+        <funder>
+          <orgName>European Research Council</orgName>
+          <note>Horizon Europe ERC Grant number <idno>101117408</idno>
+          </note>
+          <note>Funded by the European Research Council. Views and opinions expressed are however those of the author(s) only and not necessarily reflect those of the European Union or the European Research Council. Neither the European Union nor the granting authority can be held responsible for them.</note>
+        </funder>
       </titleStmt>
       <publicationStmt>
         <publisher>ERC LostMA</publisher>
@@ -73,9 +74,17 @@
             <idno type="heurist">55011</idno>
           </msIdentifier>
           <msFrag>
+            <msIdentifier>
+              <settlement>Avignon, Provence-Alpes-Côte d'Azur, France</settlement>
+              <repository ref="https://viaf.org/viaf/126072696">Archives départementales de Vaucluse</repository>
+              <idno type="shelfmark">3 E 4 / 1132</idno>
+              <altIdentifier type="old-shelfmark">
+                <idno>&lt;NA&gt;</idno>
+              </altIdentifier>
+            </msIdentifier>
             <msContents>
               <msItemStruct>
-                <locus from="['11ra" to="22ra']"/>
+                <locus from="11ra" to="22ra"/>
               </msItemStruct>
             </msContents>
           </msFrag>

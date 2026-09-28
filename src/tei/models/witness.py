@@ -138,7 +138,8 @@ class MsDesc(BaseModel):
     ms_frags: list[MsFrag] = []
 
 class TitleStmt(BaseModel):
-    title: str
+    witness_siglum: Optional[str] = None
+    text_name: Optional[str] = None
 
 
 class Lang(BaseModel):

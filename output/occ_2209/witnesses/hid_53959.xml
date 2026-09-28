@@ -3,13 +3,8 @@
   <teiHeader>
     <fileDesc>
       <titleStmt>
-        <title>gall. oct. 41</title>
-        <funder>
-          <orgName>European Research Council</orgName>
-          <note>Horizon Europe ERC Grant number <idno>101117408</idno>
-          </note>
-          <note>Funded by the European Research Council. Views and opinions expressed are however those of the author(s) only and not necessarily reflect those of the European Union or the European Research Council. Neither the European Union nor the granting authority can be held responsible for them.</note>
-        </funder>
+        <title type="text_name">Fierabras occitan</title>
+        <title type="witness_siglum">gall. oct. 41</title>
         <principal>
           <persName>
             <forename>Jean-Baptiste</forename>
@@ -58,6 +53,12 @@
             <surname>Hensley</surname>
           </persName>
         </respStmt>
+        <funder>
+          <orgName>European Research Council</orgName>
+          <note>Horizon Europe ERC Grant number <idno>101117408</idno>
+          </note>
+          <note>Funded by the European Research Council. Views and opinions expressed are however those of the author(s) only and not necessarily reflect those of the European Union or the European Research Council. Neither the European Union nor the granting authority can be held responsible for them.</note>
+        </funder>
       </titleStmt>
       <publicationStmt>
         <publisher>ERC LostMA</publisher>
@@ -73,9 +74,17 @@
             <idno type="heurist">53959</idno>
           </msIdentifier>
           <msFrag>
+            <msIdentifier>
+              <settlement>Berlin, Germany</settlement>
+              <repository ref="https://viaf.org/viaf/157207056">Staatsbibliothek zu Berlin Preußischer Kulturbesitz</repository>
+              <idno type="shelfmark">Ms. gall. oct. 41</idno>
+              <altIdentifier type="old-shelfmark">
+                <idno>&lt;NA&gt;</idno>
+              </altIdentifier>
+            </msIdentifier>
             <msContents>
               <msItemStruct>
-                <locus from="['1r" to="71v']"/>
+                <locus from="1r" to="71v"/>
               </msItemStruct>
             </msContents>
             <additional>

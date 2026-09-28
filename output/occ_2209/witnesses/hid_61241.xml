@@ -3,13 +3,8 @@
   <teiHeader>
     <fileDesc>
       <titleStmt>
-        <title>fragm</title>
-        <funder>
-          <orgName>European Research Council</orgName>
-          <note>Horizon Europe ERC Grant number <idno>101117408</idno>
-          </note>
-          <note>Funded by the European Research Council. Views and opinions expressed are however those of the author(s) only and not necessarily reflect those of the European Union or the European Research Council. Neither the European Union nor the granting authority can be held responsible for them.</note>
-        </funder>
+        <title type="text_name">Andrieu de Fransa</title>
+        <title type="witness_siglum">fragm</title>
         <principal>
           <persName>
             <forename>Jean-Baptiste</forename>
@@ -58,6 +53,12 @@
             <surname>Hensley</surname>
           </persName>
         </respStmt>
+        <funder>
+          <orgName>European Research Council</orgName>
+          <note>Horizon Europe ERC Grant number <idno>101117408</idno>
+          </note>
+          <note>Funded by the European Research Council. Views and opinions expressed are however those of the author(s) only and not necessarily reflect those of the European Union or the European Research Council. Neither the European Union nor the granting authority can be held responsible for them.</note>
+        </funder>
       </titleStmt>
       <publicationStmt>
         <publisher>ERC LostMA</publisher>
@@ -73,9 +74,17 @@
             <idno type="heurist">61241</idno>
           </msIdentifier>
           <msFrag>
+            <msIdentifier>
+              <settlement>New York, New York, United States</settlement>
+              <repository ref="https://viaf.org/viaf/140782799">Pierpont Morgan Library</repository>
+              <idno type="shelfmark">MS M.819</idno>
+              <altIdentifier type="old-shelfmark">
+                <idno>&lt;NA&gt;</idno>
+              </altIdentifier>
+            </msIdentifier>
             <msContents>
               <msItemStruct>
-                <locus from="['27ra" to="27va']"/>
+                <locus from="27ra" to="27va"/>
               </msItemStruct>
             </msContents>
           </msFrag>

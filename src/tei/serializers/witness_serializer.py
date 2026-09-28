@@ -205,28 +205,60 @@ def parse_date_range(date_val) -> tuple[str | None, str | None]:
 
 
 def parse_locus_range(page_ranges) -> tuple[str | None, str | None]:
-
-    if not page_ranges or page_ranges == "" or pd.isna(page_ranges):
+    """
+    ['30r-50v'] ou "['30r-50v']" ou '27ra - 27va' → ("30r", "50v")
+    '152' ou '? (Jaufré)' (pas de plage)       → (None, None)
+    """
+    if page_ranges is None:
         return None, None
-    
-    if isinstance(page_ranges, list):
+    if isinstance(page_ranges, (list, tuple)):
         if len(page_ranges) == 0:
             return None, None
         page_ranges = page_ranges[0]
-    
-    page_ranges = str(page_ranges).strip()
-    
-    # Vérifie si c'est une vraie plage (contient "-")
-    if "-" not in page_ranges:
-        # C'est un cas comme '152' ou '? (Apollonius de Tyr)'
+    if isinstance(page_ranges, float) and pd.isna(page_ranges):
         return None, None
-    
-    # Parse '1r-32v'
-    parts = page_ranges.split("-", 1)  # Split seulement sur le premier "-"
-    if len(parts) == 2:
-        return parts[0].strip(), parts[1].strip()
-    
-    return None, None
+
+    # Nettoie la représentation texte d'une liste : ['30r-50v'] → 30r-50v
+    s = str(page_ranges).strip().strip("[]").strip().strip("'\"").strip()
+
+    if not s or "-" not in s or s.startswith("?"):
+        return None, None
+    start, end = s.split("-", 1)
+    return start.strip() or None, end.strip() or None
+
+def viaf_uri(viaf: str | None) -> str | None:
+    """Convertit la valeur VIAF (parfois lue comme float) en URI, ou None."""
+    if not viaf:
+        return None
+    try:
+        f = float(viaf)
+    except ValueError:
+        return None
+    if f > 2**53:   # précision perdue en float : valeur inexploitable
+        return None
+    return f"https://viaf.org/viaf/{int(f)}"
+
+
+def add_frag_ms_identifier(frag_el: etree._Element, ms_id: MsIdentifier | None) -> None:
+    """msIdentifier d'un msFrag : structure toujours complète, avec ou sans données."""
+    ms_id_el = sub(frag_el, "msIdentifier")
+
+    settlement = ms_id.settlement.name if ms_id and ms_id.settlement else None
+    sub(ms_id_el, "settlement", settlement)
+
+    repo = ms_id.repository if ms_id else None
+    sub(ms_id_el, "repository",
+        repo.name if repo else None,
+        ref=viaf_uri(repo.viaf) if repo else None)
+
+    shelfmark = next(
+        (i.value for i in ms_id.idnos if i.type == "shelfmark"), None
+    ) if ms_id else None
+    sub(ms_id_el, "idno", shelfmark, type="shelfmark")
+
+    alt_el = sub(ms_id_el, "altIdentifier", type="old-shelfmark")
+    old = ms_id.alt_identifier.idno.value if ms_id and ms_id.alt_identifier else None
+    sub(alt_el, "idno", old)
 
 # ── Construction du modèle Pydantic depuis une ligne ─────────
 
@@ -235,6 +267,14 @@ def rows_to_witness_model(group_rows: pd.DataFrame) -> Witness:
     Construit un objet Pydantic Witness depuis UN GROUP de lignes (Parts).
     Une ligne = une Part du même Witness.
     """
+    group_rows = (
+        group_rows
+        .drop_duplicates(subset="Part_H-ID")   # l'explode/merge peut dupliquer des lignes
+        .sort_values("Part_div_order",
+                     key=lambda s: pd.to_numeric(s, errors="coerce"),
+                     na_position="last")       # msFrag dans l'ordre des parts
+    )
+    
     first_row = group_rows.iloc[0]  # Métadonnées du Witness (identiques pour tout le groupe)
     hid = str(int(first_row["Witness_H-ID"]))
 
@@ -248,7 +288,10 @@ def rows_to_witness_model(group_rows: pd.DataFrame) -> Witness:
     print("=" * 50)
 
     # TitleStmt
-    title_stmt = TitleStmt(title=val(first_row, "Witness_preferred_siglum") or f"Witness {hid}")
+    title_stmt = TitleStmt(
+        witness_siglum=val(first_row, "Witness_preferred_siglum") or f"Witness {hid}",
+        text_name=val(first_row, "TextTable_preferred_name"),
+    )
 
     # LangUsage
     lang_col = val(first_row, "Witness_regional_writing_style Name")
@@ -279,6 +322,7 @@ def rows_to_witness_model(group_rows: pd.DataFrame) -> Witness:
     ms_identifier_top = MsIdentifier(idnos=[idno_heurist])
 
     # Boucle pour construire un msFrag par Part
+    
     ms_frags = []
     for _, row in group_rows.iterrows():
         settlement = Settlement(
@@ -289,6 +333,7 @@ def rows_to_witness_model(group_rows: pd.DataFrame) -> Witness:
             name=val(row, "Repository_preferred_name"),
             type="preferred_name",
             heurist_id=val(row, "Repository_H-ID"),
+            viaf=val(row, "Repository_VIAF"),
         )
 
         idnos_frag = []
@@ -311,39 +356,28 @@ def rows_to_witness_model(group_rows: pd.DataFrame) -> Witness:
             alt_identifier=alt_identifier,
         )
 
-        # MsContents avec author/title du TextTable + page_ranges de Part
-        page_ranges = val(row, "Part_page_ranges")
-        locus_from, locus_to = parse_locus_range(page_ranges)
+        # Valeur brute (liste) : parse_locus_range la gère
+        locus_from, locus_to = parse_locus_range(row.get("Part_page_ranges"))
+        frag_ms_contents = MsContents(ms_item_structs=[
+            MsItemStruct(locus=Locus(from_=locus_from, to=locus_to or ""))
+        ])
 
-        print(f"Part_page_ranges: {page_ranges}")
-        print(f"  → locus_from: {locus_from}, locus_to: {locus_to}")
-
-        ms_item = MsItemStruct(
-            locus=Locus(from_=locus_from, to=locus_to or ""),
-        )
-        frag_ms_contents = MsContents(ms_item_structs=[ms_item])
-
-        # Digitization : propre à chaque Part, plus à la dernière ligne du groupe
         additional = None
         digitization_uri = val(row, "Digitization_URI")
         if digitization_uri:
-            idno = Idno(value="", type="IIIF")
             bibl = Bibl(
                 type="digitisation",
-                idno=idno,
+                idno=Idno(value="", type="IIIF"),
                 iiif_target=None,
                 uri_text=digitization_uri,
             )
-            surrogates = Surrogates(bibl_list=[bibl])
-            additional = Additional(surrogates=surrogates)
+            additional = Additional(surrogates=Surrogates(bibl_list=[bibl]))
 
-        ms_frags.append(
-            MsFrag(
-                ms_identifier=frag_ms_identifier,
-                ms_contents=frag_ms_contents,
-                additional=additional,
-            )
-        )
+        ms_frags.append(MsFrag(
+            ms_identifier=frag_ms_identifier,
+            ms_contents=frag_ms_contents,
+            additional=additional,
+        ))
 
     # MsDesc
     status = val(first_row, "Witness_status_witness") or "unknown"
@@ -384,7 +418,9 @@ def witness_to_xml(witness: Witness) -> etree._Element:
     # fileDesc
     file_desc = sub(header, "fileDesc")
     title_stmt = sub(file_desc, "titleStmt")
-    sub(title_stmt, "title", witness.title_stmt.title)
+    if witness.title_stmt.text_name:
+        sub(title_stmt, "title", witness.title_stmt.text_name, type="text_name")
+    sub(title_stmt, "title", witness.title_stmt.witness_siglum, type="witness_siglum")
     add_project_metadata(title_stmt)
 
     pub_stmt = sub(file_desc, "publicationStmt")
@@ -441,51 +477,44 @@ def witness_to_xml(witness: Witness) -> etree._Element:
         sub(ms_id_el, "idno", idno.value, type=idno.type)
 
     # msFrag
-    for frag in ms.ms_frags:
+    # msFrag : au moins un, même sans données Heurist
+    for frag in (ms.ms_frags or [None]):
         frag_el = sub(ms_desc_el, "msFrag")
-    
+        add_frag_ms_identifier(frag_el, frag.ms_identifier if frag else None)
 
-    if frag.ms_contents and frag.ms_contents.ms_item_structs:
-        frag_contents_el = sub(frag_el, "msContents")
-        for item in frag.ms_contents.ms_item_structs:
-            item_el = sub(frag_contents_el, "msItemStruct")
-            
-            if item.locus:
-                attrs = {}
-                if item.locus.from_:
-                    attrs["from"] = item.locus.from_
-                if item.locus.to:
-                    attrs["to"] = item.locus.to
-                # Texte du locus = Part_page_ranges
-                sub(item_el, "locus",  **attrs)
-            
-    # Additional / Surrogates
-    if frag.additional and frag.additional.surrogates and frag.additional.surrogates.bibl_list:
-        additional_el = sub(frag_el, "additional")
-        surrogates_el = sub(additional_el, "surrogates")
-        
-        for bibl in frag.additional.surrogates.bibl_list:
-            bibl_el = sub(surrogates_el, "bibl", type=bibl.type)
-            
-            # Digitization_URI
-            if bibl.uri_text:
-                bibl_el.text = bibl.uri_text
-            
-            # iiif à rajouter pour idno @type quand j'aurai compris où sont les données 
-             
-            # ptr
-            if bibl.iiif_target:
-                sub(bibl_el, "ptr", target=bibl.iiif_target)
-            else:
-                sub(bibl_el, "ptr")
+        if frag and frag.ms_contents and frag.ms_contents.ms_item_structs:
+            frag_contents_el = sub(frag_el, "msContents")
+            for item in frag.ms_contents.ms_item_structs:
+                item_el = sub(frag_contents_el, "msItemStruct")
+                if item.locus:
+                    attrs = {}
+                    if item.locus.from_:
+                        attrs["from"] = item.locus.from_
+                    if item.locus.to:
+                        attrs["to"] = item.locus.to
+                    sub(item_el, "locus", **attrs)
+
+        if (frag and frag.additional and frag.additional.surrogates
+                and frag.additional.surrogates.bibl_list):
+            additional_el = sub(frag_el, "additional")
+            surrogates_el = sub(additional_el, "surrogates")
+            for bibl in frag.additional.surrogates.bibl_list:
+                bibl_el = sub(surrogates_el, "bibl", type=bibl.type)
+                if bibl.uri_text:
+                    bibl_el.text = bibl.uri_text
+                if bibl.iiif_target:
+                    sub(bibl_el, "ptr", target=bibl.iiif_target)
+                else:
+                    sub(bibl_el, "ptr")
 
     if ms.note:
         sub(ms_desc_el, "note", ms.note, type="witness-status")
 
-    # text - à reprendre quand j'aurai branché les sorties HTR
+    # text - à reprendre quand j'aurai branché les sorties HTR - pour le moment c'est juste un p 
+    # pour que les fichiers valident. 
     text_el = sub(tei, "text")
-    sub(text_el, "body")
-
+    body_el = sub(text_el, "body")
+    sub(body_el, "p")   # <p/> vide : permet de valider en l'absence de transcription
     return tei
 
 

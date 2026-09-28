@@ -3,13 +3,8 @@
   <teiHeader>
     <fileDesc>
       <titleStmt>
-        <title>Witness 54327</title>
-        <funder>
-          <orgName>European Research Council</orgName>
-          <note>Horizon Europe ERC Grant number <idno>101117408</idno>
-          </note>
-          <note>Funded by the European Research Council. Views and opinions expressed are however those of the author(s) only and not necessarily reflect those of the European Union or the European Research Council. Neither the European Union nor the granting authority can be held responsible for them.</note>
-        </funder>
+        <title type="text_name">Jaufré</title>
+        <title type="witness_siglum">Witness 54327</title>
         <principal>
           <persName>
             <forename>Jean-Baptiste</forename>
@@ -58,6 +53,12 @@
             <surname>Hensley</surname>
           </persName>
         </respStmt>
+        <funder>
+          <orgName>European Research Council</orgName>
+          <note>Horizon Europe ERC Grant number <idno>101117408</idno>
+          </note>
+          <note>Funded by the European Research Council. Views and opinions expressed are however those of the author(s) only and not necessarily reflect those of the European Union or the European Research Council. Neither the European Union nor the granting authority can be held responsible for them.</note>
+        </funder>
       </titleStmt>
       <publicationStmt>
         <publisher>ERC LostMA</publisher>
@@ -73,6 +74,14 @@
             <idno type="heurist">54327</idno>
           </msIdentifier>
           <msFrag>
+            <msIdentifier>
+              <settlement>Barcelona, Catalonia, Spain</settlement>
+              <repository ref="https://viaf.org/viaf/124501855">Arxiu Municipal de Barcelona</repository>
+              <idno type="shelfmark">C06-B109</idno>
+              <altIdentifier type="old-shelfmark">
+                <idno>&lt;NA&gt;</idno>
+              </altIdentifier>
+            </msIdentifier>
             <msContents>
               <msItemStruct>
                 <locus/>

@@ -38,7 +38,7 @@ def build_witnesses(db: LostmaDB, available_languages: list[str]) -> pd.DataFram
     # doivent pas être dupliquées ici.
     cols_to_drop = [
         col for col in witnesses_full.columns
-        if col.startswith("TextTable_")
+        if (col.startswith("TextTable_") and col != "TextTable_preferred_name")
         or col.startswith("Genre_")
         or col.startswith("Story_")
     ]
@@ -119,6 +119,9 @@ def build_witnesses(db: LostmaDB, available_languages: list[str]) -> pd.DataFram
 
 
     return witnesses
+    print("TextTable_preferred_name présent ?", "TextTable_preferred_name" in witnesses.columns)
+    print("Valeurs non nulles :", witnesses["TextTable_preferred_name"].notna().sum(), "/", len(witnesses))
+    print(witnesses[["Witness_H-ID", "TextTable_preferred_name"]].head(10))
 
 
 
@@ -137,5 +140,4 @@ if __name__ == "__main__":
     available_languages = ["dum (Middle Dutch)", "enm (Middle English)"]
     witnesses = build_witnesses(db, available_languages)
 
-    print(witnesses.columns.tolist())
-    print(witnesses.head())
+    print(witnesses_df.columns.tolist())
