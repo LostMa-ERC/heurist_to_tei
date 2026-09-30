@@ -2,6 +2,7 @@
 # Mapping entre les colonnes du "witnesses" définies dans witness_to_tei.py
 # et les éléments TEI définis dans witness.odd 
 
+# Pour tous les commentaires, se référer à l'ODD witness qui contient toutes les explications + liens avec la DB
 
 record_type: witness
 
@@ -10,17 +11,16 @@ tei_root:
     source: Witness_H-ID
     transform: "lambda x: f'witness_{int(x)}'"
 
-# ============================================================
-# teiHeader / fileDesc / titleStmt
-# ============================================================
+
+#  titleStmt
+
 titleStmt:
   title:
     source: Witness_preferred_siglum
     tei_path: teiHeader/fileDesc/titleStmt/title
 
-# ============================================================
-# teiHeader / profileDesc / langUsage
-# ============================================================
+# langUsage
+
 langUsage:
   language:
     # Valeur textuelle complète (ex. "dum (Middle Dutch)")
@@ -41,9 +41,9 @@ langUsage:
           n: scripta
         source: Witness_scripta_freetext
 
-# ============================================================
-# teiHeader / profileDesc / creation
-# ============================================================
+
+# profileDesc / creation
+
 creation:
   date:
     tei_path: teiHeader/profileDesc/creation/date
@@ -58,9 +58,9 @@ creation:
         source: Witness_date_of_creation
         # Extraire la valeur numérique de la date si structurée
 
-# ============================================================
-# teiHeader / sourceDesc / msDesc
-# ============================================================
+
+# sourceDesc / msDesc
+
 msDesc:
   tei_path: teiHeader/sourceDesc/msDesc
   attributes:
@@ -69,7 +69,7 @@ msDesc:
       # Valeurs fermées : citation, complete, defective, fragmentary, lost, unknown
       nullable_fallback: unknown
 
-  # --- msIdentifier (niveau witness) ---
+  # msIdentifier (niveau witness)
   msIdentifier:
     tei_path: teiHeader/sourceDesc/msDesc/msIdentifier
     children:
@@ -113,15 +113,15 @@ msDesc:
     attributes:
       type: witness-status
 
-  # ============================================================
-  # msFrag (1 par Part, piloté par Part_div_order)
-  # ============================================================
+
+  # msFrag (1 par Part, déterminé par la valeur de Part_div_order)
+ 
   msFrag:
     tei_path: teiHeader/sourceDesc/msDesc/msFrag
     # Chaque ligne du dataframe correspondant à une Part génère un msFrag
     iterate_on: Part_div_order
 
-    # msIdentifier du fragment (document porteur)
+    # msIdentifier du fragment
     msIdentifier:
       children:
         - element: settlement

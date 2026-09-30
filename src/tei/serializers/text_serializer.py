@@ -171,7 +171,7 @@ def cert_mapping(certainty: str | None) -> str | None:
     return mapping.get(certainty) if certainty else None
 
 
-# ── Construction du modèle Pydantic depuis un groupe de lignes ─
+# Construction du modèle Pydantic depuis un groupe de lignes
 
 def group_to_text_model(group: pd.DataFrame) -> Text:
     """
@@ -181,7 +181,7 @@ def group_to_text_model(group: pd.DataFrame) -> Text:
     row = group.iloc[0]    # données communes au text (première ligne)
     hid = str(int(row["H-ID"]))
 
-    # ── FileDesc ──────────────────────────────────────────────
+    # fileDesc
     title_stmt = TitleStmt(
         titles=[Title(value=val(row, "preferred_name") or f"Text {hid}")],
         authors=[Author(
@@ -189,7 +189,7 @@ def group_to_text_model(group: pd.DataFrame) -> Text:
         )] if val(row, "author_freetext") else [],
     )
 
-    # listWit : construit depuis les witness H-ID liés
+    # listWit : construit depuis les witness H-ID liés - à revoir car ça n'a pas l'air de marcher
     witnesses = []
     witness_hids = val(row, "witness H-ID")
     if witness_hids:
@@ -208,7 +208,7 @@ def group_to_text_model(group: pd.DataFrame) -> Text:
 
     file_desc = FileDesc(title_stmt=title_stmt, source_desc=source_desc)
 
-    # encodingDesc --> A REVOIR
+    # encodingDesc --> A REVOIR ça n'a pas l'air de marcher
     # Les taxonomies sont déclarées une fois par fichier text
     encoding_desc = EncodingDesc(class_decl=ClassDecl(taxonomies=[
         Taxonomy(xml_id="genre",          categories=[]),
@@ -323,13 +323,9 @@ def text_to_xml(text: Text) -> etree._Element:
         if author.note:
             sub(author_el, "note", author.note)
 
-    source_desc_el = sub(file_desc_el, "sourceDesc")
-    if text.file_desc.source_desc and text.file_desc.source_desc.list_wit:
-        list_wit_el = sub(source_desc_el, "listWit")
-        for w in text.file_desc.source_desc.list_wit.witnesses:
-            sub(list_wit_el, "witness", xml_id=w.xml_id)
+    add_project_metadata(title_stmt_el)
 
-    pub_stmt = sub(file_desc, "publicationStmt")
+    pub_stmt = sub(file_desc_el, "publicationStmt")
     sub(pub_stmt, "publisher", "ERC LostMA")
     sub(pub_stmt, "date", when="2026")
     availability = sub(pub_stmt, "availability")
@@ -340,6 +336,12 @@ def text_to_xml(text: Text) -> etree._Element:
         target="http://creativecommons.org/licenses/by/4.0/deed.en",
     )
     sub(availability, "p", "Les données sont disponibles sous licence CC BY 4.0.")
+
+    source_desc_el = sub(file_desc_el, "sourceDesc")
+    if text.file_desc.source_desc and text.file_desc.source_desc.list_wit:
+        list_wit_el = sub(source_desc_el, "listWit")
+        for w in text.file_desc.source_desc.list_wit.witnesses:
+            sub(list_wit_el, "witness", xml_id=w.xml_id)
 
     # encodingDesc
     if text.encoding_desc:
@@ -474,5 +476,7 @@ def serialize_texts(texts_df: pd.DataFrame, output_dir: Path) -> None:
 
         except Exception as e:
             log.error(f"  [!] Erreur pour text H-ID {hid} : {e}")
+            import traceback
+            traceback.print_exc()
 
     log.info(f"  {success}/{total} fichier(s) text produit(s) dans {output_dir}")

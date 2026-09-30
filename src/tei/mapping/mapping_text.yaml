@@ -6,9 +6,10 @@
 namespaces:
   tei: "http://www.tei-c.org/ns/1.0"
 
-# ============================================================
-# RACINE TEI
-# ============================================================
+
+# Pour tous les commentaires, se référer à l'ODD Text ! 
+
+# Racine
 root:
   element: TEI
   attributes:
@@ -16,28 +17,24 @@ root:
       source: TextTable_H-ID         # identifiant Heurist du text
       transform: "hid_{value}"       # préfixe "hid_" pour garantir un ID XML valide
 
-# ============================================================
-# teiHeader
-# Enfants autorisés : fileDesc, encodingDesc, profileDesc (séquence stricte)
-# ============================================================
 
-# ============================================================
-# teiHeader / fileDesc / titleStmt
-# ============================================================
+# teiHeader + enfants
+# Enfants autorisés : fileDesc, encodingDesc, profileDesc (séquence stricte)
+
 titleStmt:
 
   title:
     xpath: teiHeader/fileDesc/titleStmt/title
     attributes:
       type: "preferred"
-    source: TextTable_preferred_name    # remarque ODD : "Equivalent to the DB's TextTable_preferred_name"
+    source: TextTable_preferred_name    # "Equivalent to the DB's TextTable_preferred_name
 
   author:
     xpath: teiHeader/fileDesc/titleStmt/author
-    source: TextTable_is_written_by_Name  # remarque ODD : "receives data from DB's TextTable_is_written_by Name"
+    source: TextTable_is_written_by_Name  # receives data from DB's TextTable_is_written_by Name
     children:
       note:
-        source: TextTable_author_freetext   # remarque ODD : "child-element note receives DB's TextTable_author_freetext"
+        source: TextTable_author_freetext   # child-element note receives DB's TextTable_author_freetext
         condition: "TextTable_author_freetext is not null"
 
 
@@ -130,9 +127,9 @@ titleStmt:
               surname:
                 value: "Godreau"
 
-# ============================================================
-# teiHeader / fileDesc / sourceDesc / listWit
-# ============================================================
+
+# sourceDesc / listWit
+
 sourceDesc:
   listWit:
     xpath: teiHeader/fileDesc/sourceDesc/listWit
@@ -141,14 +138,13 @@ sourceDesc:
       attributes:
         xml:id:
           source: Witness_H-ID
-          transform: "hid_{value}"     # format hid_123 requis par l'ODD
+          transform: "hid_{value}"     # format hid_123 requis par DoTS donc dans l'ODD
       content: null                    # textnode optionnel — non mappé en DB
 
-# ============================================================
-# teiHeader / encodingDesc / classDecl / taxonomy
+# classDecl / taxonomy
 # Les taxonomies sont des blocs fixes déclarés une fois,
 # les valeurs fermées sont issues des remarks de category/@xml:id
-# ============================================================
+
 encodingDesc:
   classDecl:
     taxonomy:
@@ -206,33 +202,32 @@ encodingDesc:
               - monoryhme
               - laisse
 
-# ============================================================
-# teiHeader / profileDesc
-# ============================================================
+# profileDesc
+
 profileDesc:
 
   langUsage:
     language:
       xpath: teiHeader/profileDesc/langUsage/language
       attributes:
-        ident: TextTable_language_code    # remarque ODD : "DB's attribute Text_language"
+        ident: TextTable_language_code    # DB's attribute Text_language
       children:
         lang:
           instances:
             - attributes:
                 n: "regional"
-              source: TextTable_regional_writing_style   # remarque : "@n=regional"
+              source: TextTable_regional_writing_style   # @n=regional
             - attributes:
                 n: "scripta"
-              source: TextTable_scripta_freetext          # remarque : "@n=scripta"
+              source: TextTable_scripta_freetext          # @n=scripta
 
   creation:
     xpath: teiHeader/profileDesc/creation
     children:
       date:
         attributes:
-          from: TextTable_date_of_creation_start   # remarque : "TextTable_date_of_creation in @from"
-          to: TextTable_date_of_creation_end        # remarque : "TextTable_date_of_creation in @to"
+          from: TextTable_date_of_creation_start   # TextTable_date_of_creation in @from
+          to: TextTable_date_of_creation_end        # TextTable_date_of_creation in @to
           cert:
             source: TextTable_date_of_creation_certainty
             # valeurs fermées ODD : low (1%-33%) | medium (33%-66%) | high (66%-99%)
@@ -240,18 +235,17 @@ profileDesc:
               unlikely: "low"
               probable: "medium"
               very_likely: "high"
-          source: TextTable_date_of_creation_source  # remarque : "TextTable_date_of_creation_source in @source"
-        content: TextTable_date_freetext              # remarque : "TextTable_date_freetext in the textnode"
+          source: TextTable_date_of_creation_source  # TextTable_date_of_creation_source in @source
+        content: TextTable_date_freetext              # TextTable_date_freetext in the textnode
       placeName:
-        source: Place_place_of_creation              # remarque : "absent from the release but exists in Heurist model"
+        source: Place_place_of_creation              # absent from the release but exists in Heurist model
         condition: "Place_place_of_creation is not null"
 
   textClass:
     xpath: teiHeader/profileDesc/textClass
     children:
       catRef:
-        # remarque ODD : "allows to encode TextTable_literary_form, TextTable_verse_type,
-        #                  TextTable_rhyme_type, TextTable_stanza_type"
+        # allows to encode TextTable_literary_form, TextTable_verse_type, TextTable_rhyme_type, TextTable_stanza_type"
         instances:
           - attributes:
               scheme: "#literary-form"
@@ -287,8 +281,7 @@ profileDesc:
     xpath: teiHeader/profileDesc/textDesc
     children:
       derivation:
-        # remarque ODD : "textnode = TextTable_nature_of_derivations ;
-        #                  @corresp = TextTable_is_derived_from H-ID (format hid_123)"
+        # textnode = TextTable_nature_of_derivations ; @corresp = TextTable_is_derived_from H-ID (format hid_123)"
         content: TextTable_nature_of_derivations
         condition: "TextTable_is_derived_from is not null"
         attributes:
@@ -299,26 +292,18 @@ profileDesc:
   particDesc:
     xpath: teiHeader/profileDesc/particDesc/listPerson
     person:
-      # remarque ODD : "@role spécifie que la personne est l'auteur du texte"
+      # @role spécifie que la personne est l'auteur du texte
       attributes:
         role: "author"
       children:
         p:
           source: TextTable_is_written_by_Name   # même source que titleStmt/author
 
-# ============================================================
+
 # body / graph
-# Non mappé depuis Heurist dans cette phase —
-# structure réservée à une modélisation future (relations entre textes ?)
-# ============================================================
+# Non mappé depuis Heurist dans cette phase : reprendre cette partie ultérieurement 
+# structure réservée à une modélisation future 
+
 body:
   graph:
     note: "Structure non mappée en DB à ce stade. @xml:id et @type requis mais valeurs à définir."
-
-# ============================================================
-# Champs non mappés (à traiter ultérieurement)
-# ============================================================
-# - principal/persName : métadonnées Heurist non encore extraites
-# - respStmt/persName  : idem
-# - body/graph, node, arc, label : structure non encore reliée à la DB
-# - placeName/@source : non disponible dans la release actuelle

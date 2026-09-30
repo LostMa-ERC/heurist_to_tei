@@ -39,6 +39,7 @@ def build_witnesses(db: LostmaDB, available_languages: list[str]) -> pd.DataFram
     cols_to_drop = [
         col for col in witnesses_full.columns
         if (col.startswith("TextTable_") and col != "TextTable_preferred_name")
+        # sauf pour la colonne qui indique le nom du texte = on veut le faire apparaitre sur le fichier witness pour plus de clarté
         or col.startswith("Genre_")
         or col.startswith("Story_")
     ]

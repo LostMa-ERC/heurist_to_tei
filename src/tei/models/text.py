@@ -1,33 +1,12 @@
-# -*- coding: utf-8 -*-
-"""
-src/tei/models/text.py
-
-Modèles Pydantic pour la sérialisation TEI des données Text.
-Basé sur l'ODD test_lostma_text.
-
-Structure TEI couverte :
-    TEI
-    ├── teiHeader
-    │   ├── fileDesc
-    │   │   ├── titleStmt (title, author, principal, respStmt)
-    │   │   └── sourceDesc (listWit)
-    │   ├── encodingDesc (classDecl → taxonomy → category)
-    │   └── profileDesc
-    │       ├── langUsage (language → lang)
-    │       ├── creation (date, placeName)
-    │       ├── textClass (keywords → term, catRef)
-    │       ├── textDesc (constitution, derivation)
-    │       └── particDesc (listPerson → person)
-    └── text
-        └── body
-            └── graph (label, node, arc)
-"""
+# modèle qui définit la structure de données intermédiaire entre le DF et le XML final :
+# Chaque classe hérite de pydantic.BaseModel : validation automatique (si donnée pas conforme au type 
+# attendu ça lève une erreur + découplage (plus facile à debug)
 
 from pydantic import BaseModel, Field
 from typing import Optional, Literal
 
 
-# ── titleStmt ────────────────────────────────────────────────
+# titleStmt
 
 class Title(BaseModel):
     """
@@ -41,7 +20,6 @@ class Title(BaseModel):
 
 class Author(BaseModel):
     """
-    Auteur du texte.
     textnode ← TextTable_is_written_by Name
     note     ← TextTable_author_freetext
     """
@@ -70,7 +48,7 @@ class TitleStmt(BaseModel):
     resp_stmts: list[RespStmt] = []
 
 
-# ── sourceDesc / listWit ──────────────────────────────────────
+# sourceDesc /listWit
 
 class Witness(BaseModel):
     """
@@ -90,22 +68,18 @@ class SourceDesc(BaseModel):
     list_wit: Optional[ListWit] = None
 
 
-# ── encodingDesc / classDecl ──────────────────────────────────
+# encodingDesc
 
 class Category(BaseModel):
-    """
-    @xml:id ← valeur normalisée (ex. "arthurian-romance")
-    desc    ← texte descriptif (pattern A) ou absent (pattern B)
-    """
+    
+   # @xml:id ← valeur normalisée (ex. "arthurian-romance")
+   # desc    ← texte descriptif ou abs
     xml_id: str
     desc: Optional[str] = None
 
 
 class Taxonomy(BaseModel):
-    """
-    @xml:id ← nom de la taxonomie
-              ("genre", "litterary-form", "versification", "rhyme", "stanza")
-    """
+
     xml_id: Literal["genre", "litterary-form", "versification", "rhyme", "stanza"]
     categories: list[Category] = []
 
@@ -118,7 +92,7 @@ class EncodingDesc(BaseModel):
     class_decl: ClassDecl
 
 
-# ── profileDesc / langUsage ───────────────────────────────────
+# profileDesc + langUsage
 
 class Lang(BaseModel):
     """
@@ -148,12 +122,12 @@ class LangUsage(BaseModel):
     languages: list[Language] = []
 
 
-# ── profileDesc / creation ────────────────────────────────────
+# creation
 
 class Date(BaseModel):
     """
-    @from   ← TextTable_date_of_creation (borne basse)
-    @to     ← TextTable_date_of_creation (borne haute)
+    @from   ← TextTable_date_of_creation (début)
+    @to     ← TextTable_date_of_creation (fin)
     @source ← TextTable_date_of_creation_source
     @cert   ← TextTable_date_of_creation_certainty
     textnode ← TextTable_date_freetext
@@ -181,7 +155,7 @@ class Creation(BaseModel):
     place_name: Optional[PlaceName] = None
 
 
-# ── profileDesc / textClass ───────────────────────────────────
+# textClass -> revoir ça aussi je suis pas sûre qu'on l'encode comme ça 
 
 class Term(BaseModel):
     """
@@ -209,7 +183,7 @@ class TextClass(BaseModel):
     cat_refs: list[CatRef] = []
 
 
-# ── profileDesc / textDesc ────────────────────────────────────
+# textDesc
 
 class Constitution(BaseModel):
     """
@@ -232,7 +206,7 @@ class TextDesc(BaseModel):
     derivation: Optional[Derivation] = None
 
 
-# ── profileDesc / particDesc ──────────────────────────────────
+# particDesc
 
 class Person(BaseModel):
     """
@@ -251,7 +225,7 @@ class ParticDesc(BaseModel):
     list_person: Optional[ListPerson] = None
 
 
-# ── profileDesc ───────────────────────────────────────────────
+# profileDesc
 
 class ProfileDesc(BaseModel):
     lang_usage: Optional[LangUsage] = None
@@ -261,7 +235,7 @@ class ProfileDesc(BaseModel):
     partic_desc: Optional[ParticDesc] = None
 
 
-# ── teiHeader ────────────────────────────────────────────────
+# Header
 
 class TeiHeader(BaseModel):
     file_desc: Optional[object] = None    # titleStmt + sourceDesc
@@ -269,7 +243,7 @@ class TeiHeader(BaseModel):
     profile_desc: Optional[ProfileDesc] = None
 
 
-# ── body / graph ──────────────────────────────────────────────
+# body/graph -> revoir aussi pas sûre qu'on encode le graph de cette façon 
 
 class Arc(BaseModel):
     """
@@ -291,6 +265,8 @@ class Node(BaseModel):
     """
     xml_id: str
     label: Optional[str] = None
+
+# idem peut-être à virer pour juste intégrer des bouts de fichiers OpenStemmata
 
 
 class Graph(BaseModel):
@@ -314,7 +290,7 @@ class TextBody(BaseModel):
     body: Body
 
 
-# ── Modèle racine ─────────────────────────────────────────────
+
 
 class FileDesc(BaseModel):
     title_stmt: TitleStmt
@@ -323,14 +299,14 @@ class FileDesc(BaseModel):
 
 class Text(BaseModel):
     """
-    Modèle racine pour un fichier TEI Text LostMa.
+    Modèle racine pour un fichier Text
 
     @xml:id ← TextTable H-ID (format hid_123)
 
     Remarques :
-    - listWit est alimenté par OpenStemmata (witness H-IDs liés au texte)
-    - classDecl (taxonomies) est généré une fois et partagé entre tous les textes
-    - graph dans body est produit depuis les données Stemma + OpenStemmata
+    - listWit est alimenté par OpenStemmata (witness H-IDs liés au texte) -> REVOIR
+    - classDecl (taxonomies) est généré une fois et partagé entre tous les textes -> REVOIR
+    - graph dans body est produit depuis les données Stemma + OpenStemmata -> REVOIR
     """
     xml_id: str
     file_desc: FileDesc

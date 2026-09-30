@@ -205,10 +205,7 @@ def parse_date_range(date_val) -> tuple[str | None, str | None]:
 
 
 def parse_locus_range(page_ranges) -> tuple[str | None, str | None]:
-    """
-    ['30r-50v'] ou "['30r-50v']" ou '27ra - 27va' → ("30r", "50v")
-    '152' ou '? (Jaufré)' (pas de plage)       → (None, None)
-    """
+   
     if page_ranges is None:
         return None, None
     if isinstance(page_ranges, (list, tuple)):
@@ -260,12 +257,12 @@ def add_frag_ms_identifier(frag_el: etree._Element, ms_id: MsIdentifier | None) 
     old = ms_id.alt_identifier.idno.value if ms_id and ms_id.alt_identifier else None
     sub(alt_el, "idno", old)
 
-# ── Construction du modèle Pydantic depuis une ligne ─────────
+# Construction du modèle Pydantic depuis une ligne
 
 def rows_to_witness_model(group_rows: pd.DataFrame) -> Witness:
     """
-    Construit un objet Pydantic Witness depuis UN GROUP de lignes (Parts).
-    Une ligne = une Part du même Witness.
+    Construit un objet Pydantic Witness
+    Une ligne = une Part du même Witness
     """
     group_rows = (
         group_rows
@@ -278,14 +275,6 @@ def rows_to_witness_model(group_rows: pd.DataFrame) -> Witness:
     first_row = group_rows.iloc[0]  # Métadonnées du Witness (identiques pour tout le groupe)
     hid = str(int(first_row["Witness_H-ID"]))
 
-    print(f"\n=== DEBUG: Colonnes disponibles pour witness {hid} ===")
-    print(group_rows.columns.tolist())
-
-    print(f"\nPremière ligne (sample):")
-    for col in group_rows.columns:
-        if "TextTable" in col or "Part" in col or "Repository" in col:
-            print(f"  {col}: {first_row.get(col, 'NOT FOUND')}")
-    print("=" * 50)
 
     # TitleStmt
     title_stmt = TitleStmt(
@@ -476,7 +465,7 @@ def witness_to_xml(witness: Witness) -> etree._Element:
     for idno in ms_id.idnos:
         sub(ms_id_el, "idno", idno.value, type=idno.type)
 
-    # msFrag
+  
     # msFrag : au moins un, même sans données Heurist
     for frag in (ms.ms_frags or [None]):
         frag_el = sub(ms_desc_el, "msFrag")

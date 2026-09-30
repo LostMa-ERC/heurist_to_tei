@@ -1,6 +1,10 @@
 from pydantic import BaseModel, Field
 from typing import Optional, Literal
 
+# modèle qui définit la structure de données intermédiaire entre le DF et le XML final :
+# Chaque classe hérite de pydantic.BaseModel : validation automatique (si donnée pas conforme au type 
+# attendu ça lève une erreur + découplage (plus facile à debug)
+
 class Settlement(BaseModel):
     name: Optional[str] = None
     heurist_id: Optional[int] = None

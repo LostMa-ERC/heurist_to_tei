@@ -20,6 +20,8 @@ Relation N-N :
     Un texte peut avoir plusieurs stemmata associés. Le DataFrame
     texts est déjà explosé sur "in_stemma H-ID" par build_texts(),
     donc chaque ligne correspond à un couple (texte, stemma).
+
+Note à Virgile : ça je suis pas sûre qu'on garde ! 
 """
 
 import re
