@@ -21,7 +21,7 @@ source env/bin/activate
 ```
 Install the requirements 
 ```bash
-pip install -r requirements.txt
+pip install -e .
 ```
 Launch the script and specify which languages are required (ISO code + full name as listed on the [github.io](https://lostma-erc.github.io/), ex : "dum (Middle Dutch)")
 ```bash
