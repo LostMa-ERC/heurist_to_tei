@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="hid_47745">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="preferred">Valentijn en Nameloos</title>
+      </titleStmt>
+      <sourceDesc/>
+    </fileDesc>
+    <encodingDesc>
+      <classDecl>
+        <taxonomy xml:id="genre"/>
+        <taxonomy xml:id="litterary-form"/>
+        <taxonomy xml:id="versification"/>
+        <taxonomy xml:id="rhyme"/>
+        <taxonomy xml:id="stanza"/>
+      </classDecl>
+    </encodingDesc>
+    <profileDesc>
+      <langUsage>
+        <language ident="dum">Middle Dutch<lang n="regional">46305</lang>
+        </language>
+      </langUsage>
+      <creation>
+        <date from="1301" to="1400" source="Caers &amp; Kestemont (2011), p. 39.">'Volgens Van den Bergs versanalyse moet de tekst stammen uit de veertiende eeuw (1987, p. 35).'</date>
+      </creation>
+      <textClass>
+        <catRef scheme="#genre" target="#other"/>
+        <catRef scheme="#litterary-form" target="#verse"/>
+        <catRef scheme="#versification" target="#[]"/>
+        <catRef scheme="#rhyme" target="#[]"/>
+      </textClass>
+      <textDesc>
+        <derivation corresp="hid_[]">Possibly translated from a lost French source.</derivation>
+      </textDesc>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body/>
+  </text>
+</TEI>

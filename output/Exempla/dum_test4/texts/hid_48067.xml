@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="hid_48067">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="preferred">Roman van Iechemias</title>
+      </titleStmt>
+      <sourceDesc/>
+    </fileDesc>
+    <encodingDesc>
+      <classDecl>
+        <taxonomy xml:id="genre"/>
+        <taxonomy xml:id="litterary-form"/>
+        <taxonomy xml:id="versification"/>
+        <taxonomy xml:id="rhyme"/>
+        <taxonomy xml:id="stanza"/>
+      </classDecl>
+    </encodingDesc>
+    <profileDesc>
+      <langUsage>
+        <language ident="dum">Middle Dutch<lang n="regional">46305</lang>
+        </language>
+      </langUsage>
+      <creation>
+        <date from="1176" to="1325" source="Caers &amp; Kestemont (2011), p. 39.">'De editeur dateert de tekst met weinig argumenten in de tweede helft van de dertiende eeuw.'</date>
+      </creation>
+      <textClass>
+        <catRef scheme="#genre" target="#other"/>
+        <catRef scheme="#litterary-form" target="#verse"/>
+        <catRef scheme="#versification" target="#[]"/>
+        <catRef scheme="#rhyme" target="#['full-rhyme']"/>
+      </textClass>
+      <textDesc>
+        <derivation corresp="hid_[]"/>
+      </textDesc>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body/>
+  </text>
+</TEI>

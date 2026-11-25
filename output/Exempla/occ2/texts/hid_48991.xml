@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="hid_48991">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="preferred">Merlin</title>
+      </titleStmt>
+      <sourceDesc/>
+    </fileDesc>
+    <encodingDesc>
+      <classDecl>
+        <taxonomy xml:id="genre"/>
+        <taxonomy xml:id="litterary-form"/>
+        <taxonomy xml:id="versification"/>
+        <taxonomy xml:id="rhyme"/>
+        <taxonomy xml:id="stanza"/>
+      </classDecl>
+    </encodingDesc>
+    <profileDesc>
+      <langUsage>
+        <language ident="pro">Occitan<lang n="regional">&lt;NA&gt;</lang>
+        </language>
+      </langUsage>
+      <creation>
+        <date from="1201" to="1300">13e s (Jonas)</date>
+      </creation>
+      <textClass>
+        <catRef scheme="#genre" target="#roman"/>
+        <catRef scheme="#litterary-form" target="#prose"/>
+        <catRef scheme="#versification" target="#[]"/>
+        <catRef scheme="#rhyme" target="#[]"/>
+      </textClass>
+      <textDesc>
+        <derivation corresp="hid_[]">direct translation of Robert de Boron's verse text? or from a French prose version?</derivation>
+      </textDesc>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body/>
+  </text>
+</TEI>

@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="hid_47334">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="preferred">Van den bere Wisselau</title>
+      </titleStmt>
+      <sourceDesc/>
+    </fileDesc>
+    <encodingDesc>
+      <classDecl>
+        <taxonomy xml:id="genre"/>
+        <taxonomy xml:id="litterary-form"/>
+        <taxonomy xml:id="versification"/>
+        <taxonomy xml:id="rhyme"/>
+        <taxonomy xml:id="stanza"/>
+      </classDecl>
+    </encodingDesc>
+    <profileDesc>
+      <langUsage>
+        <language ident="dum">Middle Dutch<lang n="regional">46312</lang>
+        </language>
+      </langUsage>
+      <creation>
+        <date from="1101" to="1280" source="Caers &amp; Kestemont (2011), p. 14-15.">'Men gaat er kennelijk van uit dat de Wisselau een van de oudste restanten van de Middelnederlandse epiek is, mogelijk nog ouder dan Veldeke (Sleiderink, 2003, p. 33 e.v.).' ... 'Voorwinden situeert de tekst in de dertiende eeuw, maar – uiteraard – vóór de opschriftstelling van het enig bekende handschrift tussen 1260 en 1280.'</date>
+      </creation>
+      <textClass>
+        <catRef scheme="#genre" target="#karelepiek"/>
+        <catRef scheme="#litterary-form" target="#verse"/>
+        <catRef scheme="#versification" target="#[]"/>
+        <catRef scheme="#rhyme" target="#['full-rhyme']"/>
+      </textClass>
+      <textDesc>
+        <derivation corresp="hid_[]"/>
+      </textDesc>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body/>
+  </text>
+</TEI>

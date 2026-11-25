@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="hid_61199">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="preferred">Crosada / croisade Albigeoise, version en prose L</title>
+      </titleStmt>
+      <sourceDesc/>
+    </fileDesc>
+    <encodingDesc>
+      <classDecl>
+        <taxonomy xml:id="genre"/>
+        <taxonomy xml:id="litterary-form"/>
+        <taxonomy xml:id="versification"/>
+        <taxonomy xml:id="rhyme"/>
+        <taxonomy xml:id="stanza"/>
+      </classDecl>
+    </encodingDesc>
+    <profileDesc>
+      <langUsage>
+        <language ident="pro">Occitan<lang n="regional">61212</lang>
+          <lang n="scripta">1380‥1400; Toulouse (DOM)</lang>
+        </language>
+      </langUsage>
+      <creation>
+        <date from="1381" to="1400">1380‥1400 (DOM)</date>
+      </creation>
+      <textClass>
+        <catRef scheme="#genre" target="#mise-en-prose"/>
+        <catRef scheme="#litterary-form" target="#prose"/>
+        <catRef scheme="#versification" target="#[]"/>
+        <catRef scheme="#rhyme" target="#[]"/>
+      </textClass>
+      <textDesc>
+        <derivation corresp="hid_[628 629]"/>
+      </textDesc>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body/>
+  </text>
+</TEI>

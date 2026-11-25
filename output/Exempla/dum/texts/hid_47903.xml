@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<TEI xmlns="http://www.tei-c.org/ns/1.0" xml:id="hid_47903">
+  <teiHeader>
+    <fileDesc>
+      <titleStmt>
+        <title type="preferred">Aubri de Borgengoen</title>
+      </titleStmt>
+      <sourceDesc/>
+    </fileDesc>
+    <encodingDesc>
+      <classDecl>
+        <taxonomy xml:id="genre"/>
+        <taxonomy xml:id="litterary-form"/>
+        <taxonomy xml:id="versification"/>
+        <taxonomy xml:id="rhyme"/>
+        <taxonomy xml:id="stanza"/>
+      </classDecl>
+    </encodingDesc>
+    <profileDesc>
+      <langUsage>
+        <language ident="dum">Middle Dutch<lang n="regional">46305</lang>
+        </language>
+      </langUsage>
+      <creation>
+        <date from="1276" to="1425" source="Caers &amp; Kestemont (2011), p. 38.">'Van den Bergh vermoedde dat Aubri de Borgengoen in de veertiende eeuw moet worden gesitueerd maar zijn vermoeden blijft onbeargumenteerd (1852, p. 128).'</date>
+      </creation>
+      <textClass>
+        <catRef scheme="#genre" target="#karelepiek"/>
+        <catRef scheme="#litterary-form" target="#verse"/>
+        <catRef scheme="#versification" target="#[]"/>
+        <catRef scheme="#rhyme" target="#['full-rhyme']"/>
+      </textClass>
+      <textDesc>
+        <derivation corresp="hid_[]">Possibly based on a lost French source.</derivation>
+      </textDesc>
+    </profileDesc>
+  </teiHeader>
+  <text>
+    <body/>
+  </text>
+</TEI>
