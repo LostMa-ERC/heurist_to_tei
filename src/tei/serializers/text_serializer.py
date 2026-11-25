@@ -20,7 +20,7 @@ from pathlib import Path
 import pandas as pd
 from lxml import etree
 
-from src.tei.models.text import (
+from tei.models.text import (
     Text, FileDesc, TitleStmt, Title, Author,
     SourceDesc, ListWit, Witness,
     EncodingDesc, ClassDecl, Taxonomy, Category,

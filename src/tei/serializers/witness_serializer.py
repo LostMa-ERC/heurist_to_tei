@@ -19,7 +19,7 @@ from pathlib import Path
 import pandas as pd
 from lxml import etree
 
-from src.tei.models.witness import (
+from tei.models.witness import (
     Witness,
     TitleStmt,
     LangUsage,
