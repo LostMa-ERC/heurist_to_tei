@@ -1,7 +1,0 @@
-heurist-analyser @ git+https://github.com/LostMa-ERC/Heurist-analyser.git
-duckdb>=1.4.1
-pandas>=3
-lxml>=6.1
-pydantic>=2.13.4
-python-dotenv>=1.0
-numpy>=2.1
