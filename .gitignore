@@ -1,6 +1,5 @@
 # environnement 
 .venv/
-.env 
 
 # Heurist-API files
 *.log

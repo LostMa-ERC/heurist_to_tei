@@ -53,6 +53,7 @@ def setup_logging(output_dir: Path) -> Path:
             logging.StreamHandler(sys.stdout),
             logging.FileHandler(log_file, encoding="utf-8"),
         ],
+        force=True
     )
     return log_file
 
