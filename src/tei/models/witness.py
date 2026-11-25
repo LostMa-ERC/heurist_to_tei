@@ -158,7 +158,7 @@ class Language(BaseModel):
 
 
 class LangUsage(BaseModel):
-    language: Language
+    language: Language | None = None
 
 
 class Date(BaseModel):
@@ -175,6 +175,6 @@ class Creation(BaseModel):
 class Witness(BaseModel):
     xml_id: str
     title_stmt: TitleStmt
-    lang_usage: LangUsage
+    lang_usage: LangUsage | None = None
     creation: Creation
     ms_desc: MsDesc

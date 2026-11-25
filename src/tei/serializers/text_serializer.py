@@ -222,15 +222,17 @@ def group_to_text_model(group: pd.DataFrame) -> Text:
 
     # langUsage
     lang_col = val(row, "language_COLUMN")
-    language = Language(
-        ident=extract_lang_code(lang_col) if lang_col else None,
-        value=extract_lang_label(lang_col) if lang_col else None,
-        langs=[
-            Lang(n="regional", value=val(row, "regional_writing_style H-ID")),
-            Lang(n="scripta",  value=val(row, "scripta_freetext")),
-        ],
-    )
-    lang_usage = LangUsage(languages=[language])
+    lang_usage = None
+    if lang_col:
+        language = Language(
+            ident=extract_lang_code(lang_col) if lang_col else None,
+            value=extract_lang_label(lang_col) if lang_col else None,
+            langs=[
+                Lang(n="regional", value=val(row, "regional_writing_style H-ID")),
+                Lang(n="scripta",  value=val(row, "scripta_freetext")),
+            ],
+        )
+        lang_usage = LangUsage(languages=[language])
 
     # creation
     from_, to = parse_date_range(row.get("date_of_creation"))
