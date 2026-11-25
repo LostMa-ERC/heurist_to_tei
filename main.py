@@ -32,7 +32,7 @@ from datetime import datetime
 from dotenv import load_dotenv
 from lostma_db import LostmaDB
 
-from src.tei import (
+from tei import (
     build_texts,
     build_witnesses,
     serialize_texts,
